@@ -21,7 +21,5 @@ public class YearService {
         return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
                 .map(YearDto::fromDao)
                 .collect(Collectors.toList());
-
-//        return List.of(new YearDto(1, 23));
     }
 }

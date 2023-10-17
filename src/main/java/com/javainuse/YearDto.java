@@ -1,6 +1,5 @@
 package com.javainuse;
 
-
 public class YearDto {
     private Integer id;
     private Integer name;
