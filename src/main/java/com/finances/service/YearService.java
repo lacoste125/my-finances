@@ -1,5 +1,7 @@
-package com.finances;
+package com.finances.service;
 
+import com.finances.dto.YearDto;
+import com.finances.repository.YearRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

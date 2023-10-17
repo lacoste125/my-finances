@@ -1,7 +1,7 @@
 package com.finances.controller;
 
-import com.finances.YearDto;
-import com.finances.YearService;
+import com.finances.dto.YearDto;
+import com.finances.service.YearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;

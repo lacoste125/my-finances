@@ -1,4 +1,4 @@
-package com.finances;
+package com.finances.util;
 
 public class TableNaming {
     public final static String TEST = "test";

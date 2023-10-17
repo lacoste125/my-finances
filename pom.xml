@@ -13,7 +13,7 @@
     <groupId>com.finances</groupId>
     <artifactId>my-finances-be</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>boot-swagger-3</name>
+    <name>my-finances-application</name>
 
     <properties>
         <java.version>17</java.version>

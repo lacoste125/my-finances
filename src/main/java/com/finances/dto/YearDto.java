@@ -1,5 +1,6 @@
-package com.finances;
+package com.finances.dto;
 
+import com.finances.entity.Year;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
