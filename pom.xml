@@ -10,8 +10,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.javainuse</groupId>
-    <artifactId>boot-swagger-3</artifactId>
+    <groupId>com.finances</groupId>
+    <artifactId>my-finances-be</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>boot-swagger-3</name>
 

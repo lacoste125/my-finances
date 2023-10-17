@@ -1,4 +1,4 @@
-package com.javainuse;
+package com.finances;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

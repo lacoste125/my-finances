@@ -1,4 +1,4 @@
-package com.javainuse;
+package com.finances;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.javainuse;
+package com.finances;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

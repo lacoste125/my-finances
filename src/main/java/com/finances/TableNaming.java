@@ -1,4 +1,4 @@
-package com.javainuse;
+package com.finances;
 
 public class TableNaming {
     public final static String TEST = "test";

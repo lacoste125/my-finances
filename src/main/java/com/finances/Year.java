@@ -1,4 +1,4 @@
-package com.javainuse;
+package com.finances;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.javainuse.TableNaming.*;
+import static com.finances.TableNaming.*;
 
 @Getter
 @Setter
