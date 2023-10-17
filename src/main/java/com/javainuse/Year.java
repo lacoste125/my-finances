@@ -1,9 +1,18 @@
 package com.javainuse;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 import static com.javainuse.TableNaming.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = YEAR, schema = TEST)
 public class Year {
@@ -15,28 +24,4 @@ public class Year {
 
     @Column(name = NAME)
     private Integer name;
-
-    public Integer getId() {
-        return Id;
-    }
-
-    public void setId(Integer id) {
-        Id = id;
-    }
-
-    public Integer getName() {
-        return name;
-    }
-
-    public void setName(Integer name) {
-        this.name = name;
-    }
-
-    public Year(Integer id, Integer name) {
-        Id = id;
-        this.name = name;
-    }
-
-    public Year() {
-    }
 }
