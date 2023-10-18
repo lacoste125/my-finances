@@ -1,5 +1,6 @@
 package com.finances.controller;
 
+import com.finances.config.Response;
 import com.finances.dto.YearDto;
 import com.finances.exception.YearNotFoundException;
 import com.finances.service.YearService;
@@ -26,9 +27,8 @@ public class YearController {
     public ResponseEntity<List<YearDto>> getAllYears() {
         List<YearDto> years = yearService.getAllValidYears();
 
-        return ResponseEntity
-                .ok()
-                .body(years);
+        return new Response<List<YearDto>>()
+                .ok(years);
     }
 
     @GetMapping("/getYearByYearNumber")
@@ -36,9 +36,8 @@ public class YearController {
     public ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws YearNotFoundException {
         YearDto year = yearService.findYearByYearNumber(yearNumber);
 
-        return ResponseEntity
-                .ok()
-                .body(year);
+        return new Response<YearDto>()
+                .ok(year);
     }
 
     @GetMapping("/getYearById")
@@ -46,8 +45,7 @@ public class YearController {
     public ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
         YearDto year = yearService.findYearById(id);
 
-        return ResponseEntity
-                .ok()
-                .body(year);
+        return new Response<YearDto>()
+                .ok(year);
     }
 }

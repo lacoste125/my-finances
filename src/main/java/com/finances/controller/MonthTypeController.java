@@ -1,5 +1,6 @@
 package com.finances.controller;
 
+import com.finances.config.Response;
 import com.finances.dto.MonthTypeDto;
 import com.finances.service.MonthTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,10 @@ public class MonthTypeController {
     @GetMapping()
     @ResponseBody
     public ResponseEntity<List<MonthTypeDto>> getMonthTypes() {
-        return ResponseEntity
-                .ok()
-                .body(monthTypeService.findAllMonthTypes());
+        List<MonthTypeDto> allMonthTypes = monthTypeService.findAllMonthTypes();
+
+        return new Response<List<MonthTypeDto>>()
+                .ok(allMonthTypes);
+
     }
 }
