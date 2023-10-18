@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @ControllerAdvice
-@RequestMapping("/year")
+@RequestMapping("/years")
 public class YearController {
 
     private final YearService yearService;
