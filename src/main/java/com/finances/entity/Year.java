@@ -20,8 +20,8 @@ public class Year {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = ID)
-    private Integer Id;
+    private Long Id;
 
-    @Column(name = NAME)
-    private Integer name;
+    @Column(name = YEAR_NUMBER)
+    private Integer yearNumber;
 }

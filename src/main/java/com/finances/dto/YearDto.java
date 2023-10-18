@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class YearDto {
-    private Integer id;
+    private Long id;
     private Integer name;
 
     public static YearDto fromDao(Year dao) {
         return new YearDto(
                 dao.getId(),
-                dao.getName()
+                dao.getYearNumber()
         );
     }
 }
