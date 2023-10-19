@@ -38,3 +38,10 @@ INSERT INTO [test].[Month_Type]
 		   ('Listopad', 11),
 		   ('Grudzień', 12);
 GO
+
+CREATE TABLE test.Month (
+Month_Id INT NOT NULL IDENTITY (1,1) CONSTRAINT PK_Month PRIMARY KEY,
+Month_Type_Id INT NOT NULL CONSTRAINT FK_Month_Type FOREIGN KEY REFERENCES test.Month_Type(Id),
+Year_Id INT NOT NULL CONSTRAINT FK_Year FOREIGN KEY REFERENCES test.Year(Id)
+);
+GO

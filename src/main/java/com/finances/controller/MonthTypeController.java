@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @ControllerAdvice
-@RequestMapping("/months")
+@RequestMapping("/month-types")
 public class MonthTypeController {
 
     private final MonthTypeService monthTypeService;
@@ -24,10 +24,9 @@ public class MonthTypeController {
     @GetMapping()
     @ResponseBody
     public ResponseEntity<List<MonthTypeDto>> getMonthTypes() {
-        List<MonthTypeDto> allMonthTypes = monthTypeService.findAllMonthTypes();
+        List<MonthTypeDto> allMonthTypes = monthTypeService.findAllMonthTypesDtos();
 
         return new Response<List<MonthTypeDto>>()
                 .ok(allMonthTypes);
-
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -21,17 +22,20 @@ public class YearService {
         this.yearRepository = yearRepository;
     }
 
-    public List<YearDto> getAllValidYears() {
+    public List<YearDto> findAllValidYears() {
         return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
                 .map(YearDto::fromDao)
                 .collect(Collectors.toList());
     }
 
-    public YearDto findYearByYearNumber(Integer yearNumber) throws YearNotFoundException {
-        Year year = yearRepository.selectYearByYearNumber(yearNumber)
-                .orElseThrow(() -> new YearNotFoundException(yearNumber));
-
+    public YearDto findYearDtoByYearNumber(Integer yearNumber) throws YearNotFoundException {
+        Year year = findYearByYearNumber(yearNumber);
         return YearDto.fromDao(year);
+    }
+
+    public Year findYearByYearNumber(Integer yearNumber) throws YearNotFoundException {
+        return yearRepository.selectYearByYearNumber(yearNumber)
+                .orElseThrow(() -> new YearNotFoundException(yearNumber));
     }
 
     public YearDto findYearById(Long id) throws YearNotFoundException {
@@ -39,5 +43,17 @@ public class YearService {
                 .orElseThrow(() -> new YearNotFoundException(id));
 
         return YearDto.fromDao(year);
+    }
+
+    public Year findOrCreateYear(Integer yearNumber) {
+        Optional<Year> year = yearRepository.selectYearByYearNumber(yearNumber);
+
+        if (year.isPresent()) {
+            return year.get();
+        } else {
+            Year newYear = new Year();
+            newYear.setYearNumber(yearNumber);
+            return yearRepository.save(newYear);
+        }
     }
 }

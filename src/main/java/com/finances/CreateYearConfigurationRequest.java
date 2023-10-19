@@ -1,0 +1,12 @@
+package com.finances;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class CreateYearConfigurationRequest {
+    private Integer year;
+}

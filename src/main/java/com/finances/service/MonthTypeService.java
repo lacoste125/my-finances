@@ -1,6 +1,7 @@
 package com.finances.service;
 
 import com.finances.dto.MonthTypeDto;
+import com.finances.entity.MonthType;
 import com.finances.repository.MonthTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,15 @@ public class MonthTypeService {
         this.monthTypeRepository = monthTypeRepository;
     }
 
-    public List<MonthTypeDto> findAllMonthTypes() {
-        return StreamSupport.stream(monthTypeRepository.findAll().spliterator(), false)
+    public List<MonthTypeDto> findAllMonthTypesDtos() {
+        return findAllMonthTypes()
+                .stream()
                 .map(MonthTypeDto::fromDao)
+                .collect(Collectors.toList());
+    }
+
+    public List<MonthType> findAllMonthTypes() {
+        return StreamSupport.stream(monthTypeRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 }

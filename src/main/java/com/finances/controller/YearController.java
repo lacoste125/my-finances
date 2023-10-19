@@ -25,7 +25,7 @@ public class YearController {
     @GetMapping("/getAllYears")
     @ResponseBody
     public ResponseEntity<List<YearDto>> getAllYears() {
-        List<YearDto> years = yearService.getAllValidYears();
+        List<YearDto> years = yearService.findAllValidYears();
 
         return new Response<List<YearDto>>()
                 .ok(years);
@@ -34,7 +34,7 @@ public class YearController {
     @GetMapping("/getYearByYearNumber")
     @ResponseBody
     public ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws YearNotFoundException {
-        YearDto year = yearService.findYearByYearNumber(yearNumber);
+        YearDto year = yearService.findYearDtoByYearNumber(yearNumber);
 
         return new Response<YearDto>()
                 .ok(year);
