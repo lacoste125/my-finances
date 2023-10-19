@@ -1,6 +1,6 @@
 package com.finances.service;
 
-import com.finances.CreateYearConfigurationRequest;
+import com.finances.request.CreateYearConfigurationRequest;
 import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
 import com.finances.entity.MonthType;

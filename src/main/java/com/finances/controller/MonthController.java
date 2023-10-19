@@ -1,9 +1,8 @@
 package com.finances.controller;
 
-import com.finances.CreateYearConfigurationRequest;
+import com.finances.request.CreateYearConfigurationRequest;
 import com.finances.config.Response;
 import com.finances.dto.MonthDto;
-import com.finances.exception.YearNotFoundException;
 import com.finances.service.MonthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
