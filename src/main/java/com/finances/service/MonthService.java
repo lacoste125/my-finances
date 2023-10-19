@@ -5,12 +5,10 @@ import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
 import com.finances.entity.MonthType;
 import com.finances.entity.Year;
-import com.finances.exception.YearNotFoundException;
 import com.finances.repository.MonthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -39,18 +37,19 @@ public class MonthService {
         Year year = yearService.findOrCreateYear(request.getYear());
         List<MonthType> monthTypes = monthTypeService.findAllMonthTypes();
 
-        List<Month> months = new ArrayList<>();
-        monthTypes.forEach(monthType -> {
-            Month month = new Month();
-            month.setYear(year);
-            month.setMonthType(monthType);
-
-            months.add(month);
-        });
+        List<Month> months = monthTypes.stream()
+                .filter(monthType -> monthRepository.findByMonthTypeIdAndYearId(monthType.getId(), year.getId()).isEmpty())
+                .map(monthType -> {
+                         Month month = new Month();
+                         month.setYear(year);
+                         month.setMonthType(monthType);
+                         return month;
+                     }
+                )
+                .collect(Collectors.toList());
 
         return StreamSupport.stream(monthRepository.saveAll(months).spliterator(), false)
                 .map(MonthDto::fromDao)
                 .collect(Collectors.toList());
-
     }
 }

@@ -34,10 +34,14 @@ public class MonthController {
 
     @PostMapping("/createYearConfiguration")
     @ResponseBody
-    public ResponseEntity<List<MonthDto>> createYearConfiguration(@RequestBody CreateYearConfigurationRequest request)
-            throws YearNotFoundException {
+    public ResponseEntity<List<MonthDto>> createYearConfiguration(@RequestBody CreateYearConfigurationRequest request) {
         List<MonthDto> yearConfig = monthService.createYearConfiguration(request);
-        return new Response<List<MonthDto>>()
-                .ok(yearConfig);
+
+        if (yearConfig.isEmpty())
+            return new Response<List<MonthDto>>()
+                    .ok(yearConfig);
+        else
+            return new Response<List<MonthDto>>()
+                    .created(yearConfig);
     }
 }
