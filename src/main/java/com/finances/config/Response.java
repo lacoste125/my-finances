@@ -16,4 +16,10 @@ public class Response<T> {
                 .status(HttpStatus.CREATED)
                 .body(body);
     }
+
+    public ResponseEntity<T> notFound(T body) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(body);
+    }
 }
