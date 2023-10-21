@@ -9,13 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration {
 
-    @Value("${pattern}")
+    @Value("${swagger.pattern}")
     private String mappingPattern;
 
-    @Value("${allowed-origins}")
+    @Value("${swagger.allowed.origins}")
     private String allowedOrigins;
 
-    @Value("${allowed-methods}")
+    @Value("${swagger.allowed.methods")
     private String[] allowedMethods;
 
     @Bean
