@@ -2,7 +2,7 @@ package com.finances.service;
 
 import com.finances.dto.YearDto;
 import com.finances.entity.Year;
-import com.finances.exception.YearNotFoundException;
+import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

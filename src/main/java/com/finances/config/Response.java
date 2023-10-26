@@ -22,4 +22,10 @@ public class Response<T> {
                 .status(HttpStatus.NOT_FOUND)
                 .body(body);
     }
+
+    public ResponseEntity<T> exist(T body) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(body);
+    }
 }

@@ -2,7 +2,7 @@ package com.finances.controller;
 
 import com.finances.config.Response;
 import com.finances.dto.YearDto;
-import com.finances.exception.YearNotFoundException;
+import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.service.YearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
