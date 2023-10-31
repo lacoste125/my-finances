@@ -13,7 +13,6 @@ public interface CategoryTypeRepository extends CrudRepository<CategoryType, Lon
 
     @Query("SELECT ct " +
             "FROM CategoryType ct " +
-            "WHERE ct.name = :name"
-    )
+            "WHERE ct.name = :name")
     Optional<CategoryType> selectCategoryTypeByNameIgnoreCase(@Param("name") String name);
 }

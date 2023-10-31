@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static com.finances.util.TableNaming.*;
 
 @Getter
@@ -27,6 +29,9 @@ public class Month {
     private MonthType monthType;
 
     @ManyToOne
-    @JoinColumn(name = Year_Id)
+    @JoinColumn(name = Year_Id, nullable = false)
     private Year year;
+
+    @OneToMany(mappedBy = "month")
+    private List<MonthCategory> categories;
 }

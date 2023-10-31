@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static com.finances.util.TableNaming.*;
 
 @Getter
@@ -24,4 +26,7 @@ public class Year {
 
     @Column(name = YEAR_NUMBER)
     private Integer yearNumber;
+
+    @OneToMany(mappedBy = "year")
+    private List<Month> months;
 }

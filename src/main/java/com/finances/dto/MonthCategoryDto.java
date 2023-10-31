@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MonthCategoryDto {
     private Long id;
+    private Long monthId;
     private CategoryTypeDto category;
-    private MonthDto month;
 
     public static MonthCategoryDto fromDao(MonthCategory dao) {
         return new MonthCategoryDto(
                 dao.getId(),
-                CategoryTypeDto.fromDao(dao.getCategory()),
-                MonthDto.fromDao(dao.getMonth())
+                dao.getMonth().getId(),
+                CategoryTypeDto.fromDao(dao.getCategory())
         );
     }
 }

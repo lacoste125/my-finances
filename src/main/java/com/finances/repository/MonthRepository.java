@@ -12,7 +12,6 @@ public interface MonthRepository extends CrudRepository<Month, Long> {
     @Query("SELECT m " +
             "FROM Month m " +
             "WHERE m.monthType.id = :monthTypeId " +
-            "AND m.year.id = :yearId "
-    )
+            "AND m.year.id = :yearId")
     List<Month> findByMonthTypeIdAndYearId(@Param("monthTypeId") Long monthTypeId, @Param("yearId") Long yearId);
 }

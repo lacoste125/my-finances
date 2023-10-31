@@ -27,6 +27,6 @@ public class MonthCategory {
     private CategoryType category;
 
     @ManyToOne
-    @JoinColumn(name = MONTH_ID)
+    @JoinColumn(name = MONTH_ID, nullable = false)
     private Month month;
 }

@@ -5,19 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MonthDto {
     private Long id;
     private MonthTypeDto monthType;
-    private YearDto year;
+    private List<MonthCategoryDto> categories;
 
     public static MonthDto fromDao(Month dao) {
         return new MonthDto(
                 dao.getId(),
                 MonthTypeDto.fromDao(dao.getMonthType()),
-                YearDto.fromDao(dao.getYear())
+                dao.getCategories()
+                        .stream()
+                        .map(MonthCategoryDto::fromDao)
+                        .collect(Collectors.toList())
         );
     }
 }
