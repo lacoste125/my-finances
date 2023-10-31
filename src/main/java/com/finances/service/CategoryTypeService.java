@@ -30,11 +30,14 @@ public class CategoryTypeService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryTypeDto findCategoryById(Long categoryId) throws CategoryTypeNotFoundException {
-        CategoryType categoryType = categoryTypeRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryTypeNotFoundException(categoryId));
-
+    public CategoryTypeDto findCategoryDtoById(Long categoryId) throws CategoryTypeNotFoundException {
+        CategoryType categoryType = findCategoryById(categoryId);
         return CategoryTypeDto.fromDao(categoryType);
+    }
+
+    public CategoryType findCategoryById(Long categoryId) throws CategoryTypeNotFoundException {
+        return categoryTypeRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryTypeNotFoundException(categoryId));
     }
 
     public CategoryTypeDto createCategory(CreateCategoryRequest request) throws CategoryTypeAlreadyExistException {

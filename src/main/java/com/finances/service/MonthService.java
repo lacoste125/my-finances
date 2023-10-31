@@ -1,5 +1,6 @@
 package com.finances.service;
 
+import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.request.CreateYearConfigurationRequest;
 import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
@@ -51,5 +52,9 @@ public class MonthService {
         return StreamSupport.stream(monthRepository.saveAll(months).spliterator(), false)
                 .map(MonthDto::fromDao)
                 .collect(Collectors.toList());
+    }
+
+    public Month findMonthById(Long monthId) throws MonthNotFoundException {
+        return monthRepository.findById(monthId).orElseThrow(() -> new MonthNotFoundException(monthId));
     }
 }

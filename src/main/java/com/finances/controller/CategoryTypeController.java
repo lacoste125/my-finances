@@ -38,7 +38,7 @@ public class CategoryTypeController {
             @RequestParam Long categoryTypeId)
             throws CategoryTypeNotFoundException {
 
-        CategoryTypeDto categories = categoryTypeService.findCategoryById(categoryTypeId);
+        CategoryTypeDto categories = categoryTypeService.findCategoryDtoById(categoryTypeId);
 
         return new Response<CategoryTypeDto>()
                 .ok(categories);
