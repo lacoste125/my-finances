@@ -15,5 +15,5 @@ public interface CategoryTypeRepository extends CrudRepository<CategoryType, Lon
             "FROM CategoryType ct " +
             "WHERE ct.name = :name"
     )
-    Optional<CategoryType> selectCategoryTypeByName(@Param("name") String name);
+    Optional<CategoryType> selectCategoryTypeByNameIgnoreCase(@Param("name") String name);
 }

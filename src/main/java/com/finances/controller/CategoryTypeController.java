@@ -24,9 +24,9 @@ public class CategoryTypeController {
         this.categoryTypeService = categoryTypeService;
     }
 
-    @GetMapping()
+    @GetMapping("getAllCategoryTypes")
     @ResponseBody
-    public ResponseEntity<List<CategoryTypeDto>> getCategoryTypes() {
+    public ResponseEntity<List<CategoryTypeDto>> getAllCategoryTypes() {
         List<CategoryTypeDto> categories = categoryTypeService.findAllCategories();
         return new Response<List<CategoryTypeDto>>()
                 .ok(categories);

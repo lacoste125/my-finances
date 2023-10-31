@@ -53,7 +53,7 @@ public class CategoryTypeService {
     }
 
     private Optional<CategoryType> getOptionalCategoryTypeByName(String name) {
-        return categoryTypeRepository.selectCategoryTypeByName(name);
+        return categoryTypeRepository.selectCategoryTypeByNameIgnoreCase(name);
     }
 
     private CategoryType createCategoryType(CategoryType categoryType) {
