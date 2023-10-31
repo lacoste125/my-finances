@@ -7,8 +7,9 @@ import com.finances.entity.MonthCategory;
 import com.finances.exception.exist.MonthCategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryTypeNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
+import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.MonthCategoryRepository;
-import com.finances.request.AddCategoryToMonthRequest;
+import com.finances.request.AddCategoryToYearRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,19 @@ public class MonthCategoryService {
     private final MonthCategoryRepository monthCategoryRepository;
     private final CategoryTypeService categoryTypeService;
     private final MonthService monthService;
+    private final YearService yearService;
 
     @Autowired
     public MonthCategoryService(
             MonthCategoryRepository monthCategoryRepository,
             CategoryTypeService categoryTypeService,
-            MonthService monthService
+            MonthService monthService,
+            YearService yearService
     ) {
         this.monthCategoryRepository = monthCategoryRepository;
         this.categoryTypeService = categoryTypeService;
         this.monthService = monthService;
+        this.yearService = yearService;
     }
 
     public List<MonthCategoryDto> findAllMonthCategories() {
@@ -41,10 +45,10 @@ public class MonthCategoryService {
                 .collect(Collectors.toList());
     }
 
-    public MonthCategoryDto addCategoryToMonth(AddCategoryToMonthRequest request)
+    public MonthCategoryDto addCategoryToMonth(Long categoryId, Long monthId)
             throws CategoryTypeNotFoundException, MonthNotFoundException, MonthCategoryAlreadyExistException {
-        CategoryType categoryType = categoryTypeService.findCategoryById(request.getCategoryId());
-        Month month = monthService.findMonthById(request.getMonthId());
+        CategoryType categoryType = categoryTypeService.findCategoryById(categoryId);
+        Month month = monthService.findMonthById(monthId);
 
         Optional<MonthCategory> monthCategory = findOptionalMonthCategoryByCategoryTypeAndMonth(categoryType, month);
         if (monthCategory.isPresent()) {
@@ -61,5 +65,18 @@ public class MonthCategoryService {
 
     private Optional<MonthCategory> findOptionalMonthCategoryByCategoryTypeAndMonth(CategoryType categoryType, Month month) {
         return monthCategoryRepository.findByCategoryAndMonth(categoryType, month);
+    }
+
+    public void addCategoryToYear(AddCategoryToYearRequest request)
+            throws
+            YearNotFoundException,
+            CategoryTypeNotFoundException,
+            MonthNotFoundException,
+            MonthCategoryAlreadyExistException {
+
+        List<Month> months = yearService.findYearById(request.getYearId()).getMonths();
+        for (Month month : months) {
+            addCategoryToMonth(request.getCategoryId(), month.getId());
+        }
     }
 }

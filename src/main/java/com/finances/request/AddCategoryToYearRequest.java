@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddCategoryToMonthRequest {
+public class AddCategoryToYearRequest {
     private Long categoryId;
-    private Long monthId;
+    private Long yearId;
 }

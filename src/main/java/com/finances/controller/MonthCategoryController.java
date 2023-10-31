@@ -5,7 +5,8 @@ import com.finances.dto.MonthCategoryDto;
 import com.finances.exception.exist.MonthCategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryTypeNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
-import com.finances.request.AddCategoryToMonthRequest;
+import com.finances.exception.notfound.YearNotFoundException;
+import com.finances.request.AddCategoryToYearRequest;
 import com.finances.service.MonthCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,16 +35,16 @@ public class MonthCategoryController {
                 .ok(monthCategories);
     }
 
-    @PostMapping("/addCategoryToMonth")
-    @ResponseBody
-    public ResponseEntity<MonthCategoryDto> addCategoryToMonth(@RequestBody AddCategoryToMonthRequest request)
+    @PostMapping("/addCategoryToYear")
+    public ResponseEntity<Void> addCategoryToYear(@RequestBody AddCategoryToYearRequest request)
             throws
             CategoryTypeNotFoundException,
             MonthNotFoundException,
-            MonthCategoryAlreadyExistException {
-        MonthCategoryDto createdMonthCategory = monthCategoryService.addCategoryToMonth(request);
+            MonthCategoryAlreadyExistException,
+            YearNotFoundException {
+        monthCategoryService.addCategoryToYear(request);
 
-        return new Response<MonthCategoryDto>()
-                .created(createdMonthCategory);
+        return new Response<Void>()
+                .created();
     }
 }

@@ -38,11 +38,14 @@ public class YearService {
                 .orElseThrow(() -> new YearNotFoundException(yearNumber));
     }
 
-    public YearDto findYearById(Long id) throws YearNotFoundException {
-        Year year = yearRepository.findById(id)
-                .orElseThrow(() -> new YearNotFoundException(id));
-
+    public YearDto findYearDtoById(Long id) throws YearNotFoundException {
+        Year year = findYearById(id);
         return YearDto.fromDao(year);
+    }
+
+    public Year findYearById(Long id) throws YearNotFoundException {
+        return yearRepository.findById(id)
+                .orElseThrow(() -> new YearNotFoundException(id));
     }
 
     public Year findOrCreateYear(Integer yearNumber) {

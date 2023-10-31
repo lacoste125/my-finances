@@ -43,7 +43,7 @@ public class YearController {
     @GetMapping("/getYearById")
     @ResponseBody
     public ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
-        YearDto year = yearService.findYearById(id);
+        YearDto year = yearService.findYearDtoById(id);
 
         return new Response<YearDto>()
                 .ok(year);
