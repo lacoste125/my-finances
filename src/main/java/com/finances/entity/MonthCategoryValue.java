@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import static com.finances.util.TableNaming.*;
 
@@ -31,7 +31,7 @@ public class MonthCategoryValue {
     private Double amount;
 
     @Column(name = DATE)
-    private Timestamp date;
+    private Date date;
 
     @Column(name = NAME)
     private String name;

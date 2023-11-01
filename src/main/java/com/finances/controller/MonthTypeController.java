@@ -21,7 +21,7 @@ public class MonthTypeController {
         this.monthTypeService = monthTypeService;
     }
 
-    @GetMapping()
+    @GetMapping("/getMonthTypes")
     @ResponseBody
     public ResponseEntity<List<MonthTypeDto>> getMonthTypes() {
         List<MonthTypeDto> allMonthTypes = monthTypeService.findAllMonthTypesDtos();

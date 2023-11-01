@@ -2,7 +2,6 @@ package com.finances.controller;
 
 import com.finances.config.Response;
 import com.finances.dto.MonthCategoryDto;
-import com.finances.exception.exist.MonthCategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryTypeNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;

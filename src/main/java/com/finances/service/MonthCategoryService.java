@@ -4,8 +4,8 @@ import com.finances.dto.MonthCategoryDto;
 import com.finances.entity.CategoryType;
 import com.finances.entity.Month;
 import com.finances.entity.MonthCategory;
-import com.finances.exception.exist.MonthCategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryTypeNotFoundException;
+import com.finances.exception.notfound.MonthCategoryNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.MonthCategoryRepository;
@@ -59,8 +59,13 @@ public class MonthCategoryService {
         }
     }
 
-    private Optional<MonthCategory> findOptionalMonthCategoryByCategoryTypeAndMonth(CategoryType categoryType, Month month) {
+    public Optional<MonthCategory> findOptionalMonthCategoryByCategoryTypeAndMonth(CategoryType categoryType, Month month) {
         return monthCategoryRepository.findByCategoryAndMonth(categoryType, month);
+    }
+
+    public MonthCategory findMonthCategoryById(Long monthCategoryId) throws MonthCategoryNotFoundException {
+        return monthCategoryRepository.findById(monthCategoryId)
+                .orElseThrow(() -> new MonthCategoryNotFoundException(monthCategoryId));
     }
 
     public void addCategoryToYear(AddCategoryToYearRequest request)

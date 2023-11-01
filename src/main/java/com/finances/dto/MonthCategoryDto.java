@@ -15,6 +15,7 @@ public class MonthCategoryDto {
     private Long id;
     private Long monthId;
     private CategoryTypeDto category;
+    private boolean valid;
     private List<MonthCategoryValueDto> payments;
 
     public static MonthCategoryDto fromDao(MonthCategory dao) {
@@ -22,6 +23,7 @@ public class MonthCategoryDto {
                 dao.getId(),
                 dao.getMonth().getId(),
                 CategoryTypeDto.fromDao(dao.getCategory()),
+                dao.isValid(),
                 dao.getCategories() != null ? dao.getCategories()
                         .stream()
                         .map(MonthCategoryValueDto::fromDao)

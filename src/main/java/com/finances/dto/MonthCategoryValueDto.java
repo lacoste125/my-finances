@@ -5,17 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MonthCategoryValueDto {
-
     private Long id;
     private Long monthCategoryId;
     private Double amount;
-    private Timestamp date;
+    private Date date;
     private String name;
     private boolean valid;
 

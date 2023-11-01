@@ -32,6 +32,9 @@ public class MonthCategory {
     @JoinColumn(name = MONTH_ID, nullable = false)
     private Month month;
 
+    @Column(name = VALID)
+    private boolean valid;
+
     @OneToMany(mappedBy = "monthCategory")
     private List<MonthCategoryValue> categories;
 }
