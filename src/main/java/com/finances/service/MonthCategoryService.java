@@ -45,21 +45,17 @@ public class MonthCategoryService {
                 .collect(Collectors.toList());
     }
 
-    public MonthCategoryDto addCategoryToMonth(Long categoryId, Long monthId)
-            throws CategoryTypeNotFoundException, MonthNotFoundException, MonthCategoryAlreadyExistException {
+    public void addCategoryToMonth(Long categoryId, Long monthId)
+            throws CategoryTypeNotFoundException, MonthNotFoundException {
         CategoryType categoryType = categoryTypeService.findCategoryById(categoryId);
         Month month = monthService.findMonthById(monthId);
 
         Optional<MonthCategory> monthCategory = findOptionalMonthCategoryByCategoryTypeAndMonth(categoryType, month);
-        if (monthCategory.isPresent()) {
-            throw new MonthCategoryAlreadyExistException(categoryType.getId(), month.getId());
-        } else {
+        if (monthCategory.isEmpty()) {
             MonthCategory newMonthCategory = new MonthCategory();
             newMonthCategory.setCategory(categoryType);
             newMonthCategory.setMonth(month);
-            MonthCategory result = monthCategoryRepository.save(newMonthCategory);
-
-            return MonthCategoryDto.fromDao(result);
+            monthCategoryRepository.save(newMonthCategory);
         }
     }
 
@@ -71,9 +67,7 @@ public class MonthCategoryService {
             throws
             YearNotFoundException,
             CategoryTypeNotFoundException,
-            MonthNotFoundException,
-            MonthCategoryAlreadyExistException {
-
+            MonthNotFoundException {
         List<Month> months = yearService.findYearById(request.getYearId()).getMonths();
         for (Month month : months) {
             addCategoryToMonth(request.getCategoryId(), month.getId());

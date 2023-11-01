@@ -28,4 +28,11 @@ public class TableNaming {
     // Category table
     public final static String MONTH_CATEGORY = "Month_Category";
     public final static String MONTH_CATEGORY_ID = "Month_Category_Id";
+
+    // Month_Category_Value table
+    public final static String MONTH_CATEGORY_VALUE = "Month_Category_Value";
+    public final static String MONTH_CATEGORY_VALUE_ID = "Month_Category_Value_Id";
+    public final static String AMOUNT = "Amount";
+    public final static String DATE = "Date";
+    public final static String VALID = "Valid";
 }

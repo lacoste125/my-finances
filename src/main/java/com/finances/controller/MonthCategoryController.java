@@ -40,7 +40,6 @@ public class MonthCategoryController {
             throws
             CategoryTypeNotFoundException,
             MonthNotFoundException,
-            MonthCategoryAlreadyExistException,
             YearNotFoundException {
         monthCategoryService.addCategoryToYear(request);
 

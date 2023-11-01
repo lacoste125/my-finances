@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MonthDto {
     private Long id;
-    private MonthTypeDto monthType;
+    private MonthTypeDto month;
     private List<MonthCategoryDto> categories;
 
     public static MonthDto fromDao(Month dao) {
