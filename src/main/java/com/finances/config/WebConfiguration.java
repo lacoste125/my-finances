@@ -13,9 +13,9 @@ public class WebConfiguration {
     private String mappingPattern;
 
     @Value("${swagger.allowed.origins}")
-    private String allowedOrigins;
+    private String[] allowedOrigins;
 
-    @Value("${swagger.allowed.methods")
+    @Value("${swagger.allowed.methods}")
     private String[] allowedMethods;
 
     @Bean
