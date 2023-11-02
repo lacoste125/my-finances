@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 import static com.finances.util.TableNaming.*;
 
 @Getter
@@ -21,17 +19,12 @@ public class Month {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = MONTH_ID)
+    @Column(nullable = false, name = ID)
     private Long Id;
 
-    @ManyToOne
-    @JoinColumn(name = MONTH_TYPE_ID)
-    private MonthType monthType;
+    @Column(name = NAME)
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = Year_Id, nullable = false)
-    private Year year;
-
-    @OneToMany(mappedBy = "month")
-    private List<MonthCategory> categories;
+    @Column(name = MONTH_ORDER)
+    private Integer order;
 }

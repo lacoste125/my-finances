@@ -10,9 +10,9 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddPaymentRequest {
-    private Long monthCategoryId;
+    private Long yearCategoryId;
+    private Long monthId;
     private Double amount;
     private Date date;
-    //maybee should be description?????
-    private String name;
+    private String comment;
 }

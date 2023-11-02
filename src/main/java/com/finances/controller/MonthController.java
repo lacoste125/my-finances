@@ -1,6 +1,5 @@
 package com.finances.controller;
 
-import com.finances.request.CreateYearConfigurationRequest;
 import com.finances.config.Response;
 import com.finances.dto.MonthDto;
 import com.finances.service.MonthService;
@@ -25,22 +24,9 @@ public class MonthController {
     @GetMapping("/getAllMonths")
     @ResponseBody
     public ResponseEntity<List<MonthDto>> getAllMonths() {
-        List<MonthDto> months = monthService.findAllMonths();
+        List<MonthDto> allMonths = monthService.findAllMonthDtos();
 
         return new Response<List<MonthDto>>()
-                .ok(months);
-    }
-
-    @PostMapping("/createYearConfiguration")
-    @ResponseBody
-    public ResponseEntity<List<MonthDto>> createYearConfiguration(@RequestBody CreateYearConfigurationRequest request) {
-        List<MonthDto> yearConfig = monthService.createYearConfiguration(request);
-
-        if (yearConfig.isEmpty())
-            return new Response<List<MonthDto>>()
-                    .ok(yearConfig);
-        else
-            return new Response<List<MonthDto>>()
-                    .created(yearConfig);
+                .ok(allMonths);
     }
 }

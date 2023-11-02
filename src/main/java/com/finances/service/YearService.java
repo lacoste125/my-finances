@@ -4,6 +4,7 @@ import com.finances.dto.YearDto;
 import com.finances.entity.Year;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearRepository;
+import com.finances.request.NewYearRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,15 +49,18 @@ public class YearService {
                 .orElseThrow(() -> new YearNotFoundException(id));
     }
 
-    public Year findOrCreateYear(Integer yearNumber) {
-        Optional<Year> year = yearRepository.selectYearByYearNumber(yearNumber);
+    public YearDto findOrCreateYear(NewYearRequest request) {
+        Optional<Year> year = yearRepository.selectYearByYearNumber(request.getYear());
 
+        YearDto yearDto;
         if (year.isPresent()) {
-            return year.get();
+            yearDto = YearDto.fromDao(year.get());
         } else {
             Year newYear = new Year();
-            newYear.setYearNumber(yearNumber);
-            return yearRepository.save(newYear);
+            newYear.setYearNumber(request.getYear());
+            yearDto = YearDto.fromDao(yearRepository.save(newYear));
         }
+
+        return yearDto;
     }
 }

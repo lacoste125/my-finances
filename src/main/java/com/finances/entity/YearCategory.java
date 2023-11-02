@@ -16,25 +16,22 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = MONTH_CATEGORY, schema = TEST)
-public class MonthCategory {
+@Table(name = YEAR_CATEGORY, schema = TEST)
+public class YearCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = MONTH_CATEGORY_ID)
+    @Column(nullable = false, name = ID)
     private Long Id;
 
     @ManyToOne
     @JoinColumn(name = CATEGORY_ID)
-    private CategoryType category;
+    private Category category;
 
     @ManyToOne
-    @JoinColumn(name = MONTH_ID, nullable = false)
-    private Month month;
+    @JoinColumn(name = YEAR_ID, nullable = false)
+    private Year year;
 
-    @Column(name = VALID)
-    private boolean valid;
-
-    @OneToMany(mappedBy = "monthCategory")
-    private List<MonthCategoryValue> categories;
+    @OneToMany(mappedBy = "yearCategory")
+    private List<Payment> payments;
 }

@@ -1,9 +1,9 @@
 package com.finances.repository;
 
-import com.finances.entity.MonthCategoryValue;
+import com.finances.entity.Payment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MonthCategoryValueRepository extends CrudRepository<MonthCategoryValue, Long> {
+public interface PaymentRepository extends CrudRepository<Payment, Long> {
 }

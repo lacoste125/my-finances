@@ -14,12 +14,12 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = CATEGORY_TYPE, schema = TEST)
-public class CategoryType {
+@Table(name = CATEGORY, schema = TEST)
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = CATEGORY_ID)
+    @Column(nullable = false, name = ID)
     private Long Id;
 
     @Column(name = NAME)

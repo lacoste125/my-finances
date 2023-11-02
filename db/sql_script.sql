@@ -22,7 +22,8 @@ INSERT INTO [test].[Year]
     (Year_Number)
 VALUES (2020),
        (2021),
-       (2022);
+       (2022),
+       (2023);
 GO
 
 CREATE TABLE test.Month_Type

@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateYearConfigurationRequest {
+public class NewYearRequest {
     private Integer year;
 }

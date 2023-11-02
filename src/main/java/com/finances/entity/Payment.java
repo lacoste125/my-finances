@@ -15,17 +15,21 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = MONTH_CATEGORY_VALUE, schema = TEST)
-public class MonthCategoryValue {
+@Table(name = YEAR_CATEGORY_VALUE, schema = TEST)
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = MONTH_CATEGORY_VALUE_ID)
+    @Column(nullable = false, name = ID)
     private Long Id;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = MONTH_CATEGORY_ID, nullable = false)
-    private MonthCategory monthCategory;
+    @JoinColumn(name = YEAR_CATEGORY_ID, nullable = false)
+    private YearCategory yearCategory;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = MONTH_ID, nullable = false)
+    private Month month;
 
     @Column(name = AMOUNT)
     private Double amount;
@@ -33,8 +37,8 @@ public class MonthCategoryValue {
     @Column(name = DATE)
     private Date date;
 
-    @Column(name = NAME)
-    private String name;
+    @Column(name = COMMENT)
+    private String comment;
 
     @Column(name = VALID)
     private boolean valid;

@@ -12,17 +12,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class YearDto {
-    private Long id;
+    private Long yearId;
     private Integer name;
-    private List<MonthDto> months;
+    private List<YearCategoryDto> categories;
 
     public static YearDto fromDao(Year dao) {
         return new YearDto(
                 dao.getId(),
                 dao.getYearNumber(),
-                dao.getMonths()
+                dao.getCategories() != null ? dao.getCategories()
                         .stream()
-                        .map(MonthDto::fromDao)
-                        .collect(Collectors.toList()));
+                        .map(YearCategoryDto::fromDao)
+                        .collect(Collectors.toList()) : List.of()
+        );
     }
 }

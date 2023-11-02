@@ -1,6 +1,6 @@
 package com.finances.dto;
 
-import com.finances.entity.MonthType;
+import com.finances.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonthTypeDto {
+public class CategoryDto {
     private Long id;
     private String name;
-    private Integer order;
+    private String deadline;
 
-    public static MonthTypeDto fromDao(MonthType dao) {
-        return new MonthTypeDto(
+    public static CategoryDto fromDao(Category dao) {
+        return new CategoryDto(
                 dao.getId(),
                 dao.getName(),
-                dao.getOrder()
+                dao.getDeadline()
         );
     }
 }
