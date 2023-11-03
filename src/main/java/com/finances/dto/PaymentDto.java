@@ -11,7 +11,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
-    private Long paymentId;
+    private Long id;
     private Long yearCategoryId;
     private Integer year;
     private String month;

@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.CategoryDto;
+import com.finances.dto.CategoryTypeDto;
 import com.finances.exception.exist.CategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.request.CreateCategoryRequest;
@@ -26,31 +26,31 @@ public class CategoryController {
 
     @GetMapping("getAllCategories")
     @ResponseBody
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        List<CategoryDto> categories = categoryService.findAllCategories();
-        return new Response<List<CategoryDto>>()
+    public ResponseEntity<List<CategoryTypeDto>> getAllCategories() {
+        List<CategoryTypeDto> categories = categoryService.findAllCategories();
+        return new Response<List<CategoryTypeDto>>()
                 .ok(categories);
     }
 
     @GetMapping("getCategoryById")
     @ResponseBody
-    public ResponseEntity<CategoryDto> getCategoryById(
+    public ResponseEntity<CategoryTypeDto> getCategoryById(
             @RequestParam Long categoryId)
             throws CategoryNotFoundException {
 
-        CategoryDto categories = categoryService.findCategoryDtoById(categoryId);
+        CategoryTypeDto categories = categoryService.findCategoryDtoById(categoryId);
 
-        return new Response<CategoryDto>()
+        return new Response<CategoryTypeDto>()
                 .ok(categories);
     }
 
     @PostMapping("/createCategory")
     @ResponseBody
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryRequest request)
+    public ResponseEntity<CategoryTypeDto> createCategory(@RequestBody CreateCategoryRequest request)
             throws CategoryAlreadyExistException {
-        CategoryDto createdCategory = categoryService.createCategory(request);
+        CategoryTypeDto createdCategory = categoryService.createCategory(request);
 
-        return new Response<CategoryDto>()
+        return new Response<CategoryTypeDto>()
                 .created(createdCategory);
     }
 }

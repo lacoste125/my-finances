@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+public class CategoryTypeDto {
     private Long id;
     private String name;
     private String deadline;
 
-    public static CategoryDto fromDao(Category dao) {
-        return new CategoryDto(
+    public static CategoryTypeDto fromDao(Category dao) {
+        return new CategoryTypeDto(
                 dao.getId(),
                 dao.getName(),
                 dao.getDeadline()

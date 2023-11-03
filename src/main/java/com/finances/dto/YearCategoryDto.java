@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class YearCategoryDto {
-    private Long yearCategoryId;
+    private Long id;
     private Long yearId;
-    private CategoryDto category;
+    private CategoryTypeDto categoryType;
     private List<PaymentDto> payments;
 
     public static YearCategoryDto fromDao(YearCategory dao) {
         return new YearCategoryDto(
                 dao.getId(),
                 dao.getYear().getId(),
-                CategoryDto.fromDao(dao.getCategory()),
+                CategoryTypeDto.fromDao(dao.getCategory()),
                 dao.getPayments()
                         .stream()
                         .map(PaymentDto::fromDao)

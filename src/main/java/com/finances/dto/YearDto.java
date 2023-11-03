@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class YearDto {
-    private Long yearId;
+    private Long id;
     private Integer name;
     private List<YearCategoryDto> categories;
 

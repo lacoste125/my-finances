@@ -1,6 +1,6 @@
 package com.finances.service;
 
-import com.finances.dto.CategoryDto;
+import com.finances.dto.CategoryTypeDto;
 import com.finances.entity.Category;
 import com.finances.exception.exist.CategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryNotFoundException;
@@ -24,15 +24,15 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<CategoryDto> findAllCategories() {
+    public List<CategoryTypeDto> findAllCategories() {
         return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
-                .map(CategoryDto::fromDao)
+                .map(CategoryTypeDto::fromDao)
                 .collect(Collectors.toList());
     }
 
-    public CategoryDto findCategoryDtoById(Long categoryId) throws CategoryNotFoundException {
+    public CategoryTypeDto findCategoryDtoById(Long categoryId) throws CategoryNotFoundException {
         Category category = findCategoryById(categoryId);
-        return CategoryDto.fromDao(category);
+        return CategoryTypeDto.fromDao(category);
     }
 
     public Category findCategoryById(Long categoryId) throws CategoryNotFoundException {
@@ -40,7 +40,7 @@ public class CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
     }
 
-    public CategoryDto createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
+    public CategoryTypeDto createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
         Optional<Category> foundCategory = getOptionalCategoryTypeByName(request.getName());
 
         if (foundCategory.isPresent()) {
@@ -51,7 +51,7 @@ public class CategoryService {
             category.setDeadline(request.getDeadline());
             Category savedCategory = createCategory(category);
 
-            return CategoryDto.fromDao(savedCategory);
+            return CategoryTypeDto.fromDao(savedCategory);
         }
     }
 
