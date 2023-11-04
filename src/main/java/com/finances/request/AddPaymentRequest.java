@@ -1,5 +1,6 @@
 package com.finances.request;
 
+import com.finances.enums.MonthType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.sql.Date;
 @NoArgsConstructor
 public class AddPaymentRequest {
     private Long yearCategoryId;
-    private Long monthId;
+    private MonthType monthName;
     private Double amount;
     private Date date;
     private String comment;

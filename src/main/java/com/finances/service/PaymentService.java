@@ -31,7 +31,7 @@ public class PaymentService {
 
     public PaymentDto addPayment(AddPaymentRequest requestBody) throws YearCategoryNotFoundException, MonthNotFoundException {
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(requestBody.getYearCategoryId());
-        Month month = monthService.findById(requestBody.getMonthId());
+        Month month = monthService.findByName(requestBody.getMonthName());
 
         Payment payment = new Payment();
         payment.setYearCategory(yearCategory);

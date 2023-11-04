@@ -1,6 +1,7 @@
 package com.finances.dto;
 
 import com.finances.entity.Payment;
+import com.finances.enums.MonthType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class PaymentDto {
     private Long id;
     private Long yearCategoryId;
     private Integer year;
-    private String month;
+    private MonthType month;
     private Double amount;
     private Date date;
     private String comment;

@@ -2,6 +2,7 @@ package com.finances.service;
 
 import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
+import com.finances.enums.MonthType;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.repository.MonthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,10 @@ public class MonthService {
 
     public Month findById(Long id) throws MonthNotFoundException {
         return monthRepository.findById(id).orElseThrow(() -> new MonthNotFoundException(id));
+    }
+
+    public Month findByName(MonthType name) throws MonthNotFoundException {
+        return monthRepository.findByName(name)
+                .orElseThrow(() -> new MonthNotFoundException(name));
     }
 }

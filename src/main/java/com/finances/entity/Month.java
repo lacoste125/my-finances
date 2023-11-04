@@ -1,12 +1,12 @@
 package com.finances.entity;
 
+import com.finances.enums.MonthType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
 import static com.finances.util.TableNaming.*;
 
 @Getter
@@ -23,7 +23,8 @@ public class Month {
     private Long Id;
 
     @Column(name = NAME)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private MonthType name;
 
     @Column(name = MONTH_ORDER)
     private Integer order;
