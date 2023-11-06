@@ -4,6 +4,7 @@ import com.finances.dto.PaymentDto;
 import com.finances.entity.Month;
 import com.finances.entity.Payment;
 import com.finances.entity.YearCategory;
+import com.finances.exception.bad.AmountIsEmptyException;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.repository.PaymentRepository;
@@ -29,7 +30,13 @@ public class PaymentService {
         this.monthService = monthService;
     }
 
-    public PaymentDto addPayment(AddPaymentRequest requestBody) throws YearCategoryNotFoundException, MonthNotFoundException {
+    public PaymentDto addPayment(AddPaymentRequest requestBody)
+            throws YearCategoryNotFoundException, MonthNotFoundException, AmountIsEmptyException {
+
+        if (requestBody.getAmount() == null || requestBody.getAmount() == 0) {
+            throw new AmountIsEmptyException(requestBody.getAmount());
+        }
+
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(requestBody.getYearCategoryId());
         Month month = monthService.findByName(requestBody.getMonthName());
 

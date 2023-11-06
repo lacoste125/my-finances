@@ -1,5 +1,6 @@
 package com.finances.config;
 
+import com.finances.exception.bad.BadRequestException;
 import com.finances.exception.exist.AlreadyExistException;
 import com.finances.exception.notfound.NotFoundException;
 
@@ -18,5 +19,10 @@ public class Advisor {
     @ExceptionHandler({AlreadyExistException.class})
     public ResponseEntity<String> alreadyExistExceptionHandler(AlreadyExistException exception) {
         return new Response<String>().exist(exception.getMessage());
+    }
+
+    @ExceptionHandler({BadRequestException.class})
+    public ResponseEntity<String> badRequestExceptionHandler(BadRequestException exception) {
+        return new Response<String>().badRequest(exception.getMessage());
     }
 }

@@ -32,4 +32,10 @@ public class Response<T> {
                 .status(HttpStatus.CONFLICT)
                 .body(body);
     }
+
+    public ResponseEntity<T> badRequest(T body) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(body);
+    }
 }
