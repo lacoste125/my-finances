@@ -1,5 +1,6 @@
 package com.finances.dto;
 
+import com.finances.entity.Payment;
 import com.finances.entity.YearCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class YearCategoryDto {
                 CategoryTypeDto.fromDao(dao.getCategory()),
                 dao.getPayments()
                         .stream()
+                        .filter(Payment::isValid)
                         .map(PaymentDto::fromDao)
                         .collect(Collectors.toList())
         );
