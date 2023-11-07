@@ -2,9 +2,11 @@ package com.finances.controller;
 
 import com.finances.config.Response;
 import com.finances.dto.YearCategoryDto;
+import com.finances.entity.YearCategory;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.request.AddCategoryToYearRequest;
+import com.finances.request.AddNewCategoryToYearRequest;
 import com.finances.service.YearCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +49,25 @@ public class YearCategoryController {
     public ResponseEntity<Void> addCategoryToYear(@RequestBody AddCategoryToYearRequest request)
             throws YearNotFoundException, CategoryNotFoundException {
 
-        yearCategoryService.addCategoryToYear(request);
+        YearCategory result = yearCategoryService.addCategoryToYear(request);
 
-        return new Response<Void>()
-                .created();
+        if (result == null) {
+            return new Response<Void>().ok();
+        } else {
+            return new Response<Void>().created();
+        }
+    }
+
+    @PutMapping("/addNewCategoryToYear")
+    public ResponseEntity<Void> addNewCategoryToYear(@RequestBody AddNewCategoryToYearRequest request)
+            throws YearNotFoundException, CategoryNotFoundException {
+
+        YearCategory result = yearCategoryService.createCategoryAndAddToYear(request);
+
+        if (result == null) {
+            return new Response<Void>().ok();
+        } else {
+            return new Response<Void>().created();
+        }
     }
 }

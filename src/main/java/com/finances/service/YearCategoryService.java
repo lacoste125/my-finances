@@ -9,6 +9,7 @@ import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearCategoryRepository;
 import com.finances.request.AddCategoryToYearRequest;
+import com.finances.request.AddNewCategoryToYearRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +46,14 @@ public class YearCategoryService {
         return yearCategoryRepository.findByCategoryAndYear(category, year);
     }
 
-    public void addCategoryToYear(AddCategoryToYearRequest request)
+    public YearCategory addCategoryToYear(AddCategoryToYearRequest request)
             throws YearNotFoundException, CategoryNotFoundException {
+        return saveNewYearCategoryIfNotExist(request.getYearId(), request.getCategoryId());
+    }
 
-        Year year = yearService.findYearById(request.getYearId());
-        Category category = categoryService.findCategoryById(request.getCategoryId());
+    private YearCategory saveNewYearCategoryIfNotExist(Long yearId, Long categoryId) throws YearNotFoundException, CategoryNotFoundException {
+        Year year = yearService.findYearById(yearId);
+        Category category = categoryService.findCategoryById(categoryId);
 
         YearCategory yearCategory = new YearCategory();
         yearCategory.setYear(year);
@@ -57,8 +61,8 @@ public class YearCategoryService {
 
         Optional<YearCategory> checked = findOptionalYearCategoryByCategoryAndYear(category, year);
         if (checked.isEmpty()) {
-            yearCategoryRepository.save(yearCategory);
-        }
+            return yearCategoryRepository.save(yearCategory);
+        } else return null;
     }
 
     public List<YearCategoryDto> findByYearId(Long yearId) throws YearNotFoundException {
@@ -74,5 +78,18 @@ public class YearCategoryService {
     public YearCategory findByYearCategoryId(Long yearCategoryId) throws YearCategoryNotFoundException {
         return yearCategoryRepository.findById(yearCategoryId)
                 .orElseThrow(() -> new YearCategoryNotFoundException(yearCategoryId));
+    }
+
+    public YearCategory createCategoryAndAddToYear(AddNewCategoryToYearRequest request)
+            throws YearNotFoundException, CategoryNotFoundException {
+        Optional<Category> optionalCategory = categoryService.getOptionalCategoryTypeByName(request.getName());
+
+        Category category =
+                optionalCategory.orElseGet(
+                        () -> categoryService.saveNewCategory(request.getName(), request.getDeadline())
+                );
+
+        Year year = yearService.findYearByYearNumber(request.getYearNumber());
+        return saveNewYearCategoryIfNotExist(year.getId(), category.getId());
     }
 }

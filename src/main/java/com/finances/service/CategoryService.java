@@ -41,22 +41,25 @@ public class CategoryService {
     }
 
     public CategoryTypeDto createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
-        Optional<Category> foundCategory = getOptionalCategoryTypeByName(request.getName());
-
-        if (foundCategory.isPresent()) {
+        Optional<Category> optionalCategory = getOptionalCategoryTypeByName(request.getName());
+        if (optionalCategory.isPresent()) {
             throw new CategoryAlreadyExistException(request.getName());
-        } else {
-            Category category = new Category();
-            category.setName(request.getName());
-            category.setDeadline(request.getDeadline());
-            Category savedCategory = createCategory(category);
-
-            return CategoryTypeDto.fromDao(savedCategory);
         }
+
+        Category category = saveNewCategory(request.getName(), request.getDeadline());
+
+        return CategoryTypeDto.fromDao(category);
     }
 
-    private Optional<Category> getOptionalCategoryTypeByName(String name) {
-        return categoryRepository.selectCategoryByNameIgnoreCase(name);
+    public Category saveNewCategory(String name, String deadline) {
+        Category category = new Category();
+        category.setName(name);
+        category.setDeadline(deadline);
+        return createCategory(category);
+    }
+
+    public Optional<Category> getOptionalCategoryTypeByName(String name) {
+        return categoryRepository.findCategoryByNameIgnoreCase(name);
     }
 
     private Category createCategory(Category category) {

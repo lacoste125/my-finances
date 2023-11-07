@@ -11,6 +11,10 @@ public class Response<T> {
                 .body(body);
     }
 
+    public ResponseEntity<Void> ok() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     public ResponseEntity<T> created(T body) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
