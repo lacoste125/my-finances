@@ -15,7 +15,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = YEAR_CATEGORY_VALUE, schema = TEST)
+@Table(name = PAYMENTS, schema = TEST)
 public class Payment {
 
     @Id

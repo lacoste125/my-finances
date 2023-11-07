@@ -27,7 +27,7 @@ public class TableNaming {
     public final static String CATEGORY_ID = "Category_Id";
 
     // Payment table
-    public final static String YEAR_CATEGORY_VALUE = "Year_Category_Value";
+    public final static String PAYMENTS = "Payments";
     public final static String YEAR_CATEGORY_ID = "Year_Category_Id";
     public final static String MONTH_ID = "Month_Id";
     public final static String AMOUNT = "Amount";

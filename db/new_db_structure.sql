@@ -41,7 +41,7 @@ ALTER TABLE test.year_category
     ADD CONSTRAINT FK_YEAR_CATEGORY_ON_YEAR FOREIGN KEY (year_id) REFERENCES test.year (id)
 GO
 
-CREATE TABLE test.year_category_value
+CREATE TABLE test.Payments
 (
     id               bigint IDENTITY (1, 1) NOT NULL,
     year_category_id bigint                 NOT NULL,
@@ -50,16 +50,16 @@ CREATE TABLE test.year_category_value
     date             date,
     comment          varchar(255),
     valid            bit,
-    CONSTRAINT pk_year_category_value PRIMARY KEY (id)
+    CONSTRAINT PK_PAYMENTS PRIMARY KEY (id)
 )
 GO
 
-ALTER TABLE test.year_category_value
-    ADD CONSTRAINT FK_YEAR_CATEGORY_VALUE_ON_MONTH FOREIGN KEY (month_id) REFERENCES test.month (id)
+ALTER TABLE test.Payments
+    ADD CONSTRAINT FK_PAYMENTS_ON_MONTH FOREIGN KEY (month_id) REFERENCES test.month (id)
 GO
 
-ALTER TABLE test.year_category_value
-    ADD CONSTRAINT FK_YEAR_CATEGORY_VALUE_ON_YEAR_CATEGORY FOREIGN KEY (year_category_id) REFERENCES test.year_category (id)
+ALTER TABLE test.Payments
+    ADD CONSTRAINT FK_PAYMENTS_ON_YEAR_CATEGORY FOREIGN KEY (year_category_id) REFERENCES test.year_category (id)
 GO
 
 insert into test.month (name, month_order)
