@@ -8,7 +8,9 @@ import com.finances.request.NewYearRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -24,8 +26,14 @@ public class YearService {
     }
 
     public List<YearDto> findAllValidYears() {
-        return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
+        return findAllYears()
+                .stream()
                 .map(YearDto::fromDao)
+                .collect(Collectors.toList());
+    }
+
+    public List<Year> findAllYears() {
+        return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
@@ -62,5 +70,20 @@ public class YearService {
         }
 
         return yearDto;
+    }
+
+    public YearDto createNextYear() {
+        Integer maxYear = findAllYears()
+                .stream()
+                .max(Comparator.comparing(Year::getYearNumber))
+                .orElseThrow(NoSuchElementException::new)
+                .getYearNumber();
+
+        Year year = new Year();
+        year.setYearNumber(++maxYear);
+
+        Year savedYear = yearRepository.save(year);
+
+        return YearDto.fromDao(savedYear);
     }
 }

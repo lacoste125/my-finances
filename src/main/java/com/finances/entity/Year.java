@@ -16,7 +16,7 @@ import static com.finances.util.TableNaming.*;
 @AllArgsConstructor
 @Entity
 @Table(name = YEAR, schema = TEST)
-public class Year {
+public class Year implements Comparable<Year> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,9 @@ public class Year {
 
     @OneToMany(mappedBy = "year")
     private List<YearCategory> categories;
+
+    @Override
+    public int compareTo(Year o) {
+        return getYearNumber() - o.getYearNumber();
+    }
 }

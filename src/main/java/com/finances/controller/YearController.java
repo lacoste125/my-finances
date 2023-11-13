@@ -58,4 +58,13 @@ public class YearController {
         return new Response<YearDto>()
                 .created(year);
     }
+
+    @PostMapping("/createNextYear")
+    @ResponseBody
+    public ResponseEntity<YearDto> createNextYear() {
+        YearDto year = yearService.createNextYear();
+
+        return new Response<YearDto>()
+                .created(year);
+    }
 }
