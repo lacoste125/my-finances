@@ -1,8 +1,10 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
+import com.finances.dto.CategoryDetailsDto;
 import com.finances.dto.PaymentDto;
 import com.finances.exception.bad.AmountIsEmptyException;
+import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.request.AddPaymentRequest;
@@ -31,5 +33,11 @@ public class PaymentController {
 
         return new Response<PaymentDto>()
                 .created(payment);
+    }
+
+    @GetMapping("getCategoryPayments")
+    @ResponseBody
+    public CategoryDetailsDto getCategoryPayments(@RequestParam Long categoryId) throws CategoryNotFoundException {
+        return paymentService.getCategoryPayments(categoryId);
     }
 }

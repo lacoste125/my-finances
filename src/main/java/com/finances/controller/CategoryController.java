@@ -34,8 +34,7 @@ public class CategoryController {
 
     @GetMapping("getCategoryById")
     @ResponseBody
-    public ResponseEntity<CategoryTypeDto> getCategoryById(
-            @RequestParam Long categoryId)
+    public ResponseEntity<CategoryTypeDto> getCategoryById(@RequestParam Long categoryId)
             throws CategoryNotFoundException {
 
         CategoryTypeDto categories = categoryService.findCategoryDtoById(categoryId);
