@@ -20,7 +20,7 @@ public class Month {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = ID)
-    private Long Id;
+    private Long id;
 
     @Column(name = NAME)
     @Enumerated(EnumType.STRING)

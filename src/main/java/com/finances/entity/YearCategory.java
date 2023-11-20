@@ -22,7 +22,7 @@ public class YearCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = ID)
-    private Long Id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = CATEGORY_ID)

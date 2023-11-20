@@ -66,6 +66,25 @@ ALTER TABLE priv.Payments
     ADD CONSTRAINT FK_PAYMENTS_ON_YEAR_CATEGORY FOREIGN KEY (year_category_id) REFERENCES priv.year_category (id)
 GO
 
+CREATE TABLE priv.disabled_payments
+(
+    id                bigint IDENTITY (1, 1) NOT NULL,
+    month_id          bigint                 NOT NULL,
+    year_category_id  bigint                 NOT NULL,
+    modification_date date,
+    valid             bit,
+    CONSTRAINT pk_disabled_payments PRIMARY KEY (id)
+)
+GO
+
+ALTER TABLE priv.disabled_payments
+    ADD CONSTRAINT FK_DISABLED_PAYMENTS_ON_MONTH FOREIGN KEY (month_id) REFERENCES priv.disabled_payments (id)
+GO
+
+ALTER TABLE priv.disabled_payments
+    ADD CONSTRAINT FK_DISABLED_PAYMENTS_ON_YEAR_CATEGORY FOREIGN KEY (year_category_id) REFERENCES priv.year_category (id)
+GO
+
 insert into priv.month (name, month_order)
 values ('STYCZEN', 1);
 

@@ -21,7 +21,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = ID)
-    private Long Id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = YEAR_CATEGORY_ID, nullable = false)

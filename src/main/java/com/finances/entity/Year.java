@@ -21,7 +21,7 @@ public class Year implements Comparable<Year> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = ID)
-    private Long Id;
+    private Long id;
 
     @Column(name = YEAR_NUMBER)
     private Integer yearNumber;

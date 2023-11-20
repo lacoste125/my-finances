@@ -34,4 +34,8 @@ public class TableNaming {
     public final static String DATE = "Date";
     public final static String VALID = "Valid";
     public final static String COMMENT = "Comment";
+
+    // Disabled payments
+    public final static String DISABLED_PAYMENTS = "Disabled_Payments";
+    public final static String MODIFICATION_DATE = "Modification_Date";
 }
