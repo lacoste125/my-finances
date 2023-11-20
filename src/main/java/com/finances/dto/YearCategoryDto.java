@@ -1,5 +1,6 @@
 package com.finances.dto;
 
+import com.finances.entity.DisabledPayment;
 import com.finances.entity.Payment;
 import com.finances.entity.YearCategory;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class YearCategoryDto {
     private Long yearId;
     private CategoryTypeDto categoryType;
     private List<PaymentDto> payments;
+    private List<DisabledPaymentDto> disabledPayments;
 
     public static YearCategoryDto fromDao(YearCategory dao) {
         return new YearCategoryDto(
@@ -27,6 +29,11 @@ public class YearCategoryDto {
                         .stream()
                         .filter(Payment::isValid)
                         .map(PaymentDto::fromDao)
+                        .collect(Collectors.toList()),
+                dao.getDisabledPayments()
+                        .stream()
+                        .filter(DisabledPayment::isValid)
+                        .map(DisabledPaymentDto::fromDao)
                         .collect(Collectors.toList())
         );
     }

@@ -34,4 +34,7 @@ public class YearCategory {
 
     @OneToMany(mappedBy = "yearCategory")
     private List<Payment> payments;
+
+    @OneToMany(mappedBy = "yearCategory")
+    private List<DisabledPayment> disabledPayments;
 }

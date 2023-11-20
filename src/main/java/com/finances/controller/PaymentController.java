@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @ControllerAdvice
 @RequestMapping("/payments")
@@ -52,10 +54,19 @@ public class PaymentController {
 
     @PostMapping("/disablePayment")
     @ResponseBody
-    public ResponseEntity<DisabledPaymentDto> disablePayment(DisablePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
+    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody DisablePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
         DisabledPaymentDto disabledPaymentDto = disabledPaymentService.disablePayment(request);
 
         return new Response<DisabledPaymentDto>()
                 .created(disabledPaymentDto);
+    }
+
+    @GetMapping("getDisabledPaymentsByYear")
+    @ResponseBody
+    public ResponseEntity<List<DisabledPaymentDto>> getDisabledPaymentsByYear(@RequestParam Integer year) {
+        List<DisabledPaymentDto> result = disabledPaymentService.getDisabledPaymentsByYear(year);
+
+        return new Response<List<DisabledPaymentDto>>()
+                .ok(result);
     }
 }

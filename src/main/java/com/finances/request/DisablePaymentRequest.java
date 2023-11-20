@@ -1,5 +1,6 @@
 package com.finances.request;
 
+import com.finances.enums.MonthType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DisablePaymentRequest {
-    private Long monthId;
+    private MonthType monthName;
     private Long yearCategoryId;
 }

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DisabledPaymentService {
@@ -33,11 +35,11 @@ public class DisabledPaymentService {
 
     public DisabledPaymentDto disablePayment(DisablePaymentRequest request) throws MonthNotFoundException, YearCategoryNotFoundException {
 
-        Month month = monthService.findById(request.getMonthId());
+        Month month = monthService.findByName(request.getMonthName());
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.getYearCategoryId());
 
         Optional<DisabledPayment> optionalDisabledPayment =
-                disabledPaymentRepository.selectByMonthIdAndYearCategoryId(request.getMonthId(), request.getYearCategoryId());
+                disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.getYearCategoryId());
 
         DisabledPayment newDisabledPayment;
         if (optionalDisabledPayment.isPresent()) {
@@ -55,5 +57,14 @@ public class DisabledPaymentService {
         DisabledPayment saved = disabledPaymentRepository.save(newDisabledPayment);
 
         return DisabledPaymentDto.fromDao(saved);
+    }
+
+    public List<DisabledPaymentDto> getDisabledPaymentsByYear(Integer year) {
+        List<DisabledPayment> disabledPayments = disabledPaymentRepository.selectByYear(year);
+
+        return disabledPayments
+                .stream()
+                .map(DisabledPaymentDto::fromDao)
+                .collect(Collectors.toList());
     }
 }
