@@ -106,3 +106,19 @@ GO
 insert into priv.year (year_number)
 values (2020);
 GO
+
+insert into priv.year (year_number)
+values (2021);
+GO
+
+insert into priv.year (year_number)
+values (2022);
+GO
+
+insert into priv.year (year_number)
+values (2023);
+GO
+
+insert into priv.year (year_number)
+values (2024);
+GO
