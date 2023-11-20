@@ -22,6 +22,7 @@ public class YearDto {
                 dao.getYearNumber(),
                 dao.getCategories() != null ? dao.getCategories()
                         .stream()
+                        .filter(yearCategory -> yearCategory.getCategory().isValid())
                         .map(YearCategoryDto::fromDao)
                         .collect(Collectors.toList()) : List.of()
         );

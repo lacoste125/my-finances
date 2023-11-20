@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class CategoryService {
@@ -25,7 +24,8 @@ public class CategoryService {
     }
 
     public List<CategoryTypeDto> findAllCategories() {
-        return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
+        return categoryRepository.findAllByValidTrue()
+                .stream()
                 .map(CategoryTypeDto::fromDao)
                 .collect(Collectors.toList());
     }
@@ -36,7 +36,7 @@ public class CategoryService {
     }
 
     public Category findCategoryById(Long categoryId) throws CategoryNotFoundException {
-        return categoryRepository.findById(categoryId)
+        return categoryRepository.findByIdAndValidTrue(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
     }
 
@@ -55,11 +55,12 @@ public class CategoryService {
         Category category = new Category();
         category.setName(name);
         category.setDeadline(deadline);
+        category.setValid(true);
         return createCategory(category);
     }
 
     public Optional<Category> getOptionalCategoryTypeByName(String name) {
-        return categoryRepository.findCategoryByNameIgnoreCase(name);
+        return categoryRepository.findCategoryByNameAndValidTrueIgnoreCase(name);
     }
 
     private Category createCategory(Category category) {

@@ -13,7 +13,8 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
 
     @Query("SELECT p " +
             "FROM Payment p " +
-            "WHERE p.yearCategory.category.Id = :categoryId " +
+            "WHERE p.yearCategory.category.id = :categoryId " +
+            "AND p.yearCategory.category.valid = true " +
             "AND p.valid = true")
     List<Payment> getCategoryPayments(@Param("categoryId") Long categoryId);
 }

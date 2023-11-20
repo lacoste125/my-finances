@@ -15,7 +15,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = PAYMENTS, schema = TEST)
+@Table(name = PAYMENTS, schema = PRIV)
 public class Payment {
 
     @Id

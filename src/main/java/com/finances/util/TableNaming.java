@@ -3,7 +3,7 @@ package com.finances.util;
 public class TableNaming {
 
     // schemas
-    public final static String TEST = "test";
+    public final static String PRIV = "priv";
 
     // general
     public final static String ID = "Id";
