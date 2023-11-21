@@ -78,7 +78,7 @@ CREATE TABLE priv.disabled_payments
 GO
 
 ALTER TABLE priv.disabled_payments
-    ADD CONSTRAINT FK_DISABLED_PAYMENTS_ON_MONTH FOREIGN KEY (month_id) REFERENCES priv.disabled_payments (id)
+    ADD CONSTRAINT FK_DISABLED_PAYMENTS_ON_MONTH FOREIGN KEY (month_id) REFERENCES priv.month (id)
 GO
 
 ALTER TABLE priv.disabled_payments
