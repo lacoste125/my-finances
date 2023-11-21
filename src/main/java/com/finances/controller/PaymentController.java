@@ -9,7 +9,7 @@ import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.request.AddPaymentRequest;
-import com.finances.request.DisablePaymentRequest;
+import com.finances.request.TogglePaymentRequest;
 import com.finances.service.DisabledPaymentService;
 import com.finances.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +54,20 @@ public class PaymentController {
 
     @PostMapping("/disablePayment")
     @ResponseBody
-    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody DisablePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
-        DisabledPaymentDto disabledPaymentDto = disabledPaymentService.disablePayment(request);
+    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody TogglePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
+        DisabledPaymentDto disabledPaymentDto = disabledPaymentService.togglePayment(request, true);
 
         return new Response<DisabledPaymentDto>()
                 .created(disabledPaymentDto);
+    }
+
+    @PostMapping("/enablePayment")
+    @ResponseBody
+    public ResponseEntity<DisabledPaymentDto> enablePayment(@RequestBody TogglePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
+        DisabledPaymentDto enabled = disabledPaymentService.togglePayment(request, false);
+
+        return new Response<DisabledPaymentDto>()
+                .created(enabled);
     }
 
     @GetMapping("getDisabledPaymentsByYear")

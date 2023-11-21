@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DisablePaymentRequest {
+public class TogglePaymentRequest {
     private MonthType monthName;
     private Long yearCategoryId;
 }

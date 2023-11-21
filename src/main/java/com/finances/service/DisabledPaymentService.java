@@ -7,7 +7,7 @@ import com.finances.entity.YearCategory;
 import com.finances.exception.notfound.MonthNotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.repository.DisabledPaymentRepository;
-import com.finances.request.DisablePaymentRequest;
+import com.finances.request.TogglePaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,8 @@ public class DisabledPaymentService {
         this.yearCategoryService = yearCategoryService;
     }
 
-    public DisabledPaymentDto disablePayment(DisablePaymentRequest request) throws MonthNotFoundException, YearCategoryNotFoundException {
+    public DisabledPaymentDto togglePayment(TogglePaymentRequest request, boolean expectedValue)
+            throws MonthNotFoundException, YearCategoryNotFoundException {
 
         Month month = monthService.findByName(request.getMonthName());
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.getYearCategoryId());
@@ -44,15 +45,14 @@ public class DisabledPaymentService {
         DisabledPayment newDisabledPayment;
         if (optionalDisabledPayment.isPresent()) {
             newDisabledPayment = optionalDisabledPayment.get();
-            newDisabledPayment.setValid(true);
+            newDisabledPayment.setValid(expectedValue);
         } else {
             newDisabledPayment = DisabledPayment.builder()
                     .month(month)
                     .yearCategory(yearCategory)
                     .modificationDate(new Date())
-                    .valid(true)
+                    .valid(expectedValue)
                     .build();
-
         }
         DisabledPayment saved = disabledPaymentRepository.save(newDisabledPayment);
 
