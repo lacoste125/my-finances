@@ -55,6 +55,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Mailing -->
+        <!-- https://www.baeldung.com/spring-email -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- Tools -->
         <dependency>
             <groupId>org.projectlombok</groupId>
