@@ -1,9 +1,9 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.CategoryDetailsDto;
-import com.finances.dto.DisabledPaymentDto;
-import com.finances.dto.PaymentDto;
+import com.finances.dto.base.CategoryDetailsDto;
+import com.finances.dto.base.DisabledPaymentDto;
+import com.finances.dto.base.PaymentDto;
 import com.finances.exception.bad.AmountIsEmptyException;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;

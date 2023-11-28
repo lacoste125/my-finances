@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.MonthDto;
+import com.finances.dto.base.MonthDto;
 import com.finances.service.MonthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.finances.dto;
+package com.finances.dto.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

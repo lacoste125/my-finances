@@ -1,6 +1,8 @@
 package com.finances.service;
 
-import com.finances.dto.CategoryTypeDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.CategoryBackupDto;
+import com.finances.dto.base.CategoryTypeDto;
 import com.finances.entity.Category;
 import com.finances.exception.exist.CategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryNotFoundException;
@@ -12,9 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-public class CategoryService {
+public class CategoryService implements Backup<CategoryBackupDto> {
 
     private final CategoryRepository categoryRepository;
 
@@ -65,5 +68,12 @@ public class CategoryService {
 
     private Category createCategory(Category category) {
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public List<CategoryBackupDto> getBackup() {
+        return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
+                .map(CategoryBackupDto::fromDao)
+                .collect(Collectors.toList());
     }
 }

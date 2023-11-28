@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.CategoryTypeDto;
+import com.finances.dto.base.CategoryTypeDto;
 import com.finances.exception.exist.CategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.request.CreateCategoryRequest;

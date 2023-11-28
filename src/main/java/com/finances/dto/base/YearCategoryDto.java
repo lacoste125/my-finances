@@ -1,4 +1,4 @@
-package com.finances.dto;
+package com.finances.dto.base;
 
 import com.finances.entity.DisabledPayment;
 import com.finances.entity.Payment;

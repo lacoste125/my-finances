@@ -1,6 +1,8 @@
 package com.finances.service;
 
-import com.finances.dto.YearCategoryDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.YearCategoryBackupDto;
+import com.finances.dto.base.YearCategoryDto;
 import com.finances.entity.Category;
 import com.finances.entity.Year;
 import com.finances.entity.YearCategory;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class YearCategoryService {
+public class YearCategoryService implements Backup<YearCategoryBackupDto> {
 
     private final YearCategoryRepository yearCategoryRepository;
     private final CategoryService categoryService;
@@ -91,5 +93,12 @@ public class YearCategoryService {
 
         Year year = yearService.findYearByYearNumber(request.getYearNumber());
         return saveNewYearCategoryIfNotExist(year.getId(), category.getId());
+    }
+
+    @Override
+    public List<YearCategoryBackupDto> getBackup() {
+        return StreamSupport.stream(yearCategoryRepository.findAll().spliterator(), false)
+                .map(YearCategoryBackupDto::fromDao)
+                .collect(Collectors.toList());
     }
 }

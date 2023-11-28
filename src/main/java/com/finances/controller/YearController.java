@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.YearDto;
+import com.finances.dto.base.YearDto;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.request.NewYearRequest;
 import com.finances.service.YearService;

@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.config.Response;
-import com.finances.dto.YearCategoryDto;
+import com.finances.dto.base.YearCategoryDto;
 import com.finances.entity.YearCategory;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;

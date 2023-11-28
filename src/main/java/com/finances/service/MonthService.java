@@ -1,6 +1,8 @@
 package com.finances.service;
 
-import com.finances.dto.MonthDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.MonthBackupDto;
+import com.finances.dto.base.MonthDto;
 import com.finances.entity.Month;
 import com.finances.enums.MonthType;
 import com.finances.exception.notfound.MonthNotFoundException;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class MonthService {
+public class MonthService implements Backup<MonthBackupDto> {
 
     private final MonthRepository monthRepository;
 
@@ -41,5 +43,12 @@ public class MonthService {
     public Month findByName(MonthType name) throws MonthNotFoundException {
         return monthRepository.findByName(name)
                 .orElseThrow(() -> new MonthNotFoundException(name));
+    }
+
+    @Override
+    public List<MonthBackupDto> getBackup() {
+        return StreamSupport.stream(monthRepository.findAll().spliterator(), false)
+                .map(MonthBackupDto::fromDao)
+                .collect(Collectors.toList());
     }
 }

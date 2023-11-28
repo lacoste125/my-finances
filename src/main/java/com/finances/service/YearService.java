@@ -1,6 +1,8 @@
 package com.finances.service;
 
-import com.finances.dto.YearDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.YearBackupDto;
+import com.finances.dto.base.YearDto;
 import com.finances.entity.Year;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearRepository;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class YearService {
+public class YearService implements Backup<YearBackupDto> {
 
     private final YearRepository yearRepository;
 
@@ -85,5 +87,12 @@ public class YearService {
         Year savedYear = yearRepository.save(year);
 
         return YearDto.fromDao(savedYear);
+    }
+
+    @Override
+    public List<YearBackupDto> getBackup() {
+        return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
+                .map(YearBackupDto::fromDao)
+                .collect(Collectors.toList());
     }
 }

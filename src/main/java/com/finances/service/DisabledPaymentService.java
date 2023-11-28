@@ -1,6 +1,8 @@
 package com.finances.service;
 
-import com.finances.dto.DisabledPaymentDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.DisabledPaymentsBackupDto;
+import com.finances.dto.base.DisabledPaymentDto;
 import com.finances.entity.DisabledPayment;
 import com.finances.entity.Month;
 import com.finances.entity.YearCategory;
@@ -15,9 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-public class DisabledPaymentService {
+public class DisabledPaymentService implements Backup<DisabledPaymentsBackupDto> {
 
     private final DisabledPaymentRepository disabledPaymentRepository;
     private final MonthService monthService;
@@ -65,6 +68,13 @@ public class DisabledPaymentService {
         return disabledPayments
                 .stream()
                 .map(DisabledPaymentDto::fromDao)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DisabledPaymentsBackupDto> getBackup() {
+        return StreamSupport.stream(disabledPaymentRepository.findAll().spliterator(), false)
+                .map(DisabledPaymentsBackupDto::fromDao)
                 .collect(Collectors.toList());
     }
 }

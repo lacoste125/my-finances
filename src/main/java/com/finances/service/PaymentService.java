@@ -1,8 +1,10 @@
 package com.finances.service;
 
-import com.finances.dto.CategoryDetailsDto;
-import com.finances.dto.CategoryTypeDto;
-import com.finances.dto.PaymentDto;
+import com.finances.backup.Backup;
+import com.finances.dto.backup.PaymentsBackupDto;
+import com.finances.dto.base.CategoryDetailsDto;
+import com.finances.dto.base.CategoryTypeDto;
+import com.finances.dto.base.PaymentDto;
 import com.finances.entity.Category;
 import com.finances.entity.Month;
 import com.finances.entity.Payment;
@@ -17,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-public class PaymentService {
+public class PaymentService implements Backup<PaymentsBackupDto> {
 
     private final PaymentRepository paymentRepository;
     private final YearCategoryService yearCategoryService;
@@ -74,5 +78,12 @@ public class PaymentService {
         categoryDetails.setPayments(payments);
 
         return categoryDetails;
+    }
+
+    @Override
+    public List<PaymentsBackupDto> getBackup() {
+        return StreamSupport.stream(paymentRepository.findAll().spliterator(), false)
+                .map(PaymentsBackupDto::fromDao)
+                .collect(Collectors.toList());
     }
 }
