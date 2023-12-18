@@ -1,12 +1,12 @@
 package com.finances.controller;
 
-import com.finances.dto.backup.DatabaseBackupDto;
+import com.finances.request.CreateBackupRequest;
 import com.finances.service.BackupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @RestController
 @ControllerAdvice
@@ -22,7 +22,7 @@ public class BackupController {
 
     @PostMapping("/createDatabaseBackup")
     @ResponseBody
-    public DatabaseBackupDto createDatabaseBackup() throws SQLException, IOException, ClassNotFoundException {
-        return backupService.createBackupAndSendEmail();
+    public void createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
+        backupService.createBackupAndSendEmail(request);
     }
 }

@@ -1,61 +1,47 @@
 package com.finances.service;
 
-import com.finances.dto.backup.*;
+import com.finances.pojo.EmailMessage;
+import com.finances.request.CreateBackupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class BackupService {
 
     private final EmailService emailService;
-    private final CategoryService categoryService;
-    private final DisabledPaymentService disabledPaymentService;
-    private final MonthService monthService;
-    private final PaymentService paymentService;
-    private final YearService yearService;
-    private final YearCategoryService yearCategoryService;
 
     @Autowired
-    public BackupService(EmailService emailService,
-                         CategoryService categoryService,
-                         DisabledPaymentService disabledPaymentService,
-                         MonthService monthService,
-                         PaymentService paymentService,
-                         YearService yearService,
-                         YearCategoryService yearCategoryService) {
+    public BackupService(EmailService emailService) {
         this.emailService = emailService;
-        this.categoryService = categoryService;
-        this.disabledPaymentService = disabledPaymentService;
-        this.monthService = monthService;
-        this.paymentService = paymentService;
-        this.yearService = yearService;
-        this.yearCategoryService = yearCategoryService;
     }
 
-    private DatabaseBackupDto baackupp() {
-        List<CategoryBackupDto> categoryBackup = categoryService.getBackup();
-        List<DisabledPaymentsBackupDto> disabledPaymentsBackup = disabledPaymentService.getBackup();
-        List<MonthBackupDto> monthBackup = monthService.getBackup();
-        List<PaymentsBackupDto> paymentBackup = paymentService.getBackup();
-        List<YearBackupDto> yearBackup = yearService.getBackup();
-        List<YearCategoryBackupDto> yearCategoryBackup = yearCategoryService.getBackup();
+    public void createBackupAndSendEmail(CreateBackupRequest request) throws IOException, MessagingException {
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String formatedDate = date.format(formatter);
 
-        return DatabaseBackupDto.builder()
-                .categories(categoryBackup)
-                .disabledPayments(disabledPaymentsBackup)
-                .months(monthBackup)
-                .payments(paymentBackup)
-                .years(yearBackup)
-                .yearCategories(yearCategoryBackup)
-                .build();
-    }
+        String fileName = request.getFileName() + "_" + formatedDate;
+        String filePath = request.getFileResource() + "\\" + fileName + ".sql";
 
-    public DatabaseBackupDto createBackupAndSendEmail() throws SQLException, IOException, ClassNotFoundException {
-        return baackupp();
-//        emailService.sendMail("mariusz.iwanski1@gmail.com", "Backup", "Backup message.");
+        Runtime rt = Runtime.getRuntime();
+        rt.exec("C:\\xampp\\mysql\\bin\\mysqldump " +
+                "-u root " +
+                "--default-character-set=utf8 " +
+                "--result-file=" + filePath + " " +
+                "--databases " + request.getDatabaseName());
+
+        EmailMessage emailMessage = new EmailMessage();
+        emailMessage.setAttachment(new File(filePath));
+        emailMessage.setTo(request.getEmailTo());
+        emailMessage.setSubject("my-finances-app database dump: " + request.getDatabaseName());
+        emailMessage.setMessage("Backup bazy danych '" + request.getDatabaseName() + "' ");
+
+        emailService.sendMailWithAttachment(emailMessage);
     }
 }
