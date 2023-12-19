@@ -21,7 +21,7 @@ public class BackupService {
         this.emailService = emailService;
     }
 
-    public void createBackupAndSendEmail(CreateBackupRequest request) throws IOException, MessagingException {
+    public String createBackupAndSendEmail(CreateBackupRequest request) throws IOException, MessagingException {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         String formatedDate = date.format(formatter);
@@ -43,5 +43,7 @@ public class BackupService {
         emailMessage.setMessage("Backup bazy danych '" + request.getDatabaseName() + "' ");
 
         emailService.sendMailWithAttachment(emailMessage);
+
+        return emailMessage.getAttachment().getAbsolutePath();
     }
 }

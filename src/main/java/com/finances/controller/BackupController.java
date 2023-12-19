@@ -1,8 +1,10 @@
 package com.finances.controller;
 
+import com.finances.config.Response;
 import com.finances.request.CreateBackupRequest;
 import com.finances.service.BackupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -22,7 +24,8 @@ public class BackupController {
 
     @PostMapping("/createDatabaseBackup")
     @ResponseBody
-    public void createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
-        backupService.createBackupAndSendEmail(request);
+    public ResponseEntity<String> createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
+        String filePath = backupService.createBackupAndSendEmail(request);
+        return new Response<String>().created(filePath);
     }
 }
