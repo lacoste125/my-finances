@@ -6,14 +6,12 @@ import com.finances.dto.base.DisabledPaymentDto;
 import com.finances.entity.DisabledPayment;
 import com.finances.entity.Month;
 import com.finances.entity.YearCategory;
-import com.finances.exception.notfound.MonthNotFoundException;
-import com.finances.exception.notfound.YearCategoryNotFoundException;
+import com.finances.exception.notfound.NotFoundException;
 import com.finances.repository.DisabledPaymentRepository;
 import com.finances.request.TogglePaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,30 +34,27 @@ public class DisabledPaymentService implements Backup<DisabledPaymentsBackupDto>
         this.yearCategoryService = yearCategoryService;
     }
 
-    public DisabledPaymentDto togglePayment(TogglePaymentRequest request, boolean expectedValue)
-            throws MonthNotFoundException, YearCategoryNotFoundException {
-
+    public DisabledPaymentDto togglePayment(TogglePaymentRequest request, boolean expectedValue) throws NotFoundException {
         Month month = monthService.findByName(request.getMonthName());
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.getYearCategoryId());
 
         Optional<DisabledPayment> optionalDisabledPayment =
                 disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.getYearCategoryId());
 
-        DisabledPayment newDisabledPayment;
-        if (optionalDisabledPayment.isPresent()) {
-            newDisabledPayment = optionalDisabledPayment.get();
-            newDisabledPayment.setValid(expectedValue);
-        } else {
-            newDisabledPayment = DisabledPayment.builder()
-                    .month(month)
-                    .yearCategory(yearCategory)
-                    .modificationDate(new Date())
-                    .valid(expectedValue)
-                    .build();
-        }
-        DisabledPayment saved = disabledPaymentRepository.save(newDisabledPayment);
-
-        return DisabledPaymentDto.fromDao(saved);
+        return DisabledPaymentDto.fromDao(
+                disabledPaymentRepository.save(
+                        optionalDisabledPayment.isPresent() ? optionalDisabledPayment.get()
+                                .withComment(request.getComment())
+                                .withValid(expectedValue)
+                                :
+                                DisabledPayment.builder()
+                                        .month(month)
+                                        .yearCategory(yearCategory)
+                                        .comment(request.getComment())
+                                        .valid(expectedValue)
+                                        .build()
+                )
+        );
     }
 
     public List<DisabledPaymentDto> getDisabledPaymentsByYear(Integer year) {

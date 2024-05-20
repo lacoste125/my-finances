@@ -1,6 +1,8 @@
 package com.finances.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -15,6 +17,7 @@ import static com.finances.util.TableNaming.*;
 @AllArgsConstructor
 @Entity
 @Table(name = DISABLED_PAYMENTS, schema = PRIV)
+@EntityListeners(AuditingEntityListener.class)
 public class DisabledPayment {
 
     @Id
@@ -30,9 +33,15 @@ public class DisabledPayment {
     @JoinColumn(name = YEAR_CATEGORY_ID, nullable = false)
     private YearCategory yearCategory;
 
+    @With
+    @Column(name = COMMENT)
+    private String comment;
+
     @Column(name = MODIFICATION_DATE)
+    @LastModifiedDate
     private Date modificationDate;
 
+    @With
     @Column(name = VALID)
     private boolean valid;
 }

@@ -24,7 +24,8 @@ public class BackupController {
 
     @PostMapping("/createDatabaseBackup")
     @ResponseBody
-    public ResponseEntity<String> createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
+    public ResponseEntity<String> createDatabaseBackup(@RequestBody CreateBackupRequest request)
+            throws IOException, MessagingException {
         String filePath = backupService.createBackupAndSendEmail(request);
         return new Response<String>().created(filePath);
     }

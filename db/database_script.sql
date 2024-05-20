@@ -141,3 +141,7 @@ GO
 insert into priv.year (year_number)
 values (2024);
 GO
+
+ALTER TABLE priv.disabled_payments
+    ADD comment VARCHAR(255) NULL;
+GO

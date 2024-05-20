@@ -4,6 +4,7 @@ import com.finances.enums.MonthType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Data
 @AllArgsConstructor
@@ -11,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class TogglePaymentRequest {
     private MonthType monthName;
     private Long yearCategoryId;
+    @Nullable
+    private String comment;
 }

@@ -7,6 +7,7 @@ import com.finances.dto.base.PaymentDto;
 import com.finances.exception.bad.AmountIsEmptyException;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.MonthNotFoundException;
+import com.finances.exception.notfound.NotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
 import com.finances.request.AddPaymentRequest;
 import com.finances.request.TogglePaymentRequest;
@@ -54,7 +55,7 @@ public class PaymentController {
 
     @PostMapping("/disablePayment")
     @ResponseBody
-    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody TogglePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
+    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
         DisabledPaymentDto disabledPaymentDto = disabledPaymentService.togglePayment(request, true);
 
         return new Response<DisabledPaymentDto>()
@@ -63,7 +64,7 @@ public class PaymentController {
 
     @PostMapping("/enablePayment")
     @ResponseBody
-    public ResponseEntity<DisabledPaymentDto> enablePayment(@RequestBody TogglePaymentRequest request) throws YearCategoryNotFoundException, MonthNotFoundException {
+    public ResponseEntity<DisabledPaymentDto> enablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
         DisabledPaymentDto enabled = disabledPaymentService.togglePayment(request, false);
 
         return new Response<DisabledPaymentDto>()
