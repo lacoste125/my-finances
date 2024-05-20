@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class DisabledPaymentDto {
 
     private Long id;
-    private MonthType month;
+    private MonthDto month;
     private Long yearCategoryId;
     private String comment;
     private boolean valid;
@@ -22,7 +22,7 @@ public class DisabledPaymentDto {
     public static DisabledPaymentDto fromDao(DisabledPayment dao) {
         return DisabledPaymentDto.builder()
                 .id(dao.getId())
-                .month(dao.getMonth().getName())
+                .month(MonthDto.fromDao(dao.getMonth()))
                 .yearCategoryId(dao.getYearCategory().getId())
                 .comment(dao.getComment())
                 .valid(dao.isValid())
