@@ -1,70 +1,59 @@
 package com.finances.controller;
 
-import com.finances.config.Response;
+import com.finances.advisor.Response;
 import com.finances.dto.base.YearDto;
+import com.finances.entity.Year;
+import com.finances.exception.notfound.NotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.request.NewYearRequest;
 import com.finances.service.YearService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.finances.wrapper.YearDtoWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@ControllerAdvice
+@RequiredArgsConstructor
 @RequestMapping("/years")
 public class YearController {
 
     private final YearService yearService;
-
-    @Autowired
-    public YearController(YearService yearService) {
-        this.yearService = yearService;
-    }
+    private final YearDtoWrapper yearDtoWrapper;
 
     @GetMapping("/getAllYears")
-    @ResponseBody
-    public ResponseEntity<List<YearDto>> getAllYears() {
-        List<YearDto> years = yearService.findAllValidYears();
+    public @ResponseBody ResponseEntity<List<YearDto>> getAllYears() {
+        List<Year> years = yearService.findAllYears();
 
-        return new Response<List<YearDto>>()
-                .ok(years);
+        return new Response<List<YearDto>>().ok(yearDtoWrapper.mapToDtos(years));
     }
 
     @GetMapping("/getYearByYearNumber")
-    @ResponseBody
-    public ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws YearNotFoundException {
-        YearDto year = yearService.findYearDtoByYearNumber(yearNumber);
+    public @ResponseBody ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws NotFoundException {
+        Year year = yearService.findYearByYearNumber(yearNumber);
 
-        return new Response<YearDto>()
-                .ok(year);
+        return new Response<YearDto>().ok(yearDtoWrapper.mapToDto(year));
     }
 
     @GetMapping("/getYearById")
-    @ResponseBody
-    public ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
-        YearDto year = yearService.findYearDtoById(id);
+    public @ResponseBody ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
+        Year year = yearService.findYearById(id);
 
-        return new Response<YearDto>()
-                .ok(year);
+        return new Response<YearDto>().ok(yearDtoWrapper.mapToDto(year));
     }
 
     @PutMapping("/addNewYear")
-    @ResponseBody
-    public ResponseEntity<YearDto> addNewYear(@RequestBody NewYearRequest request) {
-        YearDto year = yearService.findOrCreateYear(request);
+    public @ResponseBody ResponseEntity<YearDto> addNewYear(@RequestBody NewYearRequest request) {
+        Year year = yearService.findOrCreateYear(request);
 
-        return new Response<YearDto>()
-                .created(year);
+        return new Response<YearDto>().created(yearDtoWrapper.mapToDto(year));
     }
 
     @PostMapping("/createNextYear")
-    @ResponseBody
-    public ResponseEntity<YearDto> createNextYear() {
-        YearDto year = yearService.createNextYear();
+    public @ResponseBody ResponseEntity<YearDto> createNextYear() {
+        Year year = yearService.createNextYear();
 
-        return new Response<YearDto>()
-                .created(year);
+        return new Response<YearDto>().created(yearDtoWrapper.mapToDto(year));
     }
 }

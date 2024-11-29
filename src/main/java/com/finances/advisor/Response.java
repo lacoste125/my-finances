@@ -1,4 +1,4 @@
-package com.finances.config;
+package com.finances.advisor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +12,11 @@ public class Response<T> {
     }
 
     public ResponseEntity<Void> ok() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     public ResponseEntity<T> created(T body) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(body);
     }
 
     public ResponseEntity<Void> created() {

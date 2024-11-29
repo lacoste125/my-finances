@@ -2,7 +2,7 @@ package com.finances.service;
 
 import com.finances.pojo.EmailMessage;
 import com.finances.request.CreateBackupRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -12,14 +12,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@RequiredArgsConstructor
 public class BackupService {
 
     private final EmailService emailService;
-
-    @Autowired
-    public BackupService(EmailService emailService) {
-        this.emailService = emailService;
-    }
 
     public String createBackupAndSendEmail(CreateBackupRequest request) throws IOException, MessagingException {
         LocalDateTime date = LocalDateTime.now();

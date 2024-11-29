@@ -1,30 +1,13 @@
 package com.finances.dto.base;
 
-import com.finances.entity.Year;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class YearDto {
-    private Long id;
-    private Integer name;
-    private List<YearCategoryDto> categories;
-
-    public static YearDto fromDao(Year dao) {
-        return new YearDto(
-                dao.getId(),
-                dao.getYearNumber(),
-                dao.getCategories() != null ? dao.getCategories()
-                        .stream()
-                        .filter(yearCategory -> yearCategory.getCategory().isValid())
-                        .map(YearCategoryDto::fromDao)
-                        .collect(Collectors.toList()) : List.of()
-        );
-    }
+@Builder
+public record YearDto(
+        Long id,
+        Integer name,
+        List<YearCategoryDto> categories
+) {
 }

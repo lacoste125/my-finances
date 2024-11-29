@@ -1,41 +1,28 @@
 package com.finances.service;
 
-import com.finances.backup.Backup;
-import com.finances.dto.backup.CategoryBackupDto;
-import com.finances.dto.base.CategoryTypeDto;
 import com.finances.entity.Category;
 import com.finances.exception.exist.CategoryAlreadyExistException;
 import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.repository.CategoryRepository;
 import com.finances.request.CreateCategoryRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
-public class CategoryService implements Backup<CategoryBackupDto> {
+@RequiredArgsConstructor
+public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public List<Category> findAllCategories() {
+        return categoryRepository.findAllByValidTrue();
     }
 
-    public List<CategoryTypeDto> findAllCategories() {
-        return categoryRepository.findAllByValidTrue()
-                .stream()
-                .map(CategoryTypeDto::fromDao)
-                .collect(Collectors.toList());
-    }
-
-    public CategoryTypeDto findCategoryDtoById(Long categoryId) throws CategoryNotFoundException {
-        Category category = findCategoryById(categoryId);
-        return CategoryTypeDto.fromDao(category);
+    public Category findCategoryDtoById(Long categoryId) throws CategoryNotFoundException {
+        return findCategoryById(categoryId);
     }
 
     public Category findCategoryById(Long categoryId) throws CategoryNotFoundException {
@@ -43,15 +30,13 @@ public class CategoryService implements Backup<CategoryBackupDto> {
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
     }
 
-    public CategoryTypeDto createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
+    public Category createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
         Optional<Category> optionalCategory = getOptionalCategoryTypeByName(request.getName());
         if (optionalCategory.isPresent()) {
             throw new CategoryAlreadyExistException(request.getName());
         }
 
-        Category category = saveNewCategory(request.getName(), request.getDeadline());
-
-        return CategoryTypeDto.fromDao(category);
+        return saveNewCategory(request.getName(), request.getDeadline());
     }
 
     public Category saveNewCategory(String name, String deadline) {
@@ -68,12 +53,5 @@ public class CategoryService implements Backup<CategoryBackupDto> {
 
     private Category createCategory(Category category) {
         return categoryRepository.save(category);
-    }
-
-    @Override
-    public List<CategoryBackupDto> getBackup() {
-        return StreamSupport.stream(categoryRepository.findAll().spliterator(), false)
-                .map(CategoryBackupDto::fromDao)
-                .collect(Collectors.toList());
     }
 }

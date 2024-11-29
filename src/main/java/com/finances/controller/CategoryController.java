@@ -1,55 +1,45 @@
 package com.finances.controller;
 
-import com.finances.config.Response;
-import com.finances.dto.base.CategoryTypeDto;
-import com.finances.exception.exist.CategoryAlreadyExistException;
-import com.finances.exception.notfound.CategoryNotFoundException;
+import com.finances.advisor.Response;
+import com.finances.dto.base.CategoryDto;
+import com.finances.entity.Category;
+import com.finances.exception.exist.AlreadyExistException;
+import com.finances.exception.notfound.NotFoundException;
 import com.finances.request.CreateCategoryRequest;
 import com.finances.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.finances.wrapper.CategoryDtoWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@ControllerAdvice
+@RequiredArgsConstructor
 @RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-    @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final CategoryDtoWrapper categoryDtoWrapper;
 
     @GetMapping("getAllCategories")
-    @ResponseBody
-    public ResponseEntity<List<CategoryTypeDto>> getAllCategories() {
-        List<CategoryTypeDto> categories = categoryService.findAllCategories();
-        return new Response<List<CategoryTypeDto>>()
-                .ok(categories);
+    public @ResponseBody ResponseEntity<List<CategoryDto>> getAllCategories() {
+        List<Category> categories = categoryService.findAllCategories();
+
+        return new Response<List<CategoryDto>>().ok(categoryDtoWrapper.mapToDtos(categories));
     }
 
     @GetMapping("getCategoryById")
-    @ResponseBody
-    public ResponseEntity<CategoryTypeDto> getCategoryById(@RequestParam Long categoryId)
-            throws CategoryNotFoundException {
+    public @ResponseBody ResponseEntity<CategoryDto> getCategoryById(@RequestParam Long categoryId) throws NotFoundException {
+        Category category = categoryService.findCategoryDtoById(categoryId);
 
-        CategoryTypeDto categories = categoryService.findCategoryDtoById(categoryId);
-
-        return new Response<CategoryTypeDto>()
-                .ok(categories);
+        return new Response<CategoryDto>().ok(categoryDtoWrapper.mapToDto(category));
     }
 
     @PostMapping("/createCategory")
-    @ResponseBody
-    public ResponseEntity<CategoryTypeDto> createCategory(@RequestBody CreateCategoryRequest request)
-            throws CategoryAlreadyExistException {
-        CategoryTypeDto createdCategory = categoryService.createCategory(request);
+    public @ResponseBody ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryRequest request) throws AlreadyExistException {
+        Category createdCategory = categoryService.createCategory(request);
 
-        return new Response<CategoryTypeDto>()
-                .created(createdCategory);
+        return new Response<CategoryDto>().created(categoryDtoWrapper.mapToDto(createdCategory));
     }
 }

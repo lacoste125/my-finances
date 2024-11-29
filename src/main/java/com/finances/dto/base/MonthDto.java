@@ -1,24 +1,13 @@
 package com.finances.dto.base;
 
-import com.finances.entity.Month;
+
 import com.finances.enums.MonthType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class MonthDto {
-    private Long id;
-    private MonthType name;
-    private Integer order;
-
-    public static MonthDto fromDao(Month dao) {
-        return new MonthDto(
-                dao.getId(),
-                dao.getName(),
-                dao.getOrder()
-        );
-    }
+@Builder
+public record MonthDto(
+        Long id,
+        MonthType name,
+        Integer order
+) {
 }

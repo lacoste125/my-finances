@@ -1,9 +1,6 @@
 package com.finances.service;
 
-import com.finances.backup.Backup;
-import com.finances.dto.backup.PaymentsBackupDto;
 import com.finances.dto.base.CategoryDetailsDto;
-import com.finances.dto.base.CategoryTypeDto;
 import com.finances.dto.base.PaymentDto;
 import com.finances.entity.Category;
 import com.finances.entity.Month;
@@ -11,40 +8,28 @@ import com.finances.entity.Payment;
 import com.finances.entity.YearCategory;
 import com.finances.exception.bad.AmountIsEmptyException;
 import com.finances.exception.notfound.CategoryNotFoundException;
-import com.finances.exception.notfound.MonthNotFoundException;
-import com.finances.exception.notfound.YearCategoryNotFoundException;
+import com.finances.exception.notfound.NotFoundException;
 import com.finances.repository.PaymentRepository;
 import com.finances.request.AddPaymentRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.finances.wrapper.CategoryDtoWrapper;
+import com.finances.wrapper.PaymentDtoWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
-public class PaymentService implements Backup<PaymentsBackupDto> {
+@RequiredArgsConstructor
+public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final YearCategoryService yearCategoryService;
     private final MonthService monthService;
     private final CategoryService categoryService;
+    private final CategoryDtoWrapper categoryDtoWrapper;
+    private final PaymentDtoWrapper paymentDtoWrapper;
 
-    @Autowired
-    public PaymentService(
-            PaymentRepository paymentRepository,
-            YearCategoryService yearCategoryService,
-            MonthService monthService,
-            CategoryService categoryService
-    ) {
-        this.paymentRepository = paymentRepository;
-        this.yearCategoryService = yearCategoryService;
-        this.monthService = monthService;
-        this.categoryService = categoryService;
-    }
-
-    public PaymentDto addPayment(AddPaymentRequest requestBody)
-            throws YearCategoryNotFoundException, MonthNotFoundException, AmountIsEmptyException {
+    public Payment addPayment(AddPaymentRequest requestBody) throws NotFoundException, AmountIsEmptyException {
 
         if (requestBody.getAmount() == null || requestBody.getAmount() == 0) {
             throw new AmountIsEmptyException(requestBody.getAmount());
@@ -60,9 +45,8 @@ public class PaymentService implements Backup<PaymentsBackupDto> {
         payment.setDate(requestBody.getDate());
         payment.setComment(requestBody.getComment());
         payment.setValid(true);
-        Payment saved = paymentRepository.save(payment);
 
-        return PaymentDto.fromDao(saved);
+        return paymentRepository.save(payment);
     }
 
     public CategoryDetailsDto getCategoryPayments(Long categoryId) throws CategoryNotFoundException {
@@ -70,20 +54,12 @@ public class PaymentService implements Backup<PaymentsBackupDto> {
 
         List<PaymentDto> payments = paymentRepository.getCategoryPayments(categoryId)
                 .stream()
-                .map(PaymentDto::fromDao)
+                .map(paymentDtoWrapper::mapToDto)
                 .toList();
 
-        CategoryDetailsDto categoryDetails = new CategoryDetailsDto();
-        categoryDetails.setCategory(CategoryTypeDto.fromDao(category));
-        categoryDetails.setPayments(payments);
-
-        return categoryDetails;
-    }
-
-    @Override
-    public List<PaymentsBackupDto> getBackup() {
-        return StreamSupport.stream(paymentRepository.findAll().spliterator(), false)
-                .map(PaymentsBackupDto::fromDao)
-                .collect(Collectors.toList());
+        return CategoryDetailsDto.builder()
+                .category(categoryDtoWrapper.mapToDto(category))
+                .payments(payments)
+                .build();
     }
 }
