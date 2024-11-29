@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.PaymentDto;
+import com.finances.dto.PaymentDto;
 import com.finances.entity.Payment;
 import org.springframework.stereotype.Component;
 

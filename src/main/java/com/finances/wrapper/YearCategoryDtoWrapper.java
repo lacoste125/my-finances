@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.YearCategoryDto;
+import com.finances.dto.YearCategoryDto;
 import com.finances.entity.DisabledPayment;
 import com.finances.entity.Payment;
 import com.finances.entity.YearCategory;

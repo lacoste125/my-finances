@@ -32,11 +32,12 @@ public class BackupService {
                 "--result-file=" + filePath + " " +
                 "--databases " + request.getDatabaseName());
 
-        EmailMessage emailMessage = new EmailMessage();
-        emailMessage.setAttachment(new File(filePath));
-        emailMessage.setTo(request.getEmailTo());
-        emailMessage.setSubject("my-finances-app database dump: " + request.getDatabaseName());
-        emailMessage.setMessage("Backup bazy danych '" + request.getDatabaseName() + "' ");
+        EmailMessage emailMessage = EmailMessage.builder()
+                .attachment(new File(filePath))
+                .to(request.getEmailTo())
+                .subject("my-finances-app database dump: " + request.getDatabaseName())
+                .message("Backup bazy danych '" + request.getDatabaseName() + "' ")
+                .build();
 
         emailService.sendMailWithAttachment(emailMessage);
 

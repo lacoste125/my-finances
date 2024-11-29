@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.YearDto;
+import com.finances.dto.YearDto;
 import com.finances.entity.Year;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

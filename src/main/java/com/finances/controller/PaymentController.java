@@ -1,18 +1,18 @@
 package com.finances.controller;
 
 import com.finances.advisor.Response;
-import com.finances.dto.base.CategoryDetailsDto;
-import com.finances.dto.base.DisabledPaymentDto;
-import com.finances.dto.base.PaymentDto;
+import com.finances.dto.CategoryDetailsDto;
+import com.finances.dto.DisabledPaymentDto;
+import com.finances.dto.PaymentDto;
 import com.finances.entity.DisabledPayment;
 import com.finances.entity.Payment;
 import com.finances.exception.bad.AmountIsEmptyException;
-import com.finances.exception.notfound.CategoryNotFoundException;
 import com.finances.exception.notfound.NotFoundException;
 import com.finances.request.AddPaymentRequest;
 import com.finances.request.TogglePaymentRequest;
 import com.finances.service.DisabledPaymentService;
 import com.finances.service.PaymentService;
+import com.finances.wrapper.CategoryDetailsDtoWrapper;
 import com.finances.wrapper.DisabledPaymentDtoWrapper;
 import com.finances.wrapper.PaymentDtoWrapper;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,7 @@ public class PaymentController {
     private final DisabledPaymentService disabledPaymentService;
     private final PaymentDtoWrapper paymentDtoWrapper;
     private final DisabledPaymentDtoWrapper disabledPaymentDtoWrapper;
+    private final CategoryDetailsDtoWrapper categoryDetailsDtoWrapper;
 
     @PostMapping("/addPayment")
     public @ResponseBody ResponseEntity<PaymentDto> addPayment(@RequestBody AddPaymentRequest requestBody) throws NotFoundException, AmountIsEmptyException {
@@ -39,11 +40,10 @@ public class PaymentController {
     }
 
     @GetMapping("getCategoryPayments")
-    public @ResponseBody ResponseEntity<CategoryDetailsDto> getCategoryPayments(@RequestParam Long categoryId)
-            throws CategoryNotFoundException {
-        CategoryDetailsDto categoryPayments = paymentService.getCategoryPayments(categoryId);
+    public @ResponseBody ResponseEntity<CategoryDetailsDto> getCategoryPayments(@RequestParam Long categoryId) throws NotFoundException {
+        List<Payment> categoryPayments = paymentService.getCategoryPayments(categoryId);
 
-        return new Response<CategoryDetailsDto>().ok(categoryPayments);
+        return new Response<CategoryDetailsDto>().ok(categoryDetailsDtoWrapper.mapToDto(categoryPayments));
     }
 
     @PostMapping("/disablePayment")

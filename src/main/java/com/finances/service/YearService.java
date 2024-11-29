@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -36,16 +35,14 @@ public class YearService {
     }
 
     public Year findOrCreateYear(NewYearRequest request) {
-        Optional<Year> year = yearRepository.selectYearByYearNumber(request.getYear());
-
-        if (year.isPresent()) {
-            return year.get();
-        }
-
-        Year newYear = new Year();
-        newYear.setYearNumber(request.getYear());
-
-        return yearRepository.save(newYear);
+        return yearRepository.selectYearByYearNumber(request.getYear())
+                .orElseGet(
+                        () -> yearRepository.save(
+                                Year.builder()
+                                        .yearNumber(request.getYear())
+                                        .build()
+                        )
+                );
     }
 
     public Year createNextYear() {
@@ -55,9 +52,10 @@ public class YearService {
                 .orElseThrow(NoSuchElementException::new)
                 .getYearNumber();
 
-        Year year = new Year();
-        year.setYearNumber(++maxYear);
-
-        return yearRepository.save(year);
+        return yearRepository.save(
+                Year.builder()
+                        .yearNumber(++maxYear)
+                        .build()
+        );
     }
 }

@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.advisor.Response;
-import com.finances.dto.base.CategoryDto;
+import com.finances.dto.CategoryDto;
 import com.finances.entity.Category;
 import com.finances.exception.exist.AlreadyExistException;
 import com.finances.exception.notfound.NotFoundException;

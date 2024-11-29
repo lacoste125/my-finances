@@ -1,15 +1,13 @@
 package com.finances.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 import static com.finances.util.TableNaming.*;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor

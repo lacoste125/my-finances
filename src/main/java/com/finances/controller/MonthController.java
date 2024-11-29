@@ -1,7 +1,7 @@
 package com.finances.controller;
 
 import com.finances.advisor.Response;
-import com.finances.dto.base.MonthDto;
+import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
 import com.finances.service.MonthService;
 import com.finances.wrapper.MonthDtoWrapper;

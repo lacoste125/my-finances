@@ -22,11 +22,6 @@ public class MonthService {
                 .collect(Collectors.toList());
     }
 
-    public Month findById(Long id) throws MonthNotFoundException {
-        return monthRepository.findById(id)
-                .orElseThrow(() -> new MonthNotFoundException(id));
-    }
-
     public Month findByName(MonthType name) throws MonthNotFoundException {
         return monthRepository.findByName(name)
                 .orElseThrow(() -> new MonthNotFoundException(name));

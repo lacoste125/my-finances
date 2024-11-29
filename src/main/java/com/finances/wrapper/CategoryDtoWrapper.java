@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.CategoryDto;
+import com.finances.dto.CategoryDto;
 import com.finances.entity.Category;
 import org.springframework.stereotype.Component;
 

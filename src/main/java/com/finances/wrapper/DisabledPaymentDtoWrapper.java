@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.DisabledPaymentDto;
+import com.finances.dto.DisabledPaymentDto;
 import com.finances.entity.DisabledPayment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

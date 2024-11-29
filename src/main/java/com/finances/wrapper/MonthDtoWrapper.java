@@ -1,6 +1,6 @@
 package com.finances.wrapper;
 
-import com.finances.dto.base.MonthDto;
+import com.finances.dto.MonthDto;
 import com.finances.entity.Month;
 import org.springframework.stereotype.Component;
 

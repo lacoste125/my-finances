@@ -1,4 +1,4 @@
-package com.finances.dto.base;
+package com.finances.dto;
 
 import lombok.Builder;
 import org.springframework.core.io.InputStreamResource;

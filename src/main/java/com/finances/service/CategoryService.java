@@ -40,11 +40,13 @@ public class CategoryService {
     }
 
     public Category saveNewCategory(String name, String deadline) {
-        Category category = new Category();
-        category.setName(name);
-        category.setDeadline(deadline);
-        category.setValid(true);
-        return createCategory(category);
+        return createCategory(
+                Category.builder()
+                        .name(name)
+                        .deadline(deadline)
+                        .valid(true)
+                        .build()
+        );
     }
 
     public Optional<Category> getOptionalCategoryTypeByName(String name) {

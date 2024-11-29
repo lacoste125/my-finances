@@ -1,4 +1,4 @@
-package com.finances.dto.base;
+package com.finances.dto;
 
 
 import com.finances.enums.MonthType;
