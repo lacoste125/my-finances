@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+  database:
+    image: mariadb:10.5
+    container_name: my-finance-database
+    hostname: my-finance-database
+    restart: always
+    networks:
+      - my-finances-network
+    volumes:
+      - my-finance-test:/var/lib/mysql:Z
+    ports:
+      - "8088:3306"
+    env_file:
+      - ./.env
+
+  frontend:
+    build: ./frontend
+    container_name: my-finance-fe
+    hostname: my-finance-fe
+    networks:
+      - my-finances-network
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/my-finances-fe
+    depends_on:
+      - database
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: my-finance-api
+    hostname: my-finance-api
+    networks:
+      - my-finances-network
+    ports:
+      - "8181:8181"
+    env_file:
+      - ./.env
+    depends_on:
+      - database
+
+volumes:
+  my-finance-test:
+
+networks:
+  my-finances-network:
+    driver: bridge
