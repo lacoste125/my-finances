@@ -8,12 +8,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.10</version>
+        <version>3.4.0</version>
         <relativePath/>
     </parent>
 
     <groupId>com.finances</groupId>
-    <artifactId>my-finances-be</artifactId>
+    <artifactId>my-finances</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>my-finances-application</name>
 
@@ -77,12 +77,10 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.11.3</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>

@@ -1,15 +1,14 @@
 package com.finances.service;
 
 import com.finances.pojo.EmailMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 @Service("emailService")
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendMailWithAttachment(EmailMessage emailMessage) throws MessagingException {
+    public void sendMailWithAttachment(EmailMessage emailMessage) throws  MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

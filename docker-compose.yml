@@ -25,6 +25,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/usr/src/my-finances-fe
+    env_file:
+      - ./.env
     depends_on:
       - database
       - backend

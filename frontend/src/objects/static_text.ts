@@ -76,8 +76,8 @@ export class BACKUP_TEXT {
     static CREATE_DATABASE_BACKUP = "Utwórz kopię zapasową";
     static DATABASE_BACKUP = "Kopia zapasowa bazy danych";
     static FILE_NAME = (name: string) => `${name}_dump`;
-    static INITIAL_EMAIL = "mariusz.iwanski1@gmail.com";
-    static INITIAL_DATABASE_NAME = "produkcja_v1";
+    static INITIAL_EMAIL = "examle.user@gmail.com";
+    static INITIAL_DATABASE_NAME = "mi_test";
     static DATABASE_NAME = "Nazwa bazy danych:";
     static SEND_EMAIL_TO = "Wyślij e-mail do:";
     static FILE_NAME_TITLE = "Nazwa pliku:";

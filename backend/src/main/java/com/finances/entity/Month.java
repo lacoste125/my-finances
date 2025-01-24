@@ -1,12 +1,12 @@
 package com.finances.entity;
 
 import com.finances.enums.MonthType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import static com.finances.util.TableNaming.*;
 
 @Getter

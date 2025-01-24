@@ -3,11 +3,11 @@ package com.finances.controller;
 import com.finances.advisor.Response;
 import com.finances.request.CreateBackupRequest;
 import com.finances.service.BackupService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RestController

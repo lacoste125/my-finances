@@ -1,8 +1,7 @@
 package com.finances.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 
 import static com.finances.util.TableNaming.*;
 
