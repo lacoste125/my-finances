@@ -22,11 +22,9 @@ public class YearController {
     private final YearService yearService;
     private final YearDtoWrapper yearDtoWrapper;
 
-    @GetMapping("/getAllYears")
-    public @ResponseBody ResponseEntity<List<YearDto>> getAllYears() {
-        List<Year> years = yearService.findAllYears();
-
-        return new Response<List<YearDto>>().ok(yearDtoWrapper.mapToDtos(years));
+    @GetMapping
+    public @ResponseBody List<Integer> getYears() {
+        return yearService.getYearNumbers();
     }
 
     @GetMapping("/getYearByYearNumber")

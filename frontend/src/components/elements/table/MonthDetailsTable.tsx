@@ -18,44 +18,42 @@ export const MonthDetailsTable = (props: Props) => {
     const sortedPayments = props.payments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     const isAnyPaymentAvailable = props.payments.length
 
-    return (
-        <TableContainer component={Paper}>
-            <Table id={"month-payment-table"}>
-                <TableHead>
-                    <TableRow key={"tableHeader"}>
-                        <TableCell width={"9%"}>{STATIC_TEXT.LP}</TableCell>
-                        <TableCell width={"15%"}>{STATIC_TEXT.DATE}</TableCell>
-                        <TableCell width={"15%"}>{STATIC_TEXT.AMOUNT}</TableCell>
-                        <TableCell>{STATIC_TEXT.COMMENT}</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        isAnyPaymentAvailable ?
-                            sortedPayments.map(
-                                (payment: Payment, index: number): React.ReactElement => <TableRow
-                                    key={`PaymentDetail_${index}`}>
-                                    <TableCell scope="row">
-                                        {++index}
-                                    </TableCell>
-                                    <TableCell scope="row">
-                                        {payment.date}
-                                    </TableCell>
-                                    <TableCell scope="row">
-                                        {STATIC_TEXT.AMOUNT_ZL(payment.amount)}
-                                    </TableCell>
-                                    <TableCell scope="row">
-                                        {payment.comment}
-                                    </TableCell>
-                                </TableRow>
-                            ) : <TableRow>
-                                <TableCell align="center" colSpan={4}>
-                                    {STATIC_TEXT.NO_PAYMENT_THIS_MONTH_TEXT}
+    return <TableContainer component={Paper}>
+        <Table id={"month-payment-table"}>
+            <TableHead>
+                <TableRow key={"tableHeader"}>
+                    <TableCell width={"9%"}>{STATIC_TEXT.LP}</TableCell>
+                    <TableCell width={"15%"}>{STATIC_TEXT.DATE}</TableCell>
+                    <TableCell width={"15%"}>{STATIC_TEXT.AMOUNT}</TableCell>
+                    <TableCell>{STATIC_TEXT.COMMENT}</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {
+                    isAnyPaymentAvailable ?
+                        sortedPayments.map(
+                            (payment: Payment, index: number): React.ReactElement => <TableRow
+                                key={`PaymentDetail_${index}`}>
+                                <TableCell scope="row">
+                                    {++index}
+                                </TableCell>
+                                <TableCell scope="row">
+                                    {payment.date}
+                                </TableCell>
+                                <TableCell scope="row">
+                                    {STATIC_TEXT.AMOUNT_ZL(payment.amount)}
+                                </TableCell>
+                                <TableCell scope="row">
+                                    {payment.comment}
                                 </TableCell>
                             </TableRow>
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-};
+                        ) : <TableRow>
+                            <TableCell align="center" colSpan={4}>
+                                {STATIC_TEXT.NO_PAYMENT_THIS_MONTH_TEXT}
+                            </TableCell>
+                        </TableRow>
+                }
+            </TableBody>
+        </Table>
+    </TableContainer>
+}

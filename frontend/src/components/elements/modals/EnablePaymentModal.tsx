@@ -12,24 +12,22 @@ type Props = {
 };
 
 export const EnablePaymentModal = (props: Props) => {
-    return (
-        <Modal show={props.show} onHide={props.onClose} onEscapeKeyDown={props.onClose}>
-            <Modal.Header closeButton closeVariant={"white"} className={"dark_background"}>
-                <Modal.Title>
-                    {props.month}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className={"dark_background"}>
-                {STATIC_TEXT.CONFIRM_ENABLE_MONTH_PAYMENT}
-            </Modal.Body>
-            <Modal.Footer className={"dark_background"}>
-                <Button id={"close-modal-btn"} variant="secondary" onClick={props.onClose}>
-                    {STATIC_TEXT.ABORT}
-                </Button>
-                <Button id={"ok-modal-btn"} variant="success" onClick={props.onConfirmEnablePayment}>
-                    {STATIC_TEXT.CONFIRM}
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    )
+    return <Modal show={props.show} onHide={props.onClose} onEscapeKeyDown={props.onClose}>
+        <Modal.Header closeButton closeVariant={"white"} className={"dark_background"}>
+            <Modal.Title>
+                {props.month}
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={"dark_background"}>
+            {STATIC_TEXT.CONFIRM_ENABLE_MONTH_PAYMENT}
+        </Modal.Body>
+        <Modal.Footer className={"dark_background"}>
+            <Button id={"close-modal-btn"} variant="secondary" onClick={props.onClose}>
+                {STATIC_TEXT.ABORT}
+            </Button>
+            <Button id={"ok-modal-btn"} variant="success" onClick={props.onConfirmEnablePayment}>
+                {STATIC_TEXT.CONFIRM}
+            </Button>
+        </Modal.Footer>
+    </Modal>
 }

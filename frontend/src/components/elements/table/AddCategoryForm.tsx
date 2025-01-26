@@ -122,149 +122,147 @@ export const AddCategoryForm = (props: Props) => {
         .sort((a, b) => a.name.localeCompare(b.name))
     const isCreateNewCategoryButtonActive = categoryDeadline.length && newCategoryName.length;
 
-    return (
-        <>
-            <TableRow key={"tableHeader"}>
-                <TableCell>
-                    <Tooltip
-                        id={!props.addCategorySectionVisible ? "add-row-tooltip" : "hide-row-tooltip"}
-                        text={!props.addCategorySectionVisible ? STATIC_TEXT.ADD_ROW : STATIC_TEXT.HIDE}
-                        place={"right"}
-                        delay={2000}
-                        element={
-                            <IconButton
-                                id={"add-hide-row-btn"}
-                                aria-label="expand row"
-                                size="small"
-                                onClick={handlePlusCircleClick}
-                            >
-                                {!props.addCategorySectionVisible ? <ControlPointIcon htmlColor={"white"}/> :
-                                    <RemoveCircleOutlineIcon htmlColor={"white"}/>}
-                            </IconButton>
-                        }
-                    />
-                </TableCell>
-                <TableCell colSpan={13} height={60}/>
-            </TableRow>
-            {
-                props.addCategorySectionVisible &&
-                <TableRow>
-                    <TableCell/>
-                    <TableCell colSpan={14} height={"70px"}>
-                        {
-                            <Form>
-                                <Row className="align-items-center">
-                                    <Col xs="auto">
-                                        <Tooltip
-                                            id={"no-categories-tooltip"}
-                                            text={!categoriesDisplayedInDropdown?.length ? STATIC_TEXT.NO_CATEGORIES_IN_CONFIGURATION : ""}
-                                            place={"bottom"}
-                                            element={
-                                                <DropdownButton
-                                                    id="dropdown-category-list"
-                                                    variant="secondary"
-                                                    title={!selectedCategory ? STATIC_TEXT.CHOOSE_CATEGORY : selectedCategory!.name}
-                                                    data-bs-theme="dark"
-                                                    disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
-                                                    onSelect={(eventKey) => handleCategorySelection(eventKey)}
-                                                >
-                                                    {
-                                                        categoriesDisplayedInDropdown.map(categoryType =>
-                                                            <Dropdown.Item
-                                                                key={categoryType.id}
-                                                                eventKey={categoryType.id}
-                                                            >
-                                                                {categoryType.name}
-                                                            </Dropdown.Item>
-                                                        )
-                                                    }
-                                                </DropdownButton>
-                                            }
-                                        />
-                                    </Col>
-                                    {
-                                        selectedCategory && <Col xs="auto">
-                                            <Button
-                                                id={"add_existing_category"}
-                                                type="button"
-                                                onClick={handleClickAddCategoryToMontButton}
+    return <>
+        <TableRow key={"tableHeader"}>
+            <TableCell>
+                <Tooltip
+                    id={!props.addCategorySectionVisible ? "add-row-tooltip" : "hide-row-tooltip"}
+                    text={!props.addCategorySectionVisible ? STATIC_TEXT.ADD_ROW : STATIC_TEXT.HIDE}
+                    place={"right"}
+                    delay={2000}
+                    element={
+                        <IconButton
+                            id={"add-hide-row-btn"}
+                            aria-label="expand row"
+                            size="small"
+                            onClick={handlePlusCircleClick}
+                        >
+                            {!props.addCategorySectionVisible ? <ControlPointIcon htmlColor={"white"}/> :
+                                <RemoveCircleOutlineIcon htmlColor={"white"}/>}
+                        </IconButton>
+                    }
+                />
+            </TableCell>
+            <TableCell colSpan={13} height={60}/>
+        </TableRow>
+        {
+            props.addCategorySectionVisible &&
+            <TableRow>
+                <TableCell/>
+                <TableCell colSpan={14} height={"70px"}>
+                    {
+                        <Form>
+                            <Row className="align-items-center">
+                                <Col xs="auto">
+                                    <Tooltip
+                                        id={"no-categories-tooltip"}
+                                        text={!categoriesDisplayedInDropdown?.length ? STATIC_TEXT.NO_CATEGORIES_IN_CONFIGURATION : ""}
+                                        place={"bottom"}
+                                        element={
+                                            <DropdownButton
+                                                id="dropdown-category-list"
+                                                variant="secondary"
+                                                title={!selectedCategory ? STATIC_TEXT.CHOOSE_CATEGORY : selectedCategory!.name}
+                                                data-bs-theme="dark"
+                                                disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
+                                                onSelect={(eventKey) => handleCategorySelection(eventKey)}
                                             >
-                                                {STATIC_TEXT.ADD}
-                                            </Button>
-                                        </Col>
-                                    }
-                                    <Col xs="auto">
-                                        <Tooltip
-                                            id={"new_category_tooltip"}
-                                            text={!createCategorySectionVisible ? STATIC_TEXT.CLICK_TO_CREATE_NEW_CATEGORY : ""}
-                                            delay={1000}
-                                            place={"bottom"}
-                                            element={
-                                                <Form.Check
-                                                    type="checkbox"
-                                                    id="new_category_checkbox"
-                                                    label={STATIC_TEXT.NEW_CATEGORY}
-                                                    onClick={handleCreateCategoryCheckboxClick}
-                                                />
-                                            }
-                                        />
-                                    </Col>
-                                    {
-                                        createCategorySectionVisible &&
-                                        <>
-                                            <Col xs="auto">
-                                                <Form.Label htmlFor="category_name_input" visuallyHidden/>
-                                                <InputGroup>
-                                                    <InputGroup.Text>{STATIC_TEXT.NAME}</InputGroup.Text>
-                                                    <Form.Control
-                                                        id="category_name_input"
-                                                        placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
-                                                        className={"shadow-none"}
-                                                        onChange={event => handleCategoryNameChange(event)}
-                                                    />
-                                                </InputGroup>
-                                            </Col>
-                                            <Col xs="auto">
-                                                <Form.Label htmlFor="category_deadline_input" visuallyHidden/>
-                                                <InputGroup>
-                                                    <InputGroup.Text>
-                                                        {STATIC_TEXT.DEADLINE}
-                                                    </InputGroup.Text>
-                                                    <Form.Control
-                                                        id="category_deadline_input"
-                                                        placeholder={STATIC_TEXT.WRITE_DEADLINE}
-                                                        className={"shadow-none"}
-                                                        onChange={event => handleCategoryDeadlineChange(event)}
-                                                    />
-                                                </InputGroup>
-                                            </Col>
-                                            <Col xs="auto">
-                                                <Tooltip
-                                                    id={"create-new-category-tooltip"}
-                                                    text={!isCreateNewCategoryButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
-                                                    place={"bottom"}
-                                                    offset={19}
-                                                    element={
-                                                        <Button
-                                                            id={"create-new-category-btn"}
-                                                            variant={isCreateNewCategoryButtonActive ? "success" : "secondary"}
-                                                            type="button"
-                                                            onClick={handleClickCreateNewCategory}
-                                                            disabled={!isCreateNewCategoryButtonActive}
+                                                {
+                                                    categoriesDisplayedInDropdown.map(categoryType =>
+                                                        <Dropdown.Item
+                                                            key={categoryType.id}
+                                                            eventKey={categoryType.id}
                                                         >
-                                                            {STATIC_TEXT.CREATE}
-                                                        </Button>
-                                                    }
+                                                            {categoryType.name}
+                                                        </Dropdown.Item>
+                                                    )
+                                                }
+                                            </DropdownButton>
+                                        }
+                                    />
+                                </Col>
+                                {
+                                    selectedCategory && <Col xs="auto">
+                                        <Button
+                                            id={"add_existing_category"}
+                                            type="button"
+                                            onClick={handleClickAddCategoryToMontButton}
+                                        >
+                                            {STATIC_TEXT.ADD}
+                                        </Button>
+                                    </Col>
+                                }
+                                <Col xs="auto">
+                                    <Tooltip
+                                        id={"new_category_tooltip"}
+                                        text={!createCategorySectionVisible ? STATIC_TEXT.CLICK_TO_CREATE_NEW_CATEGORY : ""}
+                                        delay={1000}
+                                        place={"bottom"}
+                                        element={
+                                            <Form.Check
+                                                type="checkbox"
+                                                id="new_category_checkbox"
+                                                label={STATIC_TEXT.NEW_CATEGORY}
+                                                onClick={handleCreateCategoryCheckboxClick}
+                                            />
+                                        }
+                                    />
+                                </Col>
+                                {
+                                    createCategorySectionVisible &&
+                                    <>
+                                        <Col xs="auto">
+                                            <Form.Label htmlFor="category_name_input" visuallyHidden/>
+                                            <InputGroup>
+                                                <InputGroup.Text>{STATIC_TEXT.NAME}</InputGroup.Text>
+                                                <Form.Control
+                                                    id="category_name_input"
+                                                    placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
+                                                    className={"shadow-none"}
+                                                    onChange={event => handleCategoryNameChange(event)}
                                                 />
-                                            </Col>
-                                        </>
-                                    }
-                                </Row>
-                            </Form>
-                        }
-                    </TableCell>
-                </TableRow>
-            }
-        </>
-    );
-};
+                                            </InputGroup>
+                                        </Col>
+                                        <Col xs="auto">
+                                            <Form.Label htmlFor="category_deadline_input" visuallyHidden/>
+                                            <InputGroup>
+                                                <InputGroup.Text>
+                                                    {STATIC_TEXT.DEADLINE}
+                                                </InputGroup.Text>
+                                                <Form.Control
+                                                    id="category_deadline_input"
+                                                    placeholder={STATIC_TEXT.WRITE_DEADLINE}
+                                                    className={"shadow-none"}
+                                                    onChange={event => handleCategoryDeadlineChange(event)}
+                                                />
+                                            </InputGroup>
+                                        </Col>
+                                        <Col xs="auto">
+                                            <Tooltip
+                                                id={"create-new-category-tooltip"}
+                                                text={!isCreateNewCategoryButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
+                                                place={"bottom"}
+                                                offset={19}
+                                                element={
+                                                    <Button
+                                                        id={"create-new-category-btn"}
+                                                        variant={isCreateNewCategoryButtonActive ? "success" : "secondary"}
+                                                        type="button"
+                                                        onClick={handleClickCreateNewCategory}
+                                                        disabled={!isCreateNewCategoryButtonActive}
+                                                    >
+                                                        {STATIC_TEXT.CREATE}
+                                                    </Button>
+                                                }
+                                            />
+                                        </Col>
+                                    </>
+                                }
+                            </Row>
+                        </Form>
+                    }
+                </TableCell>
+            </TableRow>
+        }
+    </>
+}

@@ -19,6 +19,12 @@ public class YearService {
 
     private final YearRepository yearRepository;
 
+    public List<Integer> getYearNumbers() {
+        return findAllYears().stream()
+                .map(Year::getYearNumber)
+                .toList();
+    }
+
     public List<Year> findAllYears() {
         return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());

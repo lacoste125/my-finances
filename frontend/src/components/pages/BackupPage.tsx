@@ -1,12 +1,8 @@
 import * as React from "react";
-import {
-    CREATE,
-    CREATE_DATABASE_BACKUP_API_PATH,
-    NotificationDetails
-} from "../../utils/api.actions";
+import {ChangeEvent, useState} from "react";
+import {CREATE, CREATE_DATABASE_BACKUP_API_PATH, NotificationDetails} from "../../utils/api.actions";
 import {Form, Stack} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {ChangeEvent, useState} from "react";
 import {BACKUP_TEXT} from "../../objects/static_text";
 import {CreateDatabaseBackupRequestBody} from "../../objects/request.type";
 
@@ -63,74 +59,72 @@ export const BackupPage = (props: Props) => {
 
     const isCreateBackupButtonEnabled = !!path && !!databaseName && !!fileName && !!emailTo;
 
-    return (
-        <div>
-            <Stack id={"admin_backup"}>
-                <h1>
-                    {BACKUP_TEXT.DATABASE_BACKUP}
-                </h1>
-                <Stack>
-                    <Form.Label htmlFor="inputPath">{BACKUP_TEXT.PATH}</Form.Label>
-                    <Form.Control
-                        id="inputPath"
-                        onChange={event => handlePathChange(event)}
-                        value={path}
-                    />
-                    <Form.Text>
-                        {BACKUP_TEXT.WRITE_PATH}
-                    </Form.Text>
-                </Stack>
-                <br/>
-                <Stack>
-                    <Form.Label htmlFor="inputDatabaseName">{BACKUP_TEXT.DATABASE_NAME}</Form.Label>
-                    <Form.Control
-                        id="inputDatabaseName"
-                        value={databaseName}
-                        onChange={event => handleDatabaseNameChange(event)}
-                    />
-                    <Form.Text>
-                        {BACKUP_TEXT.WRITE_DATABASE}
-                    </Form.Text>
-                </Stack>
-                <br/>
-                <Stack>
-                    <Form.Label htmlFor="inputEmailTo">{BACKUP_TEXT.SEND_EMAIL_TO}</Form.Label>
-                    <Form.Control
-                        id="inputEmailTo"
-                        value={emailTo}
-                        onChange={event => handleEmailToChange(event)}
-                    />
-                    <Form.Text>
-                        {BACKUP_TEXT.WRITE_EMAIL}
-                    </Form.Text>
-                </Stack>
-                <br/>
-                <Stack>
-                    <Form.Label htmlFor="inputFileName">{BACKUP_TEXT.FILE_NAME_TITLE}</Form.Label>
-                    <Form.Control
-                        id="inputFileName"
-                        disabled={true}
-                        value={fileName}
-                    />
-                    <Form.Text>
-                        {BACKUP_TEXT.BACKUP_FILE_NAME}
-                    </Form.Text>
-                </Stack>
-                <br/>
-                <Stack direction="horizontal" gap={3}>
-                    <Button
-                        className="ms-auto"
-                        id="create_backup_button"
-                        variant="success"
-                        disabled={!isCreateBackupButtonEnabled}
-                        onClick={handleSubmitClick}
-                    >
-                        {BACKUP_TEXT.CREATE_DATABASE_BACKUP}
-                    </Button>
-                </Stack>
+    return <div>
+        <Stack id={"admin_backup"}>
+            <h1>
+                {BACKUP_TEXT.DATABASE_BACKUP}
+            </h1>
+            <Stack>
+                <Form.Label htmlFor="inputPath">{BACKUP_TEXT.PATH}</Form.Label>
+                <Form.Control
+                    id="inputPath"
+                    onChange={event => handlePathChange(event)}
+                    value={path}
+                />
+                <Form.Text>
+                    {BACKUP_TEXT.WRITE_PATH}
+                </Form.Text>
             </Stack>
-        </div>
-    );
+            <br/>
+            <Stack>
+                <Form.Label htmlFor="inputDatabaseName">{BACKUP_TEXT.DATABASE_NAME}</Form.Label>
+                <Form.Control
+                    id="inputDatabaseName"
+                    value={databaseName}
+                    onChange={event => handleDatabaseNameChange(event)}
+                />
+                <Form.Text>
+                    {BACKUP_TEXT.WRITE_DATABASE}
+                </Form.Text>
+            </Stack>
+            <br/>
+            <Stack>
+                <Form.Label htmlFor="inputEmailTo">{BACKUP_TEXT.SEND_EMAIL_TO}</Form.Label>
+                <Form.Control
+                    id="inputEmailTo"
+                    value={emailTo}
+                    onChange={event => handleEmailToChange(event)}
+                />
+                <Form.Text>
+                    {BACKUP_TEXT.WRITE_EMAIL}
+                </Form.Text>
+            </Stack>
+            <br/>
+            <Stack>
+                <Form.Label htmlFor="inputFileName">{BACKUP_TEXT.FILE_NAME_TITLE}</Form.Label>
+                <Form.Control
+                    id="inputFileName"
+                    disabled={true}
+                    value={fileName}
+                />
+                <Form.Text>
+                    {BACKUP_TEXT.BACKUP_FILE_NAME}
+                </Form.Text>
+            </Stack>
+            <br/>
+            <Stack direction="horizontal" gap={3}>
+                <Button
+                    className="ms-auto"
+                    id="create_backup_button"
+                    variant="success"
+                    disabled={!isCreateBackupButtonEnabled}
+                    onClick={handleSubmitClick}
+                >
+                    {BACKUP_TEXT.CREATE_DATABASE_BACKUP}
+                </Button>
+            </Stack>
+        </Stack>
+    </div>
 };
 
 export default BackupPage;

@@ -87,4 +87,4 @@ export const CategoryDetailsRow = (props: Props) => {
             </Collapse>
         </TableCell>
     </TableRow>
-};
+}

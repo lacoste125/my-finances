@@ -28,7 +28,7 @@ type Props = {
     setNotificationDetails: (value?: NotificationDetails) => void,
     open: boolean,
     isLastRow: boolean
-};
+}
 
 export const MyPaymentTableCell = (props: Props) => {
     const [paymentDetailModalVisible, setPaymentDetailModalVisible] = React.useState<boolean>(false);
@@ -95,15 +95,15 @@ export const MyPaymentTableCell = (props: Props) => {
             monthName: props.monthType,
             yearCategoryId: props.yearCategory.id,
             comment: comment
-        };
+        }
 
         await CREATE(
             DISABLE_PAYMENT_API_PATH,
             body,
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_PAYMENT_BLOCKED
-        );
-    };
+        )
+    }
 
     const enablePayment = async () => {
         const body: EnablePaymentRequestBody = {
