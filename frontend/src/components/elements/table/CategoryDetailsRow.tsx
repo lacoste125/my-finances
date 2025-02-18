@@ -78,7 +78,9 @@ export const CategoryDetailsRow = (props: Props) => {
                                     {STATIC_TEXT.ALL_YEARS_SUM}
                                 </TableCell>
                                 <TableCell className={"border-top border-bottom-0"} align="right">
-                                    {STATIC_TEXT.AMOUNT_ZL(sum)}
+                                    {
+                                        STATIC_TEXT.AMOUNT_ZL(sum.toFixed(2))
+                                    }
                                 </TableCell>
                             </TableRow>
                         </TableBody>

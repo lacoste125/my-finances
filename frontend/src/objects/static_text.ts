@@ -3,7 +3,7 @@ export class STATIC_TEXT {
     static NO_CATEGORIES_IN_YEAR = (yearNumber?: number) => `Year ${yearNumber} does not contain any category. Please add a new one.`;
     static PAYMENT_MODAL_TITLE = (year: number, month: string, category: string) => `${year} : ${month}  - ${category}`;
     static COPYRIGHT_BY_MARIUSZ_FOOTER = (year: number) => `ⓒ Copyright by Mariusz ${year}`;
-    static AMOUNT_ZL = (amount: number) => `${amount} ${STATIC_TEXT.ZL}`;
+    static AMOUNT_ZL = (amount: string | number) => `${amount} ${STATIC_TEXT.ZL}`;
 
     static PAYMENT_DISABLED_CLICK_TO_CHANGE = 'Płatność w tym miesiącu została wyłączona. Kliknij aby zmienić konfigurację';
     static CONFIRM_DISABLE_MONTH_PAYMENT = 'Czy na pewno chcesz wyłączyć płatność w tym miesiącu?';

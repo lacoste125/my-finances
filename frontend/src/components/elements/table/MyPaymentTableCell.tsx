@@ -36,24 +36,28 @@ export const MyPaymentTableCell = (props: Props) => {
     const [enablePaymentModalVisible, setEnableModalVisible] = React.useState<boolean>(false);
     const [iconColor, setIconColor] = React.useState<string>("#2b2b2b");
 
-    const monthPayments: Payment[] = props.payments
-        .filter((payment: Payment): boolean => payment.month === props.monthType);
+    const monthPayments: Payment[] = props.payments.filter(
+        (payment: Payment): boolean => payment.month === props.monthType
+    );
 
     let monthSum: number = 0;
-    monthPayments.forEach((payment: Payment) => monthSum += payment.amount);
+    monthPayments.forEach(
+        (payment: Payment): number => monthSum += payment.amount
+    );
 
     const paymentsWord: string = monthPayments.length === 1 ? STATIC_TEXT.PAYMENT : STATIC_TEXT.PAYMENTS;
 
     const isThisMonthDisabled: boolean = props.disabledPayments
         .map(
-            (disabledPayment: DisabledPayment) => disabledPayment.month.name
+            (disabledPayment: DisabledPayment): MonthType => disabledPayment.month.name
         )
         .includes(props.monthType);
 
     const disabledPaymentComment = (month: MonthType) => {
         return props.disabledPayments.find(
-            (dp: DisabledPayment): boolean => dp.month.name === month)
-    }
+            (dp: DisabledPayment): boolean => dp.month.name === month
+        )
+    };
 
     const tooltipId: string = "tooltip_" + props.monthType + "_" + props.yearCategory.id
 

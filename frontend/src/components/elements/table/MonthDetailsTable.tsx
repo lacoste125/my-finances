@@ -15,8 +15,11 @@ type Props = {
 
 export const MonthDetailsTable = (props: Props) => {
 
-    const sortedPayments = props.payments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    const isAnyPaymentAvailable = props.payments.length
+    const sortedPayments: Payment[] = props.payments.sort(
+        (a: Payment, b: Payment): number => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    const isAnyPaymentAvailable: number = props.payments.length;
 
     return <TableContainer component={Paper}>
         <Table id={"month-payment-table"}>
