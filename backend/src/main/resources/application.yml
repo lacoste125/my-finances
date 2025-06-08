@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://${DB_SERVER}:${DB_PORT};database=${DB_NAME};
+      encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+    show-sql: ${DB_SHOW_SQL:false}
+    hibernate:
+      ddl-auto: ${DDL_AUTO:none}
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    format:
+      date-time: iso
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_EMAIL}
+    password: ${GMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${SERVER_PORT:8181}
+  servlet:
+    context-path: ${SERVER_CONTEXT:/}
+
+swagger:
+  pattern: "/**"
+  allowed:
+    methods: "GET,PUT,POST,PATCH,DELETE,OPTIONS"
+    origins: "http://localhost:${SERVER_PORT}${SERVER_CONTEXT},http://localhost:3000,http://my-finance-fe:3000"

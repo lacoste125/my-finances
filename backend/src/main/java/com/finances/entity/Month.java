@@ -14,7 +14,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = MONTH, schema = PRIV)
+@Table(name = MONTH, schema = DATA)
 public class Month {
 
     @Id

@@ -13,7 +13,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = YEAR, schema = PRIV)
+@Table(name = YEAR, schema = DATA)
 public class Year implements Comparable<Year> {
 
     @Id

@@ -15,7 +15,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = DISABLED_PAYMENTS, schema = PRIV)
+@Table(name = DISABLED_PAYMENTS, schema = DATA)
 @EntityListeners(AuditingEntityListener.class)
 public class DisabledPayment {
 

@@ -13,7 +13,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = YEAR_CATEGORY, schema = PRIV)
+@Table(name = YEAR_CATEGORY, schema = DATA)
 public class YearCategory {
 
     @Id

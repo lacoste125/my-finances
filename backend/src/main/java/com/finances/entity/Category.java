@@ -11,7 +11,7 @@ import static com.finances.util.TableNaming.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = CATEGORY, schema = PRIV)
+@Table(name = CATEGORY, schema = DATA)
 public class Category {
 
     @Id
