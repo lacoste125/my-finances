@@ -28,13 +28,6 @@ export interface TogglePaymentRequestBody extends RequestBody {
     comment?: string
 }
 
-export interface CreateDatabaseBackupRequestBody extends RequestBody {
-    databaseName: string,
-    emailTo: string,
-    fileName: string,
-    fileResource: string
-}
-
 export interface EnablePaymentRequestBody extends RequestBody {
     monthName: string,
     yearCategoryId: number

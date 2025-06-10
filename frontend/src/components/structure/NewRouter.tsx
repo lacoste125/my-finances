@@ -7,7 +7,6 @@ import {GET, NotificationDetails, YEARS} from "../../utils/api.actions";
 import React, {useEffect, useState} from "react";
 import HomePage from "../pages/HomePage";
 import PaymentsPage from "../pages/PaymentsPage";
-import BackupPage from "../pages/BackupPage";
 
 type Props = {
     setNotificationDetails: (value?: NotificationDetails) => void
@@ -24,12 +23,10 @@ export const NewRouter = (props: Props) => {
 
     return <BrowserRouter>
         <Container id="header_container" maxWidth="xl">
-            <Stack id="title">{STATIC_TEXT.MY_FINANCES_APP}</Stack>
-            <Navbar
-                sticky="top"
-                expand="md"
-                fixed="top"
-            >
+            <Stack id="title">
+                {STATIC_TEXT.MY_FINANCES_APP}
+            </Stack>
+            <Navbar sticky="top" expand="md" fixed="top">
                 <Stack>
                     <Navbar.Toggle/>
                     <Navbar.Collapse>
@@ -40,9 +37,6 @@ export const NewRouter = (props: Props) => {
                             <Link className="nav_link" to={Pages.PAYMENTS_PAGE.link}>
                                 {Pages.PAYMENTS_PAGE.name}
                             </Link>
-                            <Link className="nav_link" to={Pages.BACKUP_PAGE.link}>
-                                {Pages.BACKUP_PAGE.name}
-                            </Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Stack>
@@ -50,13 +44,9 @@ export const NewRouter = (props: Props) => {
         </Container>
         <Container id="body_container" maxWidth="xl">
             <Routes>
+                <Route key="Route_Home_page" path={Pages.HOME_PAGE.link} element={<HomePage/>}/>
                 <Route
-                    key={`Route_Home_page`}
-                    path={Pages.HOME_PAGE.link}
-                    element={<HomePage/>}
-                />
-                <Route
-                    key={`Route_payments`}
+                    key="Route_payments"
                     path={Pages.PAYMENTS_PAGE.link}
                     element={
                         <PaymentsPage
@@ -65,11 +55,6 @@ export const NewRouter = (props: Props) => {
                             setYearNumbers={setYearNumbers}
                         />
                     }
-                />
-                <Route
-                    key={`Route_backup`}
-                    path={Pages.BACKUP_PAGE.link}
-                    element={<BackupPage setNotificationDetails={props.setNotificationDetails}/>}
                 />
             </Routes>
         </Container>

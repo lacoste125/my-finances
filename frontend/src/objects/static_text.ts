@@ -64,22 +64,3 @@ export class STATIC_TEXT {
 export class FORMAT_TEXT {
     static DATE_FORMAT = 'yyyy-MM-dd'
 }
-
-export class BACKUP_TEXT {
-    static WRITE_EMAIL = "Wpisz adres email na który ma zostać wysłany plik z kopią zapasową bazy danych.";
-    static BACKUP_FILE_NAME = "Nazwa pliku który będzie zawierał kopię zapasową Twojej bazy danych. " +
-        "Nazwa generowana jest automatycznie na podstawie nazwy bazy danych.";
-    static WRITE_DATABASE = "Wpisz nazwę bazy danych dla której chcesz stworzyć kopię zapasową.";
-    static WRITE_PATH = "Wskaż ścieżkę do której zapisać kopię zapasową bazy danych.";
-    static INITIAL_FILE_PATH = "C:\\Users\\mariu\\OneDrive\\Pulpit\\Myszon\\BACKUP";
-    static SUCCESS_CREATE_BACKUP = "Kopia zapasowa wykonana prawidłowo.";
-    static CREATE_DATABASE_BACKUP = "Utwórz kopię zapasową";
-    static DATABASE_BACKUP = "Kopia zapasowa bazy danych";
-    static FILE_NAME = (name: string) => `${name}_dump`;
-    static INITIAL_EMAIL = "mariusz.iwanski1@gmail.com";
-    static INITIAL_DATABASE_NAME = "produkcja_v1";
-    static DATABASE_NAME = "Nazwa bazy danych:";
-    static SEND_EMAIL_TO = "Wyślij e-mail do:";
-    static FILE_NAME_TITLE = "Nazwa pliku:";
-    static PATH = "Ścieżka:";
-}

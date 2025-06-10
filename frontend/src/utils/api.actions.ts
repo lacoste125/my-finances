@@ -12,7 +12,6 @@ export const CREATE_NEXT_YEAR_API_PATH = "years/createNextYear";
 export const GET_CATEGORY_PAYMENTS_BY_ID_API_PATH = (categoryId: number) => `payments/getCategoryPayments?categoryId=${categoryId}`
 export const DISABLE_PAYMENT_API_PATH = "payments/disablePayment"
 export const ENABLE_PAYMENT_API_PATH = "payments/enablePayment"
-export const CREATE_DATABASE_BACKUP_API_PATH = "backup/createDatabaseBackup";
 
 export interface NotificationDetails {
     variant: "danger" | "success",
