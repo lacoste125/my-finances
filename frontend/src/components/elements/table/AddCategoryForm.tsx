@@ -137,8 +137,10 @@ export const AddCategoryForm = (props: Props) => {
                             size="small"
                             onClick={handlePlusCircleClick}
                         >
-                            {!props.addCategorySectionVisible ? <ControlPointIcon htmlColor={"white"}/> :
-                                <RemoveCircleOutlineIcon htmlColor={"white"}/>}
+                            {
+                                !props.addCategorySectionVisible ? <ControlPointIcon htmlColor={"white"}/> :
+                                    <RemoveCircleOutlineIcon htmlColor={"white"}/>
+                            }
                         </IconButton>
                     }
                 />
@@ -168,13 +170,11 @@ export const AddCategoryForm = (props: Props) => {
                                                 onSelect={(eventKey) => handleCategorySelection(eventKey)}
                                             >
                                                 {
-                                                    categoriesDisplayedInDropdown.map(categoryType =>
-                                                        <Dropdown.Item
-                                                            key={categoryType.id}
-                                                            eventKey={categoryType.id}
-                                                        >
-                                                            {categoryType.name}
-                                                        </Dropdown.Item>
+                                                    categoriesDisplayedInDropdown.map(
+                                                        (categoryType: CategoryType) =>
+                                                            <Dropdown.Item key={categoryType.id}>
+                                                                {categoryType.name}
+                                                            </Dropdown.Item>
                                                     )
                                                 }
                                             </DropdownButton>
@@ -212,7 +212,7 @@ export const AddCategoryForm = (props: Props) => {
                                     createCategorySectionVisible &&
                                     <>
                                         <Col xs="auto">
-                                            <Form.Label htmlFor="category_name_input" visuallyHidden/>
+                                            <Form.Label htmlFor="category_name_input" visuallyHidden column={"sm"}/>
                                             <InputGroup>
                                                 <InputGroup.Text>{STATIC_TEXT.NAME}</InputGroup.Text>
                                                 <Form.Control
@@ -224,7 +224,7 @@ export const AddCategoryForm = (props: Props) => {
                                             </InputGroup>
                                         </Col>
                                         <Col xs="auto">
-                                            <Form.Label htmlFor="category_deadline_input" visuallyHidden/>
+                                            <Form.Label htmlFor="category_deadline_input" visuallyHidden column={"sm"}/>
                                             <InputGroup>
                                                 <InputGroup.Text>
                                                     {STATIC_TEXT.DEADLINE}

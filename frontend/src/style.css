@@ -214,3 +214,8 @@ input {
     color: var(--light_text_color) !important;
     font-weight: bold;
 }
+
+.dropdown-menu {
+    max-height: 220px;
+    overflow-y: auto;
+}

@@ -7,11 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {MonthType, Year, YearCategory} from "../../../objects/payment.type";
 import {MyCategoryTableRow} from "./MyCategoryTableRow";
-import {
-    GET,
-    GET_YEAR_BY_YEAR_NUMBER_API_PATH,
-    NotificationDetails
-} from "../../../utils/api.actions";
+import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH, NotificationDetails} from "../../../utils/api.actions";
 import {STATIC_TEXT} from "../../../objects/static_text";
 import {AddCategoryForm} from "./AddCategoryForm";
 
