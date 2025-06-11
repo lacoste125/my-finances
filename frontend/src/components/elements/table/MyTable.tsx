@@ -76,13 +76,16 @@ export default function MyTable(props: Props) {
                             </TableCell>
                         </TableRow>
                 }
-                <AddCategoryForm
-                    year={props.year}
-                    setYear={props.setYear}
-                    setNotificationDetails={props.setNotificationDetails}
-                    addCategorySectionVisible={props.addCategorySectionVisible}
-                    setAddCategorySectionVisible={props.setAddCategorySectionVisible}
-                />
+                {
+                    !!props.year && props.year.name === new Date().getFullYear().valueOf() &&
+                    <AddCategoryForm
+                        year={props.year}
+                        setYear={props.setYear}
+                        setNotificationDetails={props.setNotificationDetails}
+                        addCategorySectionVisible={props.addCategorySectionVisible}
+                        setAddCategorySectionVisible={props.setAddCategorySectionVisible}
+                    />
+                }
             </TableBody>
         </Table>
     );
