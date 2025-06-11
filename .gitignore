@@ -36,3 +36,4 @@ build/
 /.mvn/wrapper/maven-wrapper.jar
 /frontend/node_modules/
 .env
+/node_modules/
