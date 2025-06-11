@@ -1,13 +1,12 @@
 import * as React from "react";
 
 import {PlacesType, Tooltip as ReactTooltip} from 'react-tooltip'
-import {ReactJSXElement} from "@emotion/react/types/jsx-namespace";
 
 type Props = {
     id: string,
     text: string,
     place: PlacesType,
-    element: ReactJSXElement,
+    element: React.ReactNode,
     noArrow?: boolean,
     offset?: number,
     delay?: number

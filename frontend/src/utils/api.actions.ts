@@ -1,4 +1,3 @@
-import {RequestBody} from "../objects/request.type";
 import {getDateFromString} from "./util.action";
 
 const BASE_API_PATH = (apiPath: string) => `http://localhost:8181/api/${apiPath}`;
@@ -32,7 +31,7 @@ export const GET = async (onSuccess: (resp: any) => void, apiPath: string
 
 export const CREATE = async (
     apiPath: string,
-    requestBody: RequestBody,
+    requestBody: any,
     setNotificationDetails: (value?: NotificationDetails) => void,
     successText: string,
     method?: "POST" | "PUT"
