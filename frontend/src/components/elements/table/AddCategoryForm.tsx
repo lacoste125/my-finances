@@ -177,7 +177,10 @@ export const AddCategoryForm = (props: Props) => {
                                                 {
                                                     categoriesDisplayedInDropdown.map(
                                                         (categoryType: CategoryType) =>
-                                                            <Dropdown.Item key={categoryType.id}>
+                                                            <Dropdown.Item
+                                                                key={categoryType.id}
+                                                                eventKey={categoryType.id}
+                                                            >
                                                                 {categoryType.name}
                                                             </Dropdown.Item>
                                                     )

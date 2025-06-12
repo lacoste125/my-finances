@@ -174,8 +174,8 @@ input {
 }
 
 .dropdown-menu {
-    height: 400px;
-    overflow-y: scroll;
+    max-height: 220px;
+    overflow-y: auto;
 }
 
 #empty-year {
@@ -213,9 +213,4 @@ input {
     border-radius: 5px;
     color: var(--light_text_color) !important;
     font-weight: bold;
-}
-
-.dropdown-menu {
-    max-height: 220px;
-    overflow-y: auto;
 }
