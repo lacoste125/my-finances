@@ -15,10 +15,10 @@ type Props = {
 
 export const CategoryDetailsRow = (props: Props) => {
     const yearFilteredPayments: Payment[] | undefined = props.categoryDetails?.payments?.filter(
-        (payment: Payment): boolean => payment.year === props.year)
+        (payment: Payment): boolean => payment.year === props.year);
 
     let sum: number = 0;
-    props.categoryDetails?.payments.forEach((payment: Payment) => sum += payment.amount)
+    props.categoryDetails?.payments.forEach((payment: Payment) => sum += payment.amount);
 
     return <TableRow>
         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={9} className={"border-0"}>
@@ -88,5 +88,5 @@ export const CategoryDetailsRow = (props: Props) => {
                 </Box>
             </Collapse>
         </TableCell>
-    </TableRow>
-}
+    </TableRow>;
+};

@@ -42,16 +42,16 @@ export const AddCategoryForm = (props: Props) => {
             GET(setAllCategoryTypes, GET_ALL_CATEGORIES_API_PATH).then();
         }
 
-        props.setAddCategorySectionVisible(!props.addCategorySectionVisible)
-        setCreateCategorySectionVisible(false)
-        setSelectedCategory(undefined)
+        props.setAddCategorySectionVisible(!props.addCategorySectionVisible);
+        setCreateCategorySectionVisible(false);
+        setSelectedCategory(undefined);
     };
 
     const handleCreateCategoryCheckboxClick = () => {
         setCreateCategorySectionVisible(!createCategorySectionVisible);
-        setSelectedCategory(undefined)
-        setNewCategoryName("")
-        setCategoryDeadline("")
+        setSelectedCategory(undefined);
+        setNewCategoryName("");
+        setCategoryDeadline("");
     };
 
     function handleCategorySelection(key: string | null) {
@@ -61,18 +61,23 @@ export const AddCategoryForm = (props: Props) => {
     }
 
     function handleClickAddCategoryToMontButton() {
-        hideFormAndRefresh(addCategoryToYear())
+        hideFormAndRefresh(addCategoryToYear());
     }
 
     const handleClickCreateNewCategory = () => {
-        hideFormAndRefresh(createNewCategoryAndAddToYear())
+        hideFormAndRefresh(createNewCategoryAndAddToYear());
     };
 
-    const hideFormAndRefresh = (operation: Promise<any>) => {
+    const hideFormAndRefresh = (operation: Promise<unknown>) => {
         operation
             .then(handlePlusCircleClick)
-            .then(() => GET(props.setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(props.year!.name)));
-    }
+            .then(
+                () => GET(
+                    props.setYear,
+                    GET_YEAR_BY_YEAR_NUMBER_API_PATH(props.year!.name)
+                )
+            );
+    };
 
     const handleCategoryNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (event) {
@@ -90,14 +95,14 @@ export const AddCategoryForm = (props: Props) => {
         const body: AddCategoryToYearRequestBody = {
             yearId: props.year?.id,
             categoryId: selectedCategory?.id
-        }
+        };
 
         await CREATE(
             ADD_CATEGORY_TO_YEAR_API_PATH,
             body,
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_ADD_CATEGORY
-        )
+        );
     };
 
     const createNewCategoryAndAddToYear = async () => {
@@ -105,7 +110,7 @@ export const AddCategoryForm = (props: Props) => {
             name: newCategoryName,
             deadline: categoryDeadline,
             yearNumber: props.year!.name
-        }
+        };
 
         await CREATE(
             CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
@@ -119,7 +124,7 @@ export const AddCategoryForm = (props: Props) => {
     const yearCategories = props.year?.categories?.map(cat => cat.categoryType);
     const categoriesDisplayedInDropdown = allCategoryTypes?.filter(category =>
         !yearCategories?.some(yearCategory => yearCategory.name === category.name))
-        .sort((a, b) => a.name.localeCompare(b.name))
+        .sort((a, b) => a.name.localeCompare(b.name));
     const isCreateNewCategoryButtonActive = categoryDeadline.length && newCategoryName.length;
 
     return <>
@@ -264,5 +269,5 @@ export const AddCategoryForm = (props: Props) => {
                 </TableCell>
             </TableRow>
         }
-    </>
-}
+    </>;
+};

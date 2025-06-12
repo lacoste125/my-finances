@@ -31,9 +31,10 @@ export const MyCategoryTableRow = (props: Props) => {
             GET(setCategoryDetails, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH(props.yearCategory.categoryType.id)).then();
         }
         setOpen(!open);
-    }
+    };
+
     const borderClass: string = getBorder(open, props.isLastRow);
-    const categoryName: string = props.yearCategory.categoryType.name
+    const categoryName: string = props.yearCategory.categoryType.name;
 
     return <React.Fragment>
         <TableRow key={`TableRow_${props.yearCategory.id}`}>
@@ -84,5 +85,5 @@ export const MyCategoryTableRow = (props: Props) => {
             }
         </TableRow>
         <CategoryDetailsRow open={open} categoryDetails={categoryDetails} year={props.year}/>
-    </React.Fragment>
-}
+    </React.Fragment>;
+};

@@ -1,13 +1,12 @@
 import * as React from "react";
 
-import {PlacesType, Tooltip as ReactTooltip} from 'react-tooltip'
-import {ReactJSXElement} from "@emotion/react/types/jsx-namespace";
+import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
 
 type Props = {
     id: string,
     text: string,
     place: PlacesType,
-    element: ReactJSXElement,
+    element: JSX.Element,
     noArrow?: boolean,
     offset?: number,
     delay?: number
@@ -16,7 +15,6 @@ type Props = {
 export const Tooltip = (props: Props) => {
     return (
         <>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
                 data-tooltip-id={props.id}
                 data-tooltip-content={props.text}

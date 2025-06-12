@@ -12,4 +12,4 @@ export const Pages = {
         link: "/payments",
         element: PaymentsPage
     }
-}
+};

@@ -32,5 +32,5 @@ export const NotificationToast = (props: Props) => {
                 {props.notificationDetails?.bigText}
             </Toast.Body>
         </Toast>
-    </ToastContainer>
-}
+    </ToastContainer>;
+};

@@ -43,7 +43,7 @@ export default function MyTable(props: Props) {
                                         className={"dark_background"}
                                     >
                                         {monthType}
-                                    </TableCell>
+                                    </TableCell>;
                                 }
                             )
                     }
@@ -70,7 +70,7 @@ export default function MyTable(props: Props) {
                             <TableCell
                                 colSpan={14}
                                 align="center"
-                                className={'dark_background border-end border-top border-dark border-bottom'}
+                                className={"dark_background border-end border-top border-dark border-bottom"}
                             >
                                 <div id={"empty-year"}>{STATIC_TEXT.NO_CATEGORIES_IN_YEAR(props.year?.name)}</div>
                             </TableCell>

@@ -1,9 +1,6 @@
 import {MonthType} from "./payment.type";
 
-export interface RequestBody {
-}
-
-export interface AddPaymentRequestBody extends RequestBody {
+export interface AddPaymentRequestBody {
     amount: number,
     comment: string,
     date: string,
@@ -11,24 +8,24 @@ export interface AddPaymentRequestBody extends RequestBody {
     yearCategoryId: number
 }
 
-export interface AddCategoryToYearRequestBody extends RequestBody {
+export interface AddCategoryToYearRequestBody {
     categoryId?: number,
     yearId?: number
 }
 
-export interface CreateCategoryAndAddToYearRequestBody extends RequestBody {
+export interface CreateCategoryAndAddToYearRequestBody {
     name: string,
     deadline: string,
     yearNumber: number
 }
 
-export interface TogglePaymentRequestBody extends RequestBody {
+export interface TogglePaymentRequestBody {
     monthName: MonthType,
     yearCategoryId: number,
     comment?: string
 }
 
-export interface EnablePaymentRequestBody extends RequestBody {
+export interface EnablePaymentRequestBody {
     monthName: string,
     yearCategoryId: number
 }

@@ -13,7 +13,7 @@ import Badge from "react-bootstrap/Badge";
 import IconButton from "@mui/material/IconButton";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import {STATIC_TEXT} from "../../objects/static_text";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -30,7 +30,7 @@ export const PaymentsPage = (props: Props) => {
     const [addCategorySectionVisible, setAddCategorySectionVisible] = useState<boolean>(false);
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
 
-    const actualIndex: number = props.yearNumbers.indexOf(!!year ? year.name : -1)
+    const actualIndex: number = props.yearNumbers.indexOf(year ? year.name : -1);
     const isYearLeftArrowEnabled: boolean = !!year && actualIndex > 0;
     const isYearRightArrowVisible: boolean = !!year && !!props.yearNumbers && actualIndex < props.yearNumbers.length - 1;
 
@@ -54,27 +54,26 @@ export const PaymentsPage = (props: Props) => {
 
     const handleAddNewYearClick = () => {
         setShowAddNextYearModal(true);
-    }
+    };
 
     const handleCloseAddNextYearModal = () => {
         setShowAddNextYearModal(false);
-    }
+    };
 
     const handleConfirmAddNextYear = () => {
         handleCloseAddNextYearModal();
 
         createNextYear()
             .then(() => GET(setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(year!.name + 1)).then());
-    }
+    };
 
     const createNextYear = async () => {
-        await CREATE
-        (
+        await CREATE(
             CREATE_NEXT_YEAR_API_PATH,
             {},
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_ADD_NEW_YEAR
-        )
+        );
     };
 
     return <>
@@ -89,7 +88,7 @@ export const PaymentsPage = (props: Props) => {
                         element={
                             <IconButton
                                 id={"previous-year-btn"}
-                                key={`left-arrow`}
+                                key={"left-arrow"}
                                 size="small"
                                 className={"btn_and_tooltip"}
                                 disabled={!isYearLeftArrowEnabled}
@@ -111,7 +110,7 @@ export const PaymentsPage = (props: Props) => {
                             element={
                                 <IconButton
                                     id={"nex-year-btn"}
-                                    key={`right`}
+                                    key={"right"}
                                     size="small"
                                     onClick={handleNextYearClick}
                                 >
@@ -127,7 +126,7 @@ export const PaymentsPage = (props: Props) => {
                             element={
                                 <IconButton
                                     id={"add-new-year-btn"}
-                                    key={`year`}
+                                    key={"year"}
                                     size="small"
                                     onClick={handleAddNewYearClick}
                                 >

@@ -29,5 +29,5 @@ export const EnablePaymentModal = (props: Props) => {
                 {STATIC_TEXT.CONFIRM}
             </Button>
         </Modal.Footer>
-    </Modal>
-}
+    </Modal>;
+};

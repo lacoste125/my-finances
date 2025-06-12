@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import React, {useState} from "react";
 import {NotificationToast} from "./components/structure/NotificationToast";
 import {NotificationDetails} from "./utils/api.actions";
-import 'react-tooltip/dist/react-tooltip.css'
+import "react-tooltip/dist/react-tooltip.css";
 
 function App() {
     const [notificationDetails, setNotificationDetails] = useState<NotificationDetails | undefined>(undefined);

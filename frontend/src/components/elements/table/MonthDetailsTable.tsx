@@ -58,5 +58,5 @@ export const MonthDetailsTable = (props: Props) => {
                 }
             </TableBody>
         </Table>
-    </TableContainer>
-}
+    </TableContainer>;
+};

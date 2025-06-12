@@ -10,8 +10,8 @@ import {
     NotificationDetails
 } from "../../../utils/api.actions";
 import {getBorder} from "../../../utils/util.action";
-import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
-import PriorityHigh from '@mui/icons-material/PriorityHigh';
+import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
+import PriorityHigh from "@mui/icons-material/PriorityHigh";
 import {DisablePaymentModal} from "../modals/DisablePaymentModal";
 import {EnablePaymentModal} from "../modals/EnablePaymentModal";
 import {Tooltip} from "../tooltip/Tooltip";
@@ -56,58 +56,58 @@ export const MyPaymentTableCell = (props: Props) => {
     const disabledPaymentComment = (month: MonthType) => {
         return props.disabledPayments.find(
             (dp: DisabledPayment): boolean => dp.month.name === month
-        )
+        );
     };
 
-    const tooltipId: string = "tooltip_" + props.monthType + "_" + props.yearCategory.id
+    const tooltipId: string = "tooltip_" + props.monthType + "_" + props.yearCategory.id;
 
     const handleOnCellClick = () => {
         if (!isThisMonthDisabled) {
-            setPaymentDetailModalVisible(true)
+            setPaymentDetailModalVisible(true);
         } else {
             setEnableModalVisible(true);
         }
-    }
+    };
 
     const handleDisablePaymentClick = () => {
         setPaymentDetailModalVisible(false);
         setDisablePaymentModalVisible(true);
-    }
+    };
 
     const handleAbortDisablePayment = () => {
         setPaymentDetailModalVisible(true);
         setDisablePaymentModalVisible(false);
-    }
+    };
 
     const handleConfirmDisablePayment = (comment?: string) => {
         disablePayment(comment).then(() => props.onUpdate());
         setPaymentDetailModalVisible(false);
         setDisablePaymentModalVisible(false);
-    }
+    };
 
     const handleAbortEnablePayment = () => {
         setEnableModalVisible(false);
-    }
+    };
 
     const handleConfirmEnablePayment = () => {
         enablePayment().then(() => props.onUpdate());
         setEnableModalVisible(false);
-    }
+    };
 
     const disablePayment = async (comment?: string) => {
         const body: TogglePaymentRequestBody = {
             monthName: props.monthType,
             yearCategoryId: props.yearCategory.id,
             comment: comment
-        }
+        };
 
         await CREATE(
             DISABLE_PAYMENT_API_PATH,
             body,
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_PAYMENT_BLOCKED
-        )
-    }
+        );
+    };
 
     const enablePayment = async () => {
         const body: EnablePaymentRequestBody = {
@@ -120,12 +120,12 @@ export const MyPaymentTableCell = (props: Props) => {
             body,
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_PAYMENT_UNBLOCKED
-        )
+        );
     };
 
-    const borderClass: string = getBorder(props.open, props.isLastRow)
+    const borderClass: string = getBorder(props.open, props.isLastRow);
     const isCurrentMonth: boolean = props.monthNumber === new Date().getMonth() && new Date().getFullYear() === props.year;
-    const isPreviousMonth: boolean = new Date().getFullYear() > props.year || (new Date().getFullYear() === props.year && props.monthNumber < new Date().getMonth())
+    const isPreviousMonth: boolean = new Date().getFullYear() > props.year || (new Date().getFullYear() === props.year && props.monthNumber < new Date().getMonth());
     const currentMonthPrefix: string = isCurrentMonth ? "required_" : "";
 
     return <>
@@ -172,7 +172,7 @@ export const MyPaymentTableCell = (props: Props) => {
             monthType={props.monthType}
             yearCategory={props.yearCategory}
             year={props.year}
-            text={``}
+            text={""}
             onUpdate={props.onUpdate}
             setNotificationDetails={props.setNotificationDetails}
             onSetDisablePaymentModal={handleDisablePaymentClick}

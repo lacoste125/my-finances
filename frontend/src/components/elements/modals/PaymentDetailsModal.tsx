@@ -1,10 +1,10 @@
 import * as React from "react";
 import {useState} from "react";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import {MonthType, Payment, YearCategory} from "../../../objects/payment.type";
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import DatePicker from "react-datepicker";
 import {MonthDetailsTable} from "../table/MonthDetailsTable";
 import {ADD_PAYMENT_API_PATH, CREATE, NotificationDetails} from "../../../utils/api.actions";
@@ -58,21 +58,21 @@ export const PaymentDetailsModal = (props: Props) => {
             date: getDateFromString(date),
             monthName: props.monthType,
             yearCategoryId: props.yearCategory.id
-        }
+        };
 
         await CREATE(
             ADD_PAYMENT_API_PATH,
             body,
             props.setNotificationDetails,
             STATIC_TEXT.SUCCESS_ADD_PAYMENT
-        )
+        );
     };
 
     const handlePaymentClick = () => {
         addPayment().then(() => props.onUpdate());
         setDate(new Date());
         setComment("");
-        setAmount("")
+        setAmount("");
     };
 
     const isAddPaymentButtonActive = amount.length > 0 && comment.length > 0;
@@ -142,7 +142,7 @@ export const PaymentDetailsModal = (props: Props) => {
         <Modal.Footer className={"dark_background"}>
             <Tooltip
                 id={"disable-payment-tooltip"}
-                text={!!props.payments.length ? STATIC_TEXT.CANNOT_DISABLE_PAYMENT : ""}
+                text={props.payments.length ? STATIC_TEXT.CANNOT_DISABLE_PAYMENT : ""}
                 place={"left"}
                 element={
                     <Button
@@ -159,5 +159,5 @@ export const PaymentDetailsModal = (props: Props) => {
                 {STATIC_TEXT.OK}
             </Button>
         </Modal.Footer>
-    </Modal>
-}
+    </Modal>;
+};

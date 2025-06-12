@@ -52,5 +52,5 @@ export const DisablePaymentModal = (props: Props) => {
                 {STATIC_TEXT.DISABLE_PAYMENT}
             </Button>
         </Modal.Footer>
-    </Modal>
-}
+    </Modal>;
+};
