@@ -27,17 +27,28 @@ type Props = {
     onUpdate: () => void,
     setNotificationDetails: (value?: NotificationDetails) => void,
     open: boolean,
-    isLastRow: boolean
+    isLastRow: boolean,
 }
 
-export const MyPaymentTableCell = (props: Props) => {
+export const MyPaymentTableCell: React.FC<Props> = ({
+    monthNumber,
+    payments,
+    disabledPayments,
+    monthType,
+    yearCategory,
+    year,
+    onUpdate,
+    setNotificationDetails,
+    open,
+    isLastRow
+}: Props) => {
     const [paymentDetailModalVisible, setPaymentDetailModalVisible] = React.useState<boolean>(false);
     const [disablePaymentModalVisible, setDisablePaymentModalVisible] = React.useState<boolean>(false);
     const [enablePaymentModalVisible, setEnableModalVisible] = React.useState<boolean>(false);
     const [iconColor, setIconColor] = React.useState<string>("#2b2b2b");
 
-    const monthPayments: Payment[] = props.payments.filter(
-        (payment: Payment): boolean => payment.month === props.monthType
+    const monthPayments: Payment[] = payments.filter(
+        (payment: Payment): boolean => payment.month === monthType
     );
 
     let monthSum: number = 0;
@@ -47,19 +58,19 @@ export const MyPaymentTableCell = (props: Props) => {
 
     const paymentsWord: string = monthPayments.length === 1 ? STATIC_TEXT.PAYMENT : STATIC_TEXT.PAYMENTS;
 
-    const isThisMonthDisabled: boolean = props.disabledPayments
+    const isThisMonthDisabled: boolean = disabledPayments
         .map(
             (disabledPayment: DisabledPayment): MonthType => disabledPayment.month.name
         )
-        .includes(props.monthType);
+        .includes(monthType);
 
     const disabledPaymentComment = (month: MonthType) => {
-        return props.disabledPayments.find(
+        return disabledPayments.find(
             (dp: DisabledPayment): boolean => dp.month.name === month
         );
     };
 
-    const tooltipId: string = "tooltip_" + props.monthType + "_" + props.yearCategory.id;
+    const tooltipId: string = "tooltip_" + monthType + "_" + yearCategory.id;
 
     const handleOnCellClick = () => {
         if (!isThisMonthDisabled) {
@@ -80,7 +91,7 @@ export const MyPaymentTableCell = (props: Props) => {
     };
 
     const handleConfirmDisablePayment = (comment?: string) => {
-        disablePayment(comment).then(() => props.onUpdate());
+        disablePayment(comment).then(() => onUpdate());
         setPaymentDetailModalVisible(false);
         setDisablePaymentModalVisible(false);
     };
@@ -90,104 +101,106 @@ export const MyPaymentTableCell = (props: Props) => {
     };
 
     const handleConfirmEnablePayment = () => {
-        enablePayment().then(() => props.onUpdate());
+        enablePayment().then(() => onUpdate());
         setEnableModalVisible(false);
     };
 
     const disablePayment = async (comment?: string) => {
         const body: TogglePaymentRequestBody = {
-            monthName: props.monthType,
-            yearCategoryId: props.yearCategory.id,
+            monthName: monthType,
+            yearCategoryId: yearCategory.id,
             comment: comment
         };
 
         await CREATE(
             DISABLE_PAYMENT_API_PATH,
             body,
-            props.setNotificationDetails,
+            setNotificationDetails,
             STATIC_TEXT.SUCCESS_PAYMENT_BLOCKED
         );
     };
 
     const enablePayment = async () => {
         const body: EnablePaymentRequestBody = {
-            monthName: props.monthType,
-            yearCategoryId: props.yearCategory.id
+            monthName: monthType,
+            yearCategoryId: yearCategory.id
         };
 
         await CREATE(
             ENABLE_PAYMENT_API_PATH,
             body,
-            props.setNotificationDetails,
+            setNotificationDetails,
             STATIC_TEXT.SUCCESS_PAYMENT_UNBLOCKED
         );
     };
 
-    const borderClass: string = getBorder(props.open, props.isLastRow);
-    const isCurrentMonth: boolean = props.monthNumber === new Date().getMonth() && new Date().getFullYear() === props.year;
-    const isPreviousMonth: boolean = new Date().getFullYear() > props.year || (new Date().getFullYear() === props.year && props.monthNumber < new Date().getMonth());
+    const borderClass: string = getBorder(open, isLastRow);
+    const isCurrentMonth: boolean = monthNumber === new Date().getMonth() && new Date().getFullYear() === year;
+    const isPreviousMonth: boolean = new Date().getFullYear() > year || (new Date().getFullYear() === year && monthNumber < new Date().getMonth());
     const currentMonthPrefix: string = isCurrentMonth ? "required_" : "";
 
-    return <>
-        <TableCell
-            id={`${currentMonthPrefix}table_cell_${props.monthType}_${props.yearCategory.id}`}
-            className={`table_cell border-dark border-top ${borderClass}`}
-            align="center"
-            onClick={handleOnCellClick}
-            onMouseEnter={() => setIconColor("#cedbdb")}
-            onMouseLeave={() => setIconColor("#2b2b2b")}
-        >
-            {
-                isThisMonthDisabled ?
-                    <Tooltip
-                        id={tooltipId}
-                        text={disabledPaymentComment(props.monthType)?.comment || STATIC_TEXT.PAYMENT_DISABLED_CLICK_TO_CHANGE}
-                        place={"top"}
-                        delay={1000}
-                        element={
-                            <span>
+    return (
+        <React.Fragment>
+            <TableCell
+                id={`${currentMonthPrefix}table_cell_${monthType}_${yearCategory.id}`}
+                className={`table_cell border-dark border-top ${borderClass}`}
+                align="center"
+                onClick={handleOnCellClick}
+                onMouseEnter={() => setIconColor("#cedbdb")}
+                onMouseLeave={() => setIconColor("#2b2b2b")}
+            >
+                {
+                    isThisMonthDisabled ?
+                        <Tooltip
+                            id={tooltipId}
+                            text={disabledPaymentComment(monthType)?.comment || STATIC_TEXT.PAYMENT_DISABLED_CLICK_TO_CHANGE}
+                            place="top"
+                            delay={1000}
+                            element={
+                                <span>
                                 <DoNotDisturbAltIcon htmlColor={iconColor}/>
                             </span>
-                        }
-                    /> :
-                    <Tooltip
-                        id={tooltipId}
-                        text={`${monthPayments.length} ${paymentsWord}`}
-                        delay={1000}
-                        place={"top"}
-                        element={
-                            <span>
+                            }
+                        /> :
+                        <Tooltip
+                            id={tooltipId}
+                            text={`${monthPayments.length} ${paymentsWord}`}
+                            delay={1000}
+                            place="top"
+                            element={
+                                <span>
                                 {monthSum ? Math.round(monthSum * 100) / 100 : isCurrentMonth || isPreviousMonth ?
                                     <PriorityHigh htmlColor={"#bb2a2a"}/> : ""}
                             </span>
-                        }
-                    />
-            }
-        </TableCell>
-        <PaymentDetailsModal
-            show={paymentDetailModalVisible}
-            onConfirm={() => setPaymentDetailModalVisible(false)}
-            onClose={() => setPaymentDetailModalVisible(false)}
-            payments={monthPayments}
-            monthType={props.monthType}
-            yearCategory={props.yearCategory}
-            year={props.year}
-            text={""}
-            onUpdate={props.onUpdate}
-            setNotificationDetails={props.setNotificationDetails}
-            onSetDisablePaymentModal={handleDisablePaymentClick}
-        />
-        <DisablePaymentModal
-            show={disablePaymentModalVisible}
-            monthType={props.monthType}
-            onConfirmDisablePayment={(comment?: string) => handleConfirmDisablePayment(comment)}
-            onClose={handleAbortDisablePayment}
-        />
-        <EnablePaymentModal
-            show={enablePaymentModalVisible}
-            month={props.monthType}
-            onConfirmEnablePayment={handleConfirmEnablePayment}
-            onClose={handleAbortEnablePayment}
-        />
-    </>;
+                            }
+                        />
+                }
+            </TableCell>
+            <PaymentDetailsModal
+                show={paymentDetailModalVisible}
+                onConfirm={() => setPaymentDetailModalVisible(false)}
+                onClose={() => setPaymentDetailModalVisible(false)}
+                payments={monthPayments}
+                monthType={monthType}
+                yearCategory={yearCategory}
+                year={year}
+                text=""
+                onUpdate={onUpdate}
+                setNotificationDetails={setNotificationDetails}
+                onSetDisablePaymentModal={handleDisablePaymentClick}
+            />
+            <DisablePaymentModal
+                show={disablePaymentModalVisible}
+                monthType={monthType}
+                onConfirmDisablePayment={(comment?: string) => handleConfirmDisablePayment(comment)}
+                onClose={handleAbortDisablePayment}
+            />
+            <EnablePaymentModal
+                show={enablePaymentModalVisible}
+                month={monthType}
+                onConfirmEnablePayment={handleConfirmEnablePayment}
+                onClose={handleAbortEnablePayment}
+            />
+        </React.Fragment>
+    );
 };
