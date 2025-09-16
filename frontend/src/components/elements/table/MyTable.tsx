@@ -19,28 +19,31 @@ type Props = {
     setAddCategorySectionVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function MyTable(props: Props) {
+export const MyTable: React.FC<Props> = ({
+    setNotificationDetails,
+    year,
+    setYear,
+    addCategorySectionVisible,
+    setAddCategorySectionVisible
+}: Props) => {
 
-    const isYearHasAnyCategory = !!props.year && props.year.categories.length;
+    const isYearHasAnyCategory = !!year && year.categories.length;
     return (
-        <Table
-            className={"dark_background"}
-            size={"small"}
-        >
+        <Table className="dark_background" size="small">
             <TableHead>
-                <TableRow key={"tableHeader"}>
+                <TableRow key="tableHeader">
                     <TableCell/>
-                    <TableCell className={"dark_background"}>{STATIC_TEXT.FEE}</TableCell>
+                    <TableCell className="dark_background">{STATIC_TEXT.FEE}</TableCell>
                     {
                         Object.values(MonthType)
                             .map(
                                 (monthType: MonthType, index: number) => {
-                                    const required: string = index === new Date().getMonth() && new Date().getFullYear() === props.year?.name ? "required-" : "";
+                                    const required: string = index === new Date().getMonth() && new Date().getFullYear() === year?.name ? "required-" : "";
                                     return <TableCell
                                         id={`${required}month-header-cell-${index}-${monthType}`}
                                         key={monthType}
                                         align="center"
-                                        className={"dark_background"}
+                                        className="dark_background"
                                     >
                                         {monthType}
                                     </TableCell>;
@@ -51,18 +54,18 @@ export default function MyTable(props: Props) {
             </TableHead>
             <TableBody>
                 {
-                    isYearHasAnyCategory ? props.year!.categories.map(
+                    isYearHasAnyCategory ? year!.categories.map(
                             (yearCategory: YearCategory, index: number) => (
                                 <MyCategoryTableRow
                                     key={`${yearCategory.id}_${index}`}
                                     yearCategory={yearCategory}
-                                    year={props.year!.name}
+                                    year={year!.name}
                                     onUpdate={
-                                        () => GET(props.setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(props.year!.name))
+                                        () => GET(setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(year!.name))
                                             .then()
                                     }
-                                    setNotificationDetails={props.setNotificationDetails}
-                                    isLastRow={index === props.year!.categories.length - 1}
+                                    setNotificationDetails={setNotificationDetails}
+                                    isLastRow={index === year!.categories.length - 1}
                                 />
                             )
                         ) :
@@ -70,23 +73,25 @@ export default function MyTable(props: Props) {
                             <TableCell
                                 colSpan={14}
                                 align="center"
-                                className={"dark_background border-end border-top border-dark border-bottom"}
+                                className="dark_background border-end border-top border-dark border-bottom"
                             >
-                                <div id={"empty-year"}>{STATIC_TEXT.NO_CATEGORIES_IN_YEAR(props.year?.name)}</div>
+                                <div id="empty-year">
+                                    {STATIC_TEXT.NO_CATEGORIES_IN_YEAR(year?.name)}
+                                </div>
                             </TableCell>
                         </TableRow>
                 }
                 {
-                    !!props.year && props.year.name === new Date().getFullYear().valueOf() &&
+                    !!year && year.name === new Date().getFullYear().valueOf() &&
                     <AddCategoryForm
-                        year={props.year}
-                        setYear={props.setYear}
-                        setNotificationDetails={props.setNotificationDetails}
-                        addCategorySectionVisible={props.addCategorySectionVisible}
-                        setAddCategorySectionVisible={props.setAddCategorySectionVisible}
+                        year={year}
+                        setYear={setYear}
+                        setNotificationDetails={setNotificationDetails}
+                        addCategorySectionVisible={addCategorySectionVisible}
+                        setAddCategorySectionVisible={setAddCategorySectionVisible}
                     />
                 }
             </TableBody>
         </Table>
     );
-}
+};

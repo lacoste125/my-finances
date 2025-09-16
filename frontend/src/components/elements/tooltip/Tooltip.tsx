@@ -1,6 +1,5 @@
-import * as React from "react";
-
 import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
+import * as React from "react";
 
 type Props = {
     id: string,
@@ -12,22 +11,30 @@ type Props = {
     delay?: number
 }
 
-export const Tooltip = (props: Props) => {
+export const Tooltip:React.FC<Props> = ({
+    id,
+    text,
+    place,
+    element,
+    noArrow,
+    offset,
+    delay
+}: Props) => {
     return (
         <>
             <a
-                data-tooltip-id={props.id}
-                data-tooltip-content={props.text}
-                data-tooltip-place={props.place}
-                data-tooltip-offset={props.offset}
+                data-tooltip-id={id}
+                data-tooltip-content={text}
+                data-tooltip-place={place}
+                data-tooltip-offset={offset}
             >
-                {props.element}
+                {element}
             </a>
             <ReactTooltip
-                id={props.id}
+                id={id}
                 className={"own_tooltip"}
-                noArrow={props.noArrow}
-                delayShow={props.delay}
+                noArrow={noArrow}
+                delayShow={delay}
             />
         </>
     );
