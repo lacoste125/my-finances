@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,20 +23,23 @@ public class DisabledPaymentService {
         Month month = monthService.findByName(request.getMonthName());
         YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.getYearCategoryId());
 
-        Optional<DisabledPayment> optionalDisabledPayment =
-                disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.getYearCategoryId());
+        DisabledPayment payment = disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.getYearCategoryId())
+                .map(p -> {
+                    p.setComment(request.getComment());
+                    p.setValid(expectedValue);
 
-        return disabledPaymentRepository.save(
-                optionalDisabledPayment.isPresent() ? optionalDisabledPayment.get()
-                        .withComment(request.getComment())
-                        .withValid(expectedValue) :
-                        DisabledPayment.builder()
+                    return p;
+                })
+                .orElseGet(
+                        () -> DisabledPayment.builder()
                                 .month(month)
                                 .yearCategory(yearCategory)
                                 .comment(request.getComment())
                                 .valid(expectedValue)
                                 .build()
-        );
+                );
+
+        return disabledPaymentRepository.save(payment);
     }
 
     public List<DisabledPayment> getDisabledPaymentsByYear(Integer year) {

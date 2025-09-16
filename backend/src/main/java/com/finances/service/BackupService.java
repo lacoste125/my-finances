@@ -22,25 +22,25 @@ public class BackupService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         String formatedDate = date.format(formatter);
 
-        String fileName = request.getFileName() + "_" + formatedDate;
-        String filePath = request.getFileResource() + "\\" + fileName + ".sql";
+        String fileName = request.fileName() + "_" + formatedDate;
+        String filePath = request.fileResource() + "\\" + fileName + ".sql";
 
         Runtime rt = Runtime.getRuntime();
         rt.exec("C:\\xampp\\mysql\\bin\\mysqldump " +
                 "-u root " +
                 "--default-character-set=utf8 " +
                 "--result-file=" + filePath + " " +
-                "--databases " + request.getDatabaseName());
+                "--databases " + request.databaseName());
 
         EmailMessage emailMessage = EmailMessage.builder()
                 .attachment(new File(filePath))
-                .to(request.getEmailTo())
-                .subject("my-finances-app database dump: " + request.getDatabaseName())
-                .message("Backup bazy danych '" + request.getDatabaseName() + "' ")
+                .to(request.emailTo())
+                .subject("my-finances-app database dump: " + request.databaseName())
+                .message("Backup bazy danych '" + request.databaseName() + "' ")
                 .build();
 
         emailService.sendMailWithAttachment(emailMessage);
 
-        return emailMessage.getAttachment().getAbsolutePath();
+        return emailMessage.attachment().getAbsolutePath();
     }
 }

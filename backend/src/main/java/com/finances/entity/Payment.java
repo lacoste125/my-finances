@@ -38,6 +38,7 @@ public class Payment {
     @Column(name = COMMENT)
     private String comment;
 
+    @Builder.Default
     @Column(name = VALID)
-    private boolean valid;
+    private boolean valid = true;
 }

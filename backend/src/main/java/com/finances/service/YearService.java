@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -27,7 +26,7 @@ public class YearService {
 
     public List<Year> findAllYears() {
         return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Year findYearByYearNumber(Integer yearNumber) throws YearNotFoundException {
@@ -41,11 +40,11 @@ public class YearService {
     }
 
     public Year findOrCreateYear(NewYearRequest request) {
-        return yearRepository.selectYearByYearNumber(request.getYear())
+        return yearRepository.selectYearByYearNumber(request.year())
                 .orElseGet(
                         () -> yearRepository.save(
                                 Year.builder()
-                                        .yearNumber(request.getYear())
+                                        .yearNumber(request.year())
                                         .build()
                         )
                 );

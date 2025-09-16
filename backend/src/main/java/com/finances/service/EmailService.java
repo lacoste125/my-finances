@@ -29,12 +29,12 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(emailMessage.getTo());
-        helper.setSubject(emailMessage.getSubject());
-        helper.setText(emailMessage.getMessage());
+        helper.setTo(emailMessage.to());
+        helper.setSubject(emailMessage.subject());
+        helper.setText(emailMessage.message());
 
-        FileSystemResource file = new FileSystemResource(emailMessage.getAttachment());
-        helper.addAttachment(emailMessage.getAttachment().getName(), file);
+        FileSystemResource file = new FileSystemResource(emailMessage.attachment());
+        helper.addAttachment(emailMessage.attachment().getName(), file);
 
         mailSender.send(message);
     }

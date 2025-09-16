@@ -24,21 +24,21 @@ public class PaymentService {
     private final CategoryService categoryService;
 
     public Payment addPayment(AddPaymentRequest requestBody) throws NotFoundException, AmountIsEmptyException {
-        if (requestBody.getAmount() == null || requestBody.getAmount() == 0) {
-            throw new AmountIsEmptyException(requestBody.getAmount());
+        Double amount = requestBody.amount();
+        if (amount == null || amount == 0) {
+            throw new AmountIsEmptyException(amount);
         }
 
-        YearCategory yearCategory = yearCategoryService.findByYearCategoryId(requestBody.getYearCategoryId());
-        Month month = monthService.findByName(requestBody.getMonthName());
+        YearCategory yearCategory = yearCategoryService.findByYearCategoryId(requestBody.yearCategoryId());
+        Month month = monthService.findByName(requestBody.monthName());
 
         return paymentRepository.save(
                 Payment.builder()
                         .yearCategory(yearCategory)
                         .month(month)
-                        .amount(requestBody.getAmount())
-                        .date(requestBody.getDate())
-                        .comment(requestBody.getComment())
-                        .valid(true)
+                        .amount(amount)
+                        .date(requestBody.date())
+                        .comment(requestBody.comment())
                         .build()
         );
     }

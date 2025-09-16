@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -19,7 +18,7 @@ public class MonthService {
 
     public List<Month> findAllMonths() {
         return StreamSupport.stream(monthRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Month findByName(MonthType name) throws MonthNotFoundException {

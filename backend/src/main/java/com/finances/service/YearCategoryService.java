@@ -35,7 +35,7 @@ public class YearCategoryService {
 
     public YearCategory addCategoryToYear(AddCategoryToYearRequest request)
             throws YearNotFoundException, CategoryNotFoundException {
-        return saveNewYearCategoryIfNotExist(request.getYearId(), request.getCategoryId());
+        return saveNewYearCategoryIfNotExist(request.yearId(), request.categoryId());
     }
 
     private YearCategory saveNewYearCategoryIfNotExist(Long yearId, Long categoryId) throws YearNotFoundException, CategoryNotFoundException {
@@ -65,13 +65,13 @@ public class YearCategoryService {
     }
 
     public YearCategory createCategoryAndAddToYear(AddNewCategoryToYearRequest request) throws NotFoundException {
-        Optional<Category> optionalCategory = categoryService.getOptionalCategoryTypeByName(request.getName());
+        Optional<Category> optionalCategory = categoryService.getOptionalCategoryTypeByName(request.name());
 
         Category category = optionalCategory.orElseGet(
-                () -> categoryService.saveNewCategory(request.getName(), request.getDeadline())
+                () -> categoryService.saveNewCategory(request.name(), request.deadline())
         );
 
-        Year year = yearService.findYearByYearNumber(request.getYearNumber());
+        Year year = yearService.findYearByYearNumber(request.yearNumber());
 
         return saveNewYearCategoryIfNotExist(year.getId(), category.getId());
     }

@@ -7,8 +7,6 @@ import com.finances.entity.YearCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 public class YearCategoryDtoWrapper implements DtoWrapper<YearCategory, YearCategoryDto> {
@@ -28,14 +26,14 @@ public class YearCategoryDtoWrapper implements DtoWrapper<YearCategory, YearCate
                                 .stream()
                                 .filter(Payment::isValid)
                                 .map(paymentDtoWrapper::mapToDto)
-                                .collect(Collectors.toList())
+                                .toList()
                 )
                 .disabledPayments(
                         dao.getDisabledPayments()
                                 .stream()
                                 .filter(DisabledPayment::isValid)
                                 .map(disabledPaymentDtoWrapper::mapToDto)
-                                .collect(Collectors.toList())
+                                .toList()
                 )
                 .build();
     }

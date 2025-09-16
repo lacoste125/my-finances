@@ -17,7 +17,6 @@ public class CategoryDetailsDtoWrapper implements DtoWrapper<List<Payment>, Cate
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public CategoryDetailsDto mapToDto(List<Payment> daos) {
-
         if (daos.isEmpty()) {
             return CategoryDetailsDto.builder()
                     .payments(List.of())

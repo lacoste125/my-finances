@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class YearDtoWrapper implements DtoWrapper<Year, YearDto> {
                                 .stream()
                                 .filter(yearCategory -> yearCategory.getCategory().isValid())
                                 .map(yearCategoryDtoWrapper::mapToDto)
-                                .collect(Collectors.toList()) : List.of()
+                                .toList() : List.of()
                 )
                 .build();
     }

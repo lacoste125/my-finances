@@ -31,12 +31,15 @@ public class CategoryService {
     }
 
     public Category createCategory(CreateCategoryRequest request) throws CategoryAlreadyExistException {
-        Optional<Category> optionalCategory = getOptionalCategoryTypeByName(request.getName());
-        if (optionalCategory.isPresent()) {
-            throw new CategoryAlreadyExistException(request.getName());
-        }
+        ensureCategoryDoesNotExist(request.name());
 
-        return saveNewCategory(request.getName(), request.getDeadline());
+        return saveNewCategory(request.name(), request.deadline());
+    }
+
+    private void ensureCategoryDoesNotExist(String categoryName) throws CategoryAlreadyExistException {
+        if (getOptionalCategoryTypeByName(categoryName).isPresent()) {
+            throw new CategoryAlreadyExistException(categoryName);
+        }
     }
 
     public Category saveNewCategory(String name, String deadline) {

@@ -32,7 +32,6 @@ public class DisabledPayment {
     @JoinColumn(name = YEAR_CATEGORY_ID, nullable = false)
     private YearCategory yearCategory;
 
-    @With
     @Column(name = COMMENT)
     private String comment;
 
@@ -40,7 +39,6 @@ public class DisabledPayment {
     @LastModifiedDate
     private Date modificationDate;
 
-    @With
     @Column(name = VALID)
     private boolean valid;
 }
