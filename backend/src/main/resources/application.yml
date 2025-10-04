@@ -1,15 +1,14 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://${DB_SERVER}:${DB_PORT};database=${DB_NAME};
-      encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: ${MARIA_DB:jdbc:${DB_TYPE}://${DB_SERVER}:${DB_PORT};database=${DB_NAME};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: ${DB_DRIVER}
 
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: ${DB_DIALECT}
     show-sql: ${DB_SHOW_SQL:false}
     hibernate:
       ddl-auto: ${DDL_AUTO:none}
