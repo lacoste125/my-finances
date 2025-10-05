@@ -1,29 +1,35 @@
-import "./style.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import {MyFooter} from "./components/structure/MyFooter";
-import {NewRouter} from "./components/structure/NewRouter";
-import "react-datepicker/dist/react-datepicker.css";
-import {useState} from "react";
-import {NotificationToast} from "./components/structure/NotificationToast";
-import {NotificationDetails} from "./utils/api.actions";
-import "react-tooltip/dist/react-tooltip.css";
+import {Route, Routes} from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import Settings from "./pages/Settings";
+import About from "./pages/About";
+import {Payments} from "./pages/Payments";
+import {useEffect, useState} from "react";
+import {GET, YEARS} from "./utils/api.actions";
 
 function App() {
-    const [notificationDetails, setNotificationDetails] = useState<NotificationDetails | undefined>(undefined);
+    const [yearNumbers, setYearNumbers] = useState<number[]>([]);
+
+    useEffect(() => {
+        if (!yearNumbers.length) {
+            GET(setYearNumbers, YEARS).then();
+        }
+    }, [yearNumbers]);
 
     return (
-        <div>
-            <NotificationToast
-                notificationDetails={notificationDetails}
-                setNotificationDetails={setNotificationDetails}
-            />
-            <NewRouter setNotificationDetails={setNotificationDetails}/>
-            <MyFooter/>
-        </div>
+        <MainLayout>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/settings" element={<Settings/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route
+                    path="/payments"
+                    element={
+                        <Payments yearNumbers={yearNumbers}/>
+                    }
+                />
+            </Routes>
+        </MainLayout>
     );
 }
 

@@ -1,0 +1,92 @@
+/* index.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    background-color: #121212;
+    color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --dark_background: #343a40;
+    --light_text_color: #cedbdb;
+    --head_foot_color: #002663;
+    --black_color: #000000FF;
+    --page_background: #0d1117;
+    --dark_box_shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    --container_background: #ababab;
+    --nav_link_hover: #00bfff;
+    --table_cell_hoover_color: #293134FF;
+    --calendar_border: #dee2e6;
+    --text_area_on_focus_border_color: #dee2e6;
+    --input_dark_placeholder_color: #696969;
+    --input_dark_lighter_color: #838383;
+    --input_background_color: #000000;
+    --active-month-cell-color: #00BFFFFF;
+}
+
+#year {
+    padding-bottom: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.table_cell:hover {
+    background: var(--table_cell_hoover_color) !important;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn_and_tooltip:disabled {
+    pointer-events: auto !important;
+}
+
+.dark_background {
+    background-color: var(--dark_background) !important;
+    color: var(--light_text_color) !important;
+}
+
+.MuiTableCell-root {
+    background-color: var(--dark_background) !important;
+    color: var(--light_text_color) !important;
+}
+
+#empty-year {
+    font-size: 20px;
+    height: 55px;
+    padding-top: 13px;
+}
+
+.own_tooltip {
+    font-size: 15px !important;
+    max-width: 220px !important;
+    text-align: center !important;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    background-color: black !important;
+    align-content: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 999999999999;
+}
+
+[id^='required_table_cell_'],
+[id^='required-month-header-cell'] {
+    background-color: var(--active-month-cell-color) !important;
+    color: black !important;
+}
+
+[id^='required_table_cell_']:hover {
+    background: var(--active-month-cell-color) !important;
+    cursor: pointer;
+    border-radius: 5px;
+    color: var(--light_text_color) !important;
+    font-weight: bold;
+}

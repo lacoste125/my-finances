@@ -1,11 +1,9 @@
-import Modal from "react-bootstrap/Modal";
 import {STATIC_TEXT} from "../../../objects/static_text";
-import Button from "react-bootstrap/Button";
 import * as React from "react";
 import {useState} from "react";
 import {MonthType} from "../../../objects/payment.type";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
+import {Modal} from "../../Modal";
+import {Stack, TextField} from "@mui/material";
 
 type Props = {
     show: boolean,
@@ -29,35 +27,30 @@ export const DisablePaymentModal: React.FC<Props> = ({
     };
 
     return (
-        <Modal show={show} onHide={onClose} onEscapeKeyDown={onClose}>
-            <Modal.Header closeButton closeVariant="white" className="dark_background">
-                <Modal.Title>
-                    {monthType}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="dark_background">
-                {STATIC_TEXT.CONFIRM_DISABLE_MONTH_PAYMENT}
-                {/*TODO - może zrobić to jako oddzielny komponent?*/}
-                <InputGroup className="mb-3 pt-3">
-                    <InputGroup.Text>
-                        {STATIC_TEXT.COMMENT}
-                    </InputGroup.Text>
-                    <Form.Control
-                        className="comment_class shadow-none"
-                        onChange={event => handleCommentChange(event)}
+        <Modal
+            show={show}
+            onConfirm={() => onConfirmDisablePayment(comment)}
+            onClose={onClose}
+            title={monthType}
+            confirmButtonText={STATIC_TEXT.DISABLE_PAYMENT}
+            cancelButtonText={STATIC_TEXT.ABORT}
+            description={STATIC_TEXT.CONFIRM_ENABLE_MONTH_PAYMENT}
+            skipOnCloseAfterConfirm
+        >
+            <React.Fragment>
+                <Stack spacing={2}>
+                   <div>
+                       {STATIC_TEXT.CONFIRM_DISABLE_MONTH_PAYMENT}
+                   </div>
+                    <TextField
+                        label={STATIC_TEXT.COMMENT}
                         value={comment}
+                        onChange={event => handleCommentChange(event)}
                         placeholder={STATIC_TEXT.DISABLE_PAYMENT_PLACEHOLDER}
+                        fullWidth
                     />
-                </InputGroup>
-            </Modal.Body>
-            <Modal.Footer className="dark_background">
-                <Button id="close-modal-btn" variant="secondary" onClick={onClose}>
-                    {STATIC_TEXT.ABORT}
-                </Button>
-                <Button id="ok-modal-btn" variant="danger" onClick={() => onConfirmDisablePayment(comment)}>
-                    {STATIC_TEXT.DISABLE_PAYMENT}
-                </Button>
-            </Modal.Footer>
+                </Stack>
+            </React.Fragment>
         </Modal>
     );
 };

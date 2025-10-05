@@ -1,35 +1,23 @@
-import Stack from "react-bootstrap/Stack";
 import React, {useEffect, useState} from "react";
-import {MyTable} from "../elements/table/MyTable";
-import {
-    CREATE,
-    CREATE_NEXT_YEAR_API_PATH,
-    GET,
-    GET_YEAR_BY_YEAR_NUMBER_API_PATH,
-    NotificationDetails
-} from "../../utils/api.actions";
-import {Year} from "../../objects/payment.type";
-import Badge from "react-bootstrap/Badge";
+import {Year} from "../objects/payment.type";
+import {CREATE, CREATE_NEXT_YEAR_API_PATH, GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../utils/api.actions";
+import {STATIC_TEXT} from "../objects/static_text";
+import {Tooltip} from "../components/elements/tooltip/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {STATIC_TEXT} from "../../objects/static_text";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import {Tooltip} from "../elements/tooltip/Tooltip";
+import {MyTable} from "../components/elements/table/MyTable";
+import {Chip, Container} from "@mui/material";
+import {Modal} from "../components/Modal";
 
-interface ComponentProps {
-    setNotificationDetails: (value?: NotificationDetails) => void,
-    yearNumbers: number[],
-}
-
-const PaymentsPage: React.FC<ComponentProps> = ({
-    setNotificationDetails,
+export const Payments: React.FC<{
+    yearNumbers: number[];
+}> = ({
     yearNumbers,
-}: ComponentProps) => {
+}) => {
     const [year, setYear] = useState<Year>();
-    const [addCategorySectionVisible, setAddCategorySectionVisible] = useState<boolean>(false);
+    const [showAddNewCategoryModal, setShowAddNewCategoryModal] = useState<boolean>(false);
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
 
     const actualIndex: number = yearNumbers.indexOf(year ? year.name : -1);
@@ -45,13 +33,11 @@ const PaymentsPage: React.FC<ComponentProps> = ({
     const handleNextYearClick = () => {
         const yearNumber = yearNumbers.at(actualIndex + 1)!;
         GET(setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber)).then();
-        setAddCategorySectionVisible(false);
     };
 
     const handlePreviousYearClick = () => {
         const yearNumber = yearNumbers.at(actualIndex - 1)!;
         GET(setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber)).then();
-        setAddCategorySectionVisible(false);
     };
 
     const handleAddNewYearClick = () => {
@@ -70,18 +56,13 @@ const PaymentsPage: React.FC<ComponentProps> = ({
     };
 
     const createNextYear = async () => {
-        await CREATE(
-            CREATE_NEXT_YEAR_API_PATH,
-            {},
-            setNotificationDetails,
-            STATIC_TEXT.SUCCESS_ADD_NEW_YEAR
-        );
+        await CREATE(CREATE_NEXT_YEAR_API_PATH, {});
     };
 
     return (
         <>
             <div>
-                <Stack id="year">
+                <Container id="year">
                     <h3>
                         <Tooltip
                             id={isYearLeftArrowEnabled ? "previous-year-tooltip" : "no-more-years-tooltip"}
@@ -93,6 +74,7 @@ const PaymentsPage: React.FC<ComponentProps> = ({
                                     id="previous-year-btn"
                                     key="left-arrow"
                                     size="small"
+                                    color={"primary"}
                                     className="btn_and_tooltip"
                                     disabled={!isYearLeftArrowEnabled}
                                     onClick={handlePreviousYearClick}
@@ -101,9 +83,7 @@ const PaymentsPage: React.FC<ComponentProps> = ({
                                 </IconButton>
                             }
                         />
-                        <Badge bg="dark">
-                            {year?.name}
-                        </Badge>
+                        <Chip label={year?.name} color="primary"/>
                         {isYearRightArrowVisible ?
                             <Tooltip
                                 id="next-year-tooltip"
@@ -115,6 +95,7 @@ const PaymentsPage: React.FC<ComponentProps> = ({
                                         id="nex-year-btn"
                                         key="right"
                                         size="small"
+                                        color={"primary"}
                                         onClick={handleNextYearClick}
                                     >
                                         <NavigateNextIcon/>
@@ -139,39 +120,21 @@ const PaymentsPage: React.FC<ComponentProps> = ({
                             />
                         }
                     </h3>
-                    <MyTable
-                        setNotificationDetails={setNotificationDetails}
-                        year={year!}
-                        setYear={setYear}
-                        addCategorySectionVisible={addCategorySectionVisible}
-                        setAddCategorySectionVisible={setAddCategorySectionVisible}
-                    />
-                </Stack>
+                </Container>
             </div>
+            <MyTable
+                year={year!}
+                setYear={setYear}
+                showAddNewCategoryModal={showAddNewCategoryModal}
+                setShowAddNewCategoryModal={setShowAddNewCategoryModal}
+            />
             <Modal
                 show={showAddNextYearModal}
-                onHide={handleCloseAddNextYearModal}
-                onEscapeKeyDown={handleCloseAddNextYearModal}
-            >
-                <Modal.Header closeButton closeVariant="white" className="dark_background">
-                    <Modal.Title>
-                        {STATIC_TEXT.ADD_NEXT_YEAR}
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="dark_background">
-                    {STATIC_TEXT.NEW_YEAR_CONFIRMATION}
-                </Modal.Body>
-                <Modal.Footer className="dark_background">
-                    <Button id="close-modal-btn" variant="secondary" onClick={handleCloseAddNextYearModal}>
-                        {STATIC_TEXT.CLOSE}
-                    </Button>
-                    <Button id="ok-modal-btn" variant="primary" onClick={handleConfirmAddNextYear}>
-                        {STATIC_TEXT.OK}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                onConfirm={handleConfirmAddNextYear}
+                onClose={handleCloseAddNextYearModal}
+                title={STATIC_TEXT.ADD_NEXT_YEAR}
+                description={STATIC_TEXT.NEW_YEAR_CONFIRMATION}
+            />
         </>
     );
 };
-
-export default PaymentsPage;

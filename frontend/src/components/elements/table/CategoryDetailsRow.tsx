@@ -2,8 +2,7 @@ import * as React from "react";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Collapse from "@mui/material/Collapse";
-import {Box, TableBody, TableHead, Typography} from "@mui/material";
-import {Table} from "react-bootstrap";
+import {Container, Table, TableBody, TableHead, Typography} from "@mui/material";
 import {CategoryDetails, Payment} from "../../../objects/payment.type";
 import {STATIC_TEXT} from "../../../objects/static_text";
 
@@ -26,13 +25,14 @@ export const CategoryDetailsRow: React.FC<Props> = ({
 
     return (
         <TableRow>
-            <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={9} className="border-0">
+            <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={14} className="border-0">
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <Box sx={{marginLeft: 70, marginTop: 3, marginBottom: 5}}>
-                        <Typography variant="h6" gutterBottom component="div" align="center">
-                            {STATIC_TEXT.PAYMENTS_FROM_YEAR}<strong>{year}</strong>
-                        </Typography>
-                        <Table size="small">
+                    <Typography variant="h6" gutterBottom component="div" align="center" className={"mt-3"}>
+                        {STATIC_TEXT.PAYMENTS_FROM_YEAR}<strong>{year}</strong>
+                    </Typography>
+
+                    <Container maxWidth="sm" sx={{mt: 1, mb:4}}>
+                        <Table className="dark_background" size="small">
                             <TableHead>
                                 {
                                     !!yearFilteredPayments && yearFilteredPayments.length ? <TableRow>
@@ -90,7 +90,7 @@ export const CategoryDetailsRow: React.FC<Props> = ({
                                 </TableRow>
                             </TableBody>
                         </Table>
-                    </Box>
+                    </Container>
                 </Collapse>
             </TableCell>
         </TableRow>

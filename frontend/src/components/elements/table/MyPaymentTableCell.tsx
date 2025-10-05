@@ -3,12 +3,7 @@ import * as React from "react";
 import {DisabledPayment, MonthType, Payment, YearCategory} from "../../../objects/payment.type";
 import {PaymentDetailsModal} from "../modals/PaymentDetailsModal";
 import {STATIC_TEXT} from "../../../objects/static_text";
-import {
-    CREATE,
-    DISABLE_PAYMENT_API_PATH,
-    ENABLE_PAYMENT_API_PATH,
-    NotificationDetails
-} from "../../../utils/api.actions";
+import {CREATE, DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "../../../utils/api.actions";
 import {getBorder} from "../../../utils/util.action";
 import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import PriorityHigh from "@mui/icons-material/PriorityHigh";
@@ -17,20 +12,17 @@ import {EnablePaymentModal} from "../modals/EnablePaymentModal";
 import {Tooltip} from "../tooltip/Tooltip";
 import {EnablePaymentRequestBody, TogglePaymentRequestBody} from "../../../objects/request.type";
 
-type Props = {
-    monthNumber: number
+export const MyPaymentTableCell: React.FC<{
+    monthNumber: number,
     payments: Payment[],
     disabledPayments: DisabledPayment[],
     monthType: MonthType,
     yearCategory: YearCategory,
     year: number,
     onUpdate: () => void,
-    setNotificationDetails: (value?: NotificationDetails) => void,
     open: boolean,
     isLastRow: boolean,
-}
-
-export const MyPaymentTableCell: React.FC<Props> = ({
+}> = ({
     monthNumber,
     payments,
     disabledPayments,
@@ -38,10 +30,9 @@ export const MyPaymentTableCell: React.FC<Props> = ({
     yearCategory,
     year,
     onUpdate,
-    setNotificationDetails,
     open,
     isLastRow
-}: Props) => {
+}) => {
     const [paymentDetailModalVisible, setPaymentDetailModalVisible] = React.useState<boolean>(false);
     const [disablePaymentModalVisible, setDisablePaymentModalVisible] = React.useState<boolean>(false);
     const [enablePaymentModalVisible, setEnableModalVisible] = React.useState<boolean>(false);
@@ -112,12 +103,7 @@ export const MyPaymentTableCell: React.FC<Props> = ({
             comment: comment
         };
 
-        await CREATE(
-            DISABLE_PAYMENT_API_PATH,
-            body,
-            setNotificationDetails,
-            STATIC_TEXT.SUCCESS_PAYMENT_BLOCKED
-        );
+        await CREATE(DISABLE_PAYMENT_API_PATH, body);
     };
 
     const enablePayment = async () => {
@@ -126,12 +112,7 @@ export const MyPaymentTableCell: React.FC<Props> = ({
             yearCategoryId: yearCategory.id
         };
 
-        await CREATE(
-            ENABLE_PAYMENT_API_PATH,
-            body,
-            setNotificationDetails,
-            STATIC_TEXT.SUCCESS_PAYMENT_UNBLOCKED
-        );
+        await CREATE(ENABLE_PAYMENT_API_PATH, body);
     };
 
     const borderClass: string = getBorder(open, isLastRow);
@@ -178,7 +159,6 @@ export const MyPaymentTableCell: React.FC<Props> = ({
             </TableCell>
             <PaymentDetailsModal
                 show={paymentDetailModalVisible}
-                onConfirm={() => setPaymentDetailModalVisible(false)}
                 onClose={() => setPaymentDetailModalVisible(false)}
                 payments={monthPayments}
                 monthType={monthType}
@@ -186,7 +166,6 @@ export const MyPaymentTableCell: React.FC<Props> = ({
                 year={year}
                 text=""
                 onUpdate={onUpdate}
-                setNotificationDetails={setNotificationDetails}
                 onSetDisablePaymentModal={handleDisablePaymentClick}
             />
             <DisablePaymentModal

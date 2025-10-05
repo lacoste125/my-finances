@@ -6,27 +6,23 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {MyPaymentTableCell} from "./MyPaymentTableCell";
-import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH, NotificationDetails} from "../../../utils/api.actions";
+import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "../../../utils/api.actions";
 import {CategoryDetailsRow} from "./CategoryDetailsRow";
 import {getBorder} from "../../../utils/util.action";
 import {Tooltip} from "../tooltip/Tooltip";
 import {STATIC_TEXT} from "../../../objects/static_text";
 
-type Props = {
+export const MyCategoryTableRow: React.FC<{
     yearCategory: YearCategory,
     year: number,
     onUpdate: () => void,
-    setNotificationDetails: (value?: NotificationDetails) => void,
-    isLastRow: boolean
-}
-
-export const MyCategoryTableRow: React.FC<Props> = ({
+    isLastRow: boolean,
+}> = ({
     yearCategory,
     year,
     onUpdate,
-    setNotificationDetails,
     isLastRow
-}: Props) => {
+}) => {
     const [open, setOpen] = React.useState(false);
     const [categoryDetails, setCategoryDetails] = React.useState<CategoryDetails | undefined>(undefined);
 
@@ -83,7 +79,6 @@ export const MyCategoryTableRow: React.FC<Props> = ({
                                 yearCategory={yearCategory}
                                 year={year}
                                 onUpdate={onUpdate}
-                                setNotificationDetails={setNotificationDetails}
                                 open={open}
                                 isLastRow={isLastRow}
                             />

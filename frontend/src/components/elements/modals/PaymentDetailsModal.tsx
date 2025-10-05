@@ -1,22 +1,23 @@
 import * as React from "react";
 import {useState} from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import {MonthType, Payment, YearCategory} from "../../../objects/payment.type";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import DatePicker from "react-datepicker";
 import {MonthDetailsTable} from "../table/MonthDetailsTable";
-import {ADD_PAYMENT_API_PATH, CREATE, NotificationDetails} from "../../../utils/api.actions";
+import {ADD_PAYMENT_API_PATH, CREATE} from "../../../utils/api.actions";
 import {getDateFromString} from "../../../utils/util.action";
-import {FORMAT_TEXT, STATIC_TEXT} from "../../../objects/static_text";
-import {Stack} from "react-bootstrap";
+import {STATIC_TEXT} from "../../../objects/static_text";
 import {Tooltip} from "../tooltip/Tooltip";
 import {AddPaymentRequestBody} from "../../../objects/request.type";
+import {Modal} from "../../Modal";
+import {Box, Stack, TextField} from "@mui/material";
+import Button from "@mui/material/Button";
+import dayjs from "dayjs";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {PickerValue} from "@mui/x-date-pickers/internals";
 
-type Props = {
+export const PaymentDetailsModal: React.FC<{
     show: boolean,
-    onConfirm: () => void,
     onClose: () => void,
     payments: Payment[],
     monthType: MonthType,
@@ -24,29 +25,24 @@ type Props = {
     year: number,
     text: string,
     onUpdate: () => void,
-    setNotificationDetails: (value?: NotificationDetails) => void,
-    onSetDisablePaymentModal: () => void
-};
-
-export const PaymentDetailsModal: React.FC<Props> = ({
+    onSetDisablePaymentModal: () => void,
+}> = ({
     show,
-    onConfirm,
     onClose,
     payments,
     monthType,
     yearCategory,
     year,
     onUpdate,
-    setNotificationDetails,
     onSetDisablePaymentModal,
-}: Props) => {
+}) => {
     const [date, setDate] = useState<Date>(new Date());
     const [amount, setAmount] = useState<string>("");
     const [comment, setComment] = useState<string>("");
 
-    const handleDateChange = (newDate: Date | null) => {
+    const handleDateChange = (newDate: PickerValue) => {
         if (newDate) {
-            setDate(newDate);
+            setDate(newDate.toDate());
         }
     };
 
@@ -71,12 +67,7 @@ export const PaymentDetailsModal: React.FC<Props> = ({
             yearCategoryId: yearCategory.id
         };
 
-        await CREATE(
-            ADD_PAYMENT_API_PATH,
-            body,
-            setNotificationDetails,
-            STATIC_TEXT.SUCCESS_ADD_PAYMENT
-        );
+        await CREATE(ADD_PAYMENT_API_PATH, body);
     };
 
     const handlePaymentClick = () => {
@@ -89,69 +80,65 @@ export const PaymentDetailsModal: React.FC<Props> = ({
     const isAddPaymentButtonActive = amount.length > 0 && comment.length > 0;
 
     return (
-        <Modal size="xl" show={show} onHide={onClose} onEscapeKeyDown={onClose}>
-            <Modal.Header closeButton closeVariant="white" className="dark_background">
-                <Modal.Title>
-                    {STATIC_TEXT.PAYMENT_MODAL_TITLE(year, monthType, yearCategory.categoryType.name.toUpperCase())}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="dark_background">
-                <MonthDetailsTable payments={payments}/>
-                <InputGroup className="mb-3 pt-5">
-                    <InputGroup.Text>
-                        {STATIC_TEXT.DATE}
-                    </InputGroup.Text>
+        <Modal
+            show={show}
+            onConfirm={onClose}
+            onClose={onClose}
+            title={STATIC_TEXT.PAYMENT_MODAL_TITLE(year, monthType, yearCategory.categoryType.name.toUpperCase())}
+            cancelButtonText={STATIC_TEXT.ABORT}
+            size="md"
+        >
+            <MonthDetailsTable payments={payments}/>
+            <Stack spacing={2} sx={{pt: 5}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                        selected={date}
-                        onChange={handleDateChange}
-                        showIcon
-                        dateFormat={FORMAT_TEXT.DATE_FORMAT}
-                        todayButton={STATIC_TEXT.TODAY}
-                        className="calendar shadow-none"
+                        defaultValue={dayjs(new Date())}
+                        format="DD-MM-YYYY"
+                        onChange={value => handleDateChange(value)}
                     />
-                    <InputGroup.Text>
-                        {STATIC_TEXT.AMOUNT}
-                    </InputGroup.Text>
-                    <Form.Control
-                        id="new_amount_input"
-                        className="shadow-none"
-                        type="number"
-                        pattern="[0-9]"
-                        onChange={event => handleAmountChange(event)}
-                        value={amount}
-                        placeholder={STATIC_TEXT.ADD_AMOUNT}
-                    />
-                    <InputGroup.Text>
-                        {STATIC_TEXT.COMMENT}
-                    </InputGroup.Text>
-                    <Form.Control
-                        className="comment_class shadow-none"
-                        onChange={event => handleCommentChange(event)}
-                        value={comment}
-                        placeholder={STATIC_TEXT.ADD_NOTE_PLACEHOLDER}
-                    />
-                </InputGroup>
-                <Stack className="float-md-end">
-                    <Tooltip
-                        id="add-payment-btn-tooltip"
-                        text={!isAddPaymentButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
-                        place="left"
-                        element={
-                            <Button
-                                id={"add-payment-btn"}
-                                variant={isAddPaymentButtonActive ? "success" : "secondary"}
-                                onClick={handlePaymentClick}
-                                color="dark"
-                                disabled={!isAddPaymentButtonActive}
-                                className="btn_and_tooltip float-md-end"
-                            >
-                                {STATIC_TEXT.ADD_PAYMENT}
-                            </Button>
+                </LocalizationProvider>
+                <TextField
+                    id="new_amount_input"
+                    type="number"
+                    label={STATIC_TEXT.AMOUNT}
+                    value={amount}
+                    onChange={handleAmountChange}
+                    placeholder={STATIC_TEXT.ADD_AMOUNT}
+                    fullWidth
+                    slotProps={{
+                        input: {
+                            inputProps: {
+                                pattern: "[0-9]*"
+                            }
                         }
-                    />
-                </Stack>
-            </Modal.Body>
-            <Modal.Footer className="dark_background">
+                    }}
+                />
+
+                <TextField
+                    label={STATIC_TEXT.COMMENT}
+                    value={comment}
+                    onChange={handleCommentChange}
+                    placeholder={STATIC_TEXT.ADD_NOTE_PLACEHOLDER}
+                    fullWidth
+                />
+            </Stack>
+            <Box display="flex" alignItems="center" justifyContent="flex-end" gap={2} sx={{marginTop: 2}}>
+                <Tooltip
+                    id="add-payment-btn-tooltip"
+                    text={!isAddPaymentButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
+                    place="left"
+                    element={
+                        <Button
+                            id={"add-payment-btn"}
+                            onClick={handlePaymentClick}
+                            variant="contained"
+                            color="success"
+                            disabled={!isAddPaymentButtonActive}
+                        >
+                            {STATIC_TEXT.ADD_PAYMENT}
+                        </Button>
+                    }
+                />
                 <Tooltip
                     id="disable-payment-tooltip"
                     text={payments.length ? STATIC_TEXT.CANNOT_DISABLE_PAYMENT : ""}
@@ -160,17 +147,15 @@ export const PaymentDetailsModal: React.FC<Props> = ({
                         <Button
                             disabled={!!payments.length}
                             id="disable-payment-btn"
-                            variant="danger"
+                            color="error"
+                            variant="contained"
                             onClick={onSetDisablePaymentModal}
                         >
                             {STATIC_TEXT.DISABLE_PAYMENT_THIS_MONTH}
                         </Button>
                     }
                 />
-                <Button id="ok-modal-btn" variant="primary" onClick={onConfirm}>
-                    {STATIC_TEXT.OK}
-                </Button>
-            </Modal.Footer>
+            </Box>
         </Modal>
     );
 };
