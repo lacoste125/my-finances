@@ -1,11 +1,11 @@
 import React from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import styles from "../styles/MainLayout.module.css";
+import Header from "../header/Header";
+import Sidebar from "../sidebar/Sidebar";
+import Footer from "../footer/Footer";
+import styles from "./MainLayout.module.css";
 
 const MainLayout: React.FC<{
-    children: React.ReactNode,
+    children: React.ReactNode;
 }> = ({
     children
 }) => {

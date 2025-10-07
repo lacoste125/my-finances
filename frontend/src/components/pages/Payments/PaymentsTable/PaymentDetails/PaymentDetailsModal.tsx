@@ -1,13 +1,13 @@
 import * as React from "react";
-import {useState} from "react";
-import {MonthType, Payment, YearCategory} from "../../../objects/payment.type";
-import {MonthDetailsTable} from "../table/MonthDetailsTable";
-import {ADD_PAYMENT_API_PATH, CREATE} from "../../../utils/api.actions";
-import {getDateFromString} from "../../../utils/util.action";
-import {STATIC_TEXT} from "../../../objects/static_text";
-import {Tooltip} from "../tooltip/Tooltip";
-import {AddPaymentRequestBody} from "../../../objects/request.type";
-import {Modal} from "../../Modal";
+import {useMemo, useState} from "react";
+import {MonthType, Payment, YearCategory} from "../../../../../objects/payment.type";
+import {MonthDetailsTable} from "./MonthDetailsTable";
+import {ADD_PAYMENT_API_PATH, CREATE} from "../../../../../utils/api.actions";
+import {getDateFromString} from "../../../../../utils/util.action";
+import {FORMAT_TEXT, STATIC_TEXT} from "../../../../../objects/static_text";
+import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {AddPaymentRequestBody} from "../../../../../objects/request.type";
+import {Modal} from "../../../../structure/modal/Modal";
 import {Box, Stack, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import dayjs from "dayjs";
@@ -17,15 +17,15 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {PickerValue} from "@mui/x-date-pickers/internals";
 
 export const PaymentDetailsModal: React.FC<{
-    show: boolean,
-    onClose: () => void,
-    payments: Payment[],
-    monthType: MonthType,
-    yearCategory: YearCategory,
-    year: number,
-    text: string,
-    onUpdate: () => void,
-    onSetDisablePaymentModal: () => void,
+    show: boolean;
+    onClose: () => void;
+    payments: Payment[];
+    monthType: MonthType;
+    yearCategory: YearCategory;
+    year: number;
+    text: string;
+    onUpdate: () => void;
+    onSetDisablePaymentModal: () => void;
 }> = ({
     show,
     onClose,
@@ -77,7 +77,7 @@ export const PaymentDetailsModal: React.FC<{
         setAmount("");
     };
 
-    const isAddPaymentButtonActive = amount.length > 0 && comment.length > 0;
+    const isAddPaymentButtonActive = useMemo(() => amount.length > 0 && comment.length > 0, [amount, comment]);
 
     return (
         <Modal
@@ -93,7 +93,7 @@ export const PaymentDetailsModal: React.FC<{
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         defaultValue={dayjs(new Date())}
-                        format="DD-MM-YYYY"
+                        format={FORMAT_TEXT.DATE_FORMAT}
                         onChange={value => handleDateChange(value)}
                     />
                 </LocalizationProvider>

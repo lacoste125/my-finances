@@ -1,32 +1,34 @@
 import TableCell from "@mui/material/TableCell";
 import * as React from "react";
-import {CategoryDetails, MonthType, YearCategory} from "../../../objects/payment.type";
+import {useMemo, useState} from "react";
+import {CategoryDetails, MonthType, YearCategory} from "../../../../objects/payment.type";
 import TableRow from "@mui/material/TableRow";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {MyPaymentTableCell} from "./MyPaymentTableCell";
-import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "../../../utils/api.actions";
-import {CategoryDetailsRow} from "./CategoryDetailsRow";
-import {getBorder} from "../../../utils/util.action";
-import {Tooltip} from "../tooltip/Tooltip";
-import {STATIC_TEXT} from "../../../objects/static_text";
+import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "../../../../utils/api.actions";
 
-export const MyCategoryTableRow: React.FC<{
-    yearCategory: YearCategory,
-    year: number,
-    onUpdate: () => void,
-    isLastRow: boolean,
+import {getBorder} from "../../../../utils/util.action";
+import {Tooltip} from "../../../elements/tooltip/Tooltip";
+import {STATIC_TEXT} from "../../../../objects/static_text";
+import {CategoryDetailsRow} from "./CategoryDetails/CategoryDetailsRow";
+
+const ICON_HTML_COLOR: string = "white";
+
+export const CategoryTableRow: React.FC<{
+    yearCategory: YearCategory;
+    year: number;
+    onUpdate: () => void;
+    isLastRow: boolean;
 }> = ({
     yearCategory,
     year,
     onUpdate,
-    isLastRow
+    isLastRow,
 }) => {
-    const [open, setOpen] = React.useState(false);
-    const [categoryDetails, setCategoryDetails] = React.useState<CategoryDetails | undefined>(undefined);
-
-    const iconHtmlColor: string = "white";
+    const [open, setOpen] = useState<boolean>(false);
+    const [categoryDetails, setCategoryDetails] = useState<CategoryDetails | undefined>(undefined);
 
     const handleOpen = () => {
         if (!open) {
@@ -35,8 +37,13 @@ export const MyCategoryTableRow: React.FC<{
         setOpen(!open);
     };
 
-    const borderClass: string = getBorder(open, isLastRow);
-    const categoryName: string = yearCategory.categoryType.name;
+    const borderClass: string = useMemo(() => {
+        return getBorder(open, isLastRow);
+    }, [open, isLastRow]);
+
+    const categoryName: string = useMemo(() => {
+        return yearCategory.categoryType.name;
+    }, [yearCategory]);
 
     return (
         <React.Fragment>
@@ -44,8 +51,8 @@ export const MyCategoryTableRow: React.FC<{
                 <TableCell className={`border-dark border-top ${borderClass}`}>
                     <IconButton size="small" onClick={handleOpen}>
                         {
-                            open ? <KeyboardArrowUpIcon htmlColor={iconHtmlColor}/> :
-                                <KeyboardArrowDownIcon htmlColor={iconHtmlColor}/>
+                            open ? <KeyboardArrowUpIcon htmlColor={ICON_HTML_COLOR}/> :
+                                <KeyboardArrowDownIcon htmlColor={ICON_HTML_COLOR}/>
                         }
                     </IconButton>
                 </TableCell>

@@ -1,27 +1,25 @@
 import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
 import * as React from "react";
 
-type Props = {
-    id: string,
-    text: string,
-    place: PlacesType,
-    element: JSX.Element,
-    noArrow?: boolean,
-    offset?: number,
-    delay?: number
-}
-
-export const Tooltip:React.FC<Props> = ({
+export const Tooltip: React.FC<{
+    id: string;
+    text: string;
+    place: PlacesType;
+    element: JSX.Element;
+    noArrow?: boolean;
+    offset?: number;
+    delay?: number;
+}> = ({
     id,
     text,
     place,
     element,
     noArrow,
     offset,
-    delay
-}: Props) => {
+    delay,
+}) => {
     return (
-        <>
+        <React.Fragment>
             <a
                 data-tooltip-id={id}
                 data-tooltip-content={text}
@@ -36,6 +34,6 @@ export const Tooltip:React.FC<Props> = ({
                 noArrow={noArrow}
                 delayShow={delay}
             />
-        </>
+        </React.Fragment>
     );
 };

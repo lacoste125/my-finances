@@ -1,15 +1,14 @@
 import * as React from "react";
 import {Dispatch, SetStateAction} from "react";
-import {Modal} from "../../Modal";
-import {AddCategoryForm} from "../table/AddCategoryForm";
-import {Year} from "../../../objects/payment.type";
-import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../utils/api.actions";
+import {Modal} from "../../../../structure/modal/Modal";
+import {AddCategoryForm} from "./AddCategoryForm";
+import {Year} from "../../../../../objects/payment.type";
+import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../../../utils/api.actions";
 
-export const AddNewRowModal: React.FC<{
+export const AddCategoryModal: React.FC<{
     show: boolean;
     onClose: () => void;
     onConfirm: () => void;
-
     year?: Year;
     setYear: Dispatch<SetStateAction<Year | undefined>>;
     setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;

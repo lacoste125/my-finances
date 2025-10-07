@@ -1,23 +1,23 @@
 import * as React from "react";
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, SetStateAction, useMemo} from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {MonthType, Year, YearCategory} from "../../../objects/payment.type";
-import {MyCategoryTableRow} from "./MyCategoryTableRow";
-import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../utils/api.actions";
-import {STATIC_TEXT} from "../../../objects/static_text";
-import {AddNewRowModal} from "../modals/AddNewRowModal";
-import {Tooltip} from "../tooltip/Tooltip";
+import {MonthType, Year, YearCategory} from "../../../../objects/payment.type";
+import {CategoryTableRow} from "./CategoryTableRow";
+import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../../utils/api.actions";
+import {STATIC_TEXT} from "../../../../objects/static_text";
+import {AddCategoryModal} from "./AddCategory/AddCategoryModal";
+import {Tooltip} from "../../../elements/tooltip/Tooltip";
 import Button from "@mui/material/Button";
 
-export const MyTable: React.FC<{
-    year?: Year,
-    setYear: Dispatch<SetStateAction<Year | undefined>>,
-    showAddNewCategoryModal: boolean,
-    setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>,
+export const PaymentsTable: React.FC<{
+    year?: Year;
+    setYear: Dispatch<SetStateAction<Year | undefined>>;
+    showAddNewCategoryModal: boolean;
+    setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;
 }> = ({
     year,
     setYear,
@@ -25,7 +25,14 @@ export const MyTable: React.FC<{
     setShowAddNewCategoryModal
 }) => {
 
-    const isYearHasAnyCategory = !!year && year.categories.length;
+    const isYearHasAnyCategory = useMemo(() => {
+        return !!year && year.categories.length;
+    }, [year]);
+
+    const showAddCategoryRow: boolean = useMemo(() => {
+        return !!year && year.name === new Date().getFullYear().valueOf();
+    }, [year]);
+
     return (
         <React.Fragment>
             <Table className="dark_background" size="small">
@@ -55,7 +62,7 @@ export const MyTable: React.FC<{
                     {
                         isYearHasAnyCategory ? year!.categories.map(
                                 (yearCategory: YearCategory, index: number) => (
-                                    <MyCategoryTableRow
+                                    <CategoryTableRow
                                         key={`${yearCategory.id}_${index}`}
                                         yearCategory={yearCategory}
                                         year={year!.name}
@@ -80,7 +87,7 @@ export const MyTable: React.FC<{
                             </TableRow>
                     }
                     {
-                        !!year && year.name === new Date().getFullYear().valueOf() && <TableRow key="tableHeader">
+                        showAddCategoryRow && <TableRow key="tableHeader">
                             <TableCell colSpan={3}>
                                 <Tooltip
                                     id={"add-row-tooltip"}
@@ -106,7 +113,7 @@ export const MyTable: React.FC<{
                     }
                 </TableBody>
             </Table>
-            <AddNewRowModal
+            <AddCategoryModal
                 show={showAddNewCategoryModal}
                 onConfirm={() => setShowAddNewCategoryModal(false)}
                 onClose={() => setShowAddNewCategoryModal(false)}

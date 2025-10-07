@@ -1,13 +1,13 @@
 import React from "react";
 import {AppBar, Avatar, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import styles from "../styles/Header.module.css";
+import styles from "./Header.module.css";
 
-interface HeaderProps {
+const Header: React.FC<{
     onMenuClick: () => void;
-}
-
-const Header: React.FC<HeaderProps> = ({onMenuClick}) => {
+}> = ({
+    onMenuClick,
+}) => {
     return (
         <AppBar position="static" className={styles.header}>
             <Toolbar className={styles.toolbar}>

@@ -1,22 +1,22 @@
-import {STATIC_TEXT} from "../../../objects/static_text";
+import {STATIC_TEXT} from "../../../../../objects/static_text";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {
     ADD_CATEGORY_TO_YEAR_API_PATH,
     CREATE,
     CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
     GET,
     GET_ALL_CATEGORIES_API_PATH
-} from "../../../utils/api.actions";
-import {CategoryType, Year} from "../../../objects/payment.type";
-import {Tooltip} from "../tooltip/Tooltip";
-import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "../../../objects/request.type";
+} from "../../../../../utils/api.actions";
+import {CategoryType, Year} from "../../../../../objects/payment.type";
+import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "../../../../../objects/request.type";
 import {Box, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 
 export const AddCategoryForm: React.FC<{
-    year?: Year,
-    close: () => void,
+    year?: Year;
+    close: () => void;
 }> = ({
     year,
     close,
@@ -40,15 +40,15 @@ export const AddCategoryForm: React.FC<{
         setCategoryDeadline("");
     };
 
-    function handleCategorySelection(key: string | null) {
+    const handleCategorySelection = (key: string | null) => {
         const category = allCategoryTypes.find(
             categoryType => categoryType.id === parseInt(key!));
         setSelectedCategory(category);
-    }
+    };
 
-    function handleClickAddCategoryToMontButton() {
+    const handleClickAddCategoryToMontButton = () => {
         addCategoryToYear().then(close);
-    }
+    };
 
     const handleClickCreateNewCategory = () => {
         createNewCategoryAndAddToYear().then(close);
@@ -85,11 +85,22 @@ export const AddCategoryForm: React.FC<{
         await CREATE(CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH, body, "PUT");
     };
 
-    const yearCategories = year?.categories?.map(cat => cat.categoryType);
-    const categoriesDisplayedInDropdown = allCategoryTypes?.filter(category =>
-        !yearCategories?.some(yearCategory => yearCategory.name === category.name))
-        .sort((a, b) => a.name.localeCompare(b.name));
-    const isCreateNewCategoryButtonActive = categoryDeadline.length && newCategoryName.length;
+    const yearCategories = useMemo(() => year?.categories?.map(cat => cat.categoryType), [year]);
+
+    const categoriesDisplayedInDropdown = useMemo(() => {
+        return allCategoryTypes?.filter(
+            (category: CategoryType) =>
+                !yearCategories?.some(
+                    (yearCategory: CategoryType) => yearCategory.name === category.name
+                )
+        ).sort(
+            (a: CategoryType, b: CategoryType) => a.name.localeCompare(b.name)
+        );
+    }, [allCategoryTypes, yearCategories]);
+
+    const isCreateNewCategoryButtonActive = useMemo(() => {
+        return categoryDeadline.length && newCategoryName.length;
+    }, [categoryDeadline, newCategoryName]);
 
     return (
         <React.Fragment>
@@ -126,9 +137,8 @@ export const AddCategoryForm: React.FC<{
                     </Button>
                 }
             </Box>
-
             <FormControl fullWidth>
-                <div>
+                <div className={!createCategorySectionVisible ? "mt-2" : ""}>
                     <Tooltip
                         id="new_category_tooltip"
                         text={!createCategorySectionVisible ? STATIC_TEXT.CLICK_TO_CREATE_NEW_CATEGORY : ""}

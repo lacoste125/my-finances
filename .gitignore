@@ -38,3 +38,4 @@ build/
 .env
 .env_local
 /node_modules/
+/package-lock.json

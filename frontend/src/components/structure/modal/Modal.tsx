@@ -1,6 +1,6 @@
 import React from "react";
 import DialogTitle from "@mui/material/DialogTitle";
-import {STATIC_TEXT} from "../objects/static_text";
+import {STATIC_TEXT} from "../../../objects/static_text";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
@@ -17,7 +17,7 @@ export const Modal: React.FC<{
     cancelButtonText?: string;
     confirmButtonText?: string;
     skipOnCloseAfterConfirm?: boolean;
-    size?: "xs" | "sm" | "md" | "lg" | "xl"
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
 }> = ({
     show,
     children,
@@ -28,7 +28,7 @@ export const Modal: React.FC<{
     cancelButtonText,
     confirmButtonText,
     skipOnCloseAfterConfirm,
-    size = "sm"
+    size = "sm",
 }) => {
     if (!show) return null;
 
@@ -52,17 +52,19 @@ export const Modal: React.FC<{
                 {title || "Czy jesteś pewien??"}
             </DialogTitle>
             <DialogContent>
-                {!children ? (
-                    <DialogContentText id="alert-dialog-description">
-                        {description || "Tutaj opis description"}
-                    </DialogContentText>
-                ) : children}
+                {
+                    !children ? (
+                        <DialogContentText id="alert-dialog-description">
+                            {description || "Tutaj opis description"}
+                        </DialogContentText>
+                    ) : children
+                }
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} variant="outlined" color="error">
                     {cancelButtonText || STATIC_TEXT.CLOSE}
                 </Button>
-                <Button onClick={handleConfirm} autoFocus  variant="contained" color="success">
+                <Button onClick={handleConfirm} variant="contained" color="success">
                     {confirmButtonText || STATIC_TEXT.OK}
                 </Button>
             </DialogActions>

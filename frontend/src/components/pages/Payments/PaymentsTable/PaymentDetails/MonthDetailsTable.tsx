@@ -6,22 +6,22 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import * as React from "react";
-import {STATIC_TEXT} from "../../../objects/static_text";
-import {Payment} from "../../../objects/payment.type";
+import {useMemo} from "react";
+import {STATIC_TEXT} from "../../../../../objects/static_text";
+import {Payment} from "../../../../../objects/payment.type";
 
-type Props = {
-    payments: Payment[],
-};
+export const MonthDetailsTable: React.FC<{
+    payments: Payment[];
+}> = ({
+    payments,
+}) => {
 
-export const MonthDetailsTable: React.FC<Props> = ({
-    payments
-}: Props) => {
-
-    const sortedPayments: Payment[] = payments.sort(
-        (a: Payment, b: Payment): number => new Date(a.date).getTime() - new Date(b.date).getTime()
+    const sortedPayments: Payment[] = useMemo(() => payments.sort(
+            (a: Payment, b: Payment): number => new Date(a.date).getTime() - new Date(b.date).getTime()
+        ), [payments]
     );
 
-    const isAnyPaymentAvailable: number = payments.length;
+    const isAnyPaymentAvailable: number = useMemo(() => payments.length, [payments]);
 
     return (
         <TableContainer component={Paper}>
@@ -36,10 +36,9 @@ export const MonthDetailsTable: React.FC<Props> = ({
                 </TableHead>
                 <TableBody>
                     {
-                        isAnyPaymentAvailable ?
-                            sortedPayments.map(
-                                (payment: Payment, index: number): React.ReactElement => <TableRow
-                                    key={`PaymentDetail_${index}`}>
+                        isAnyPaymentAvailable ? sortedPayments.map(
+                            (payment: Payment, index: number): React.ReactElement => (
+                                <TableRow key={`PaymentDetail_${index}`}>
                                     <TableCell scope="row">
                                         {++index}
                                     </TableCell>
@@ -53,11 +52,14 @@ export const MonthDetailsTable: React.FC<Props> = ({
                                         {payment.comment}
                                     </TableCell>
                                 </TableRow>
-                            ) : <TableRow>
+                            )
+                        ) : (
+                            <TableRow>
                                 <TableCell align="center" colSpan={4}>
                                     {STATIC_TEXT.NO_PAYMENT_THIS_MONTH_TEXT}
                                 </TableCell>
                             </TableRow>
+                        )
                     }
                 </TableBody>
             </Table>

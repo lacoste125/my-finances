@@ -1,23 +1,21 @@
-import {STATIC_TEXT} from "../../../objects/static_text";
+import {STATIC_TEXT} from "../../../../../objects/static_text";
 import * as React from "react";
 import {useState} from "react";
-import {MonthType} from "../../../objects/payment.type";
-import {Modal} from "../../Modal";
+import {MonthType} from "../../../../../objects/payment.type";
+import {Modal} from "../../../../structure/modal/Modal";
 import {Stack, TextField} from "@mui/material";
 
-type Props = {
-    show: boolean,
-    monthType: MonthType,
-    onClose: () => void,
-    onConfirmDisablePayment: (comment?: string) => void
-};
-
-export const DisablePaymentModal: React.FC<Props> = ({
+export const DisablePaymentModal: React.FC<{
+    show: boolean;
+    monthType: MonthType;
+    onClose: () => void;
+    onConfirmDisablePayment: (comment?: string) => void;
+}> = ({
     show,
     monthType,
     onClose,
     onConfirmDisablePayment,
-}: Props) => {
+}) => {
     const [comment, setComment] = useState<string | undefined>(undefined);
 
     const handleCommentChange = (newComment: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,9 +37,9 @@ export const DisablePaymentModal: React.FC<Props> = ({
         >
             <React.Fragment>
                 <Stack spacing={2}>
-                   <div>
-                       {STATIC_TEXT.CONFIRM_DISABLE_MONTH_PAYMENT}
-                   </div>
+                    <div>
+                        {STATIC_TEXT.CONFIRM_DISABLE_MONTH_PAYMENT}
+                    </div>
                     <TextField
                         label={STATIC_TEXT.COMMENT}
                         value={comment}

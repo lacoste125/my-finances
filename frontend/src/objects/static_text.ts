@@ -8,29 +8,21 @@ export class STATIC_TEXT {
     static PAYMENT_DISABLED_CLICK_TO_CHANGE = "Płatność w tym miesiącu została wyłączona. Kliknij aby zmienić konfigurację";
     static CONFIRM_DISABLE_MONTH_PAYMENT = "Czy na pewno chcesz wyłączyć płatność w tym miesiącu?";
     static CONFIRM_ENABLE_MONTH_PAYMENT = "Czy na pewno chcesz włączyć płatność w tym miesiącu?";
-    static NO_CATEGORIES_IN_CONFIGURATION = "Brak nowych kategorii w konfiguracji. Dodaj nową!";
     static NO_PAYMENTS_IN_CATEGORY = "Kategoria nie zawiera żadnych płatności w tym roku";
     static FILL_ALL_FIELDS_TO_ADD_PAYMENT = "Uzupełnij wszystkie pola aby dodać płatność";
     static CANNOT_DISABLE_PAYMENT = "Nie możesz wyłączyć płatności w tym miesiącu";
-    static SUCCESS_ADD_PAYMENT = "Płatność została prawidłowo dodana do bazy danych";
     static NEW_YEAR_CONFIRMATION = "Czy chcesz dodać nowy rok do konfiguracji?";
     static NO_MORE_YEARS_IN_CONFIG = "Brak wcześniejszych lat w konfiguracji";
     static CLICK_TO_CREATE_NEW_CATEGORY = "Zaznacz aby dodać nową kategorię";
     static DISABLE_PAYMENT_PLACEHOLDER = "Podaj powód wyłączenia płatności";
-    static SUCCESS_PAYMENT_UNBLOCKED = "Płatność odblokowana prawidłowo";
     static NO_PAYMENT_THIS_MONTH_TEXT = "BRAK PŁATNOŚCI W TYM MIESIĄCU";
     static DISABLE_PAYMENT_THIS_MONTH = "Wyłącz płatność w tym mesiącu";
-    static SUCCESS_ADD_NEW_YEAR = "Nowy rok został dodany prawidłowo.";
-    static SUCCESS_PAYMENT_BLOCKED = "Płatność zablokowana prawidłowo";
-    static SUCCESS_ADD_CATEGORY = "Kategoria dodana prawidłowo.";
     static ADD_NOTE_PLACEHOLDER = "Dodaj notatkę do płatności";
     static WRITE_CATEGORY_NUMBER = "Wpisz nazwę kategorii";
     static PAYMENTS_FROM_YEAR = "Płatności z roku ";
     static ALL_YEARS_SUM = "Suma z wszystkich lat";
-    static CHOOSE_CATEGORY = "Wybierz kategorię";
     static DISABLE_PAYMENT = "Wyłącz płatność";
     static ADD_NEXT_YEAR = "Dodaj kolejny rok";
-    static MY_FINANCES_APP = "MyFinances App";
     static DEADLINE_WITH_COLON = "Deadline: ";
     static WRITE_DEADLINE = "Wpisz deadline";
     static PREVIOUS_YEAR = "Poprzedni rok";
@@ -44,16 +36,12 @@ export class STATIC_TEXT {
     static COMMENT = "Komentarz";
     static DEADLINE = "Deadline";
     static PAYMENT = "płatność";
-    static SUCCESS = "SUCCESS";
     static ABORT = "Przerwij";
     static CREATE = "Utwórz";
     static AMOUNT = "Kwota";
-    static ERROR = "ERROR";
-    static TODAY = "Today";
     static CLOSE = "Close";
     static FEE = "Opłata";
     static NAME = "Nazwa";
-    static HIDE = "Ukryj";
     static DATE = "Data";
     static ADD = "Dodaj";
     static ZL = " zł";
@@ -62,5 +50,5 @@ export class STATIC_TEXT {
 }
 
 export class FORMAT_TEXT {
-    static DATE_FORMAT = "yyyy-MM-dd";
+    static DATE_FORMAT = "YYYY-MM-DD";
 }

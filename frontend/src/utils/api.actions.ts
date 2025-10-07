@@ -12,7 +12,7 @@ export const ENABLE_PAYMENT_API_PATH = "payments/enablePayment";
 
 export const GET = async <T>(
     onSuccess: (resp: T) => void,
-    apiPath: string
+    apiPath: string,
 ) => {
     try {
         const response = await fetch(BASE_API_PATH(apiPath));

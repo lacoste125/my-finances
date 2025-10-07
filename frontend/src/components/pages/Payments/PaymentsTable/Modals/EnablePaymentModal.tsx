@@ -1,21 +1,19 @@
 import * as React from "react";
-import {STATIC_TEXT} from "../../../objects/static_text";
-import {MonthType} from "../../../objects/payment.type";
-import {Modal} from "../../Modal";
+import {STATIC_TEXT} from "../../../../../objects/static_text";
+import {MonthType} from "../../../../../objects/payment.type";
+import {Modal} from "../../../../structure/modal/Modal";
 
-type Props = {
-    show: boolean,
-    month: MonthType,
-    onClose: () => void,
-    onConfirmEnablePayment: () => void,
-};
-
-export const EnablePaymentModal: React.FC<Props> = ({
+export const EnablePaymentModal: React.FC<{
+    show: boolean;
+    month: MonthType;
+    onClose: () => void;
+    onConfirmEnablePayment: () => void;
+}> = ({
     show,
     month,
     onClose,
-    onConfirmEnablePayment
-}: Props) => {
+    onConfirmEnablePayment,
+}) => {
     return (
         <Modal
             show={show}
