@@ -10,7 +10,7 @@ import {CREATE, CREATE_NEXT_YEAR_API_PATH} from "../../../../utils/api.actions";
 import {AddNewYearModal} from "./AddNewYearModal";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../../app/store";
-import {getYearByYearNumber, PaymentsState} from "../../../../redux/payments/paymentsSlice";
+import {getAllYearNumbers, getYearByYearNumber, PaymentsState} from "../../../../redux/payments/paymentsSlice";
 
 export const YearContainer: React.FC= () => {
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
@@ -51,6 +51,7 @@ export const YearContainer: React.FC= () => {
 
     const handleConfirmAddNextYear = () => {
         createNextYear()
+            .then(() => dispatch(getAllYearNumbers()))
             .then(() => dispatch(getYearByYearNumber(year!.name + 1)));
     };
 
