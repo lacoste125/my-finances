@@ -13,7 +13,7 @@ export interface Page {
 export const PAGES: Page[] = [
     {
         name: "Strona główna",
-        path: Path.ROOT
+        path: Path.ROOT,
     },
     {
         name: "Payments",
@@ -21,10 +21,10 @@ export const PAGES: Page[] = [
     },
     {
         name: "Ustawienia",
-        path: Path.SETTINGS
+        path: Path.SETTINGS,
     },
     {
         name: "O aplikacji",
-        path: Path.ABOUT
+        path: Path.ABOUT,
     }
 ];

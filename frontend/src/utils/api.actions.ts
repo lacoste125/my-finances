@@ -1,4 +1,3 @@
-const BASE_API_PATH = (apiPath: string) => `http://localhost:8181/api/${apiPath}`;
 export const GET_YEAR_BY_YEAR_NUMBER_API_PATH = (yearNumber: number) => `years/getYearByYearNumber?yearNumber=${yearNumber}`;
 export const ADD_PAYMENT_API_PATH = "payments/addPayment";
 export const YEARS = "years";
@@ -9,6 +8,8 @@ export const CREATE_NEXT_YEAR_API_PATH = "years/createNextYear";
 export const GET_CATEGORY_PAYMENTS_BY_ID_API_PATH = (categoryId: number) => `payments/getCategoryPayments?categoryId=${categoryId}`;
 export const DISABLE_PAYMENT_API_PATH = "payments/disablePayment";
 export const ENABLE_PAYMENT_API_PATH = "payments/enablePayment";
+
+const BASE_API_PATH = (apiPath: string) => `http://localhost:8181/api/${apiPath}`;
 
 export const GET = async <T>(
     onSuccess: (resp: T) => void,

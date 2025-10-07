@@ -2,30 +2,27 @@ import * as React from "react";
 import {Dispatch, SetStateAction} from "react";
 import {Modal} from "../../../../structure/modal/Modal";
 import {AddCategoryForm} from "./AddCategoryForm";
-import {Year} from "../../../../../objects/payment.type";
-import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../../../utils/api.actions";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../../../../app/store";
+import {getYearByYearNumber, PaymentsState} from "../../../../../redux/payments/paymentsSlice";
 
 export const AddCategoryModal: React.FC<{
     show: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    year?: Year;
-    setYear: Dispatch<SetStateAction<Year | undefined>>;
     setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;
 }> = ({
     show,
     onClose,
     onConfirm,
-    year,
-    setYear,
 }) => {
     if (!show) return null;
 
+    const dispatch = useDispatch<AppDispatch>();
+    const {year} = useSelector((state: RootState): PaymentsState => state.payments);
+
     const handleClose = () => {
-        GET(
-            setYear,
-            GET_YEAR_BY_YEAR_NUMBER_API_PATH(year!.name)
-        );
+        dispatch(getYearByYearNumber(year!.name));
         onClose();
     };
 

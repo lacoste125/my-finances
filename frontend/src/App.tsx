@@ -1,34 +1,23 @@
-import {Route, Routes} from "react-router-dom";
 import MainLayout from "./components/structure/layout/MainLayout";
-import Home from "./components/pages/Home/Home";
-import Settings from "./components/pages/Settings/Settings";
-import About from "./components/pages/About/About";
-import {Payments} from "./components/pages/Payments/Payments";
-import {useEffect, useState} from "react";
-import {GET, YEARS} from "./utils/api.actions";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "./app/store";
+import {getAllYearNumbers, PaymentsState} from "./redux/payments/paymentsSlice";
+import {AppRouter} from "./components/structure/Router/AppRouter";
 
 function App() {
-    const [yearNumbers, setYearNumbers] = useState<number[]>([]);
+    const dispatch = useDispatch<AppDispatch>();
+    const {yearNumbers} = useSelector((state: RootState): PaymentsState => state.payments);
 
     useEffect(() => {
         if (!yearNumbers.length) {
-            GET(setYearNumbers, YEARS).then();
+            dispatch(getAllYearNumbers());
         }
-    }, [yearNumbers]);
+    }, [dispatch]);
 
     return (
         <MainLayout>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/settings" element={<Settings/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route
-                    path="/payments"
-                    element={
-                        <Payments yearNumbers={yearNumbers}/>
-                    }
-                />
-            </Routes>
+            <AppRouter/>
         </MainLayout>
     );
 }

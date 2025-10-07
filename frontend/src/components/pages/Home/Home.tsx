@@ -1,7 +1,7 @@
 import React from "react";
-import Counter from "../../../features/counter/Counter";
+import Counter from "../../../redux/counter/Counter";
 
-const Home: React.FC = () => {
+export const Home: React.FC = () => {
     return (
         <div>
             <h1>Strona główna</h1>
@@ -9,5 +9,3 @@ const Home: React.FC = () => {
         </div>
     );
 };
-
-export default Home;

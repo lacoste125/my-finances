@@ -5,25 +5,26 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {MonthType, Year, YearCategory} from "../../../../objects/payment.type";
+import {MonthType, YearCategory} from "../../../../objects/payment.type";
 import {CategoryTableRow} from "./CategoryTableRow";
-import {GET, GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../../../utils/api.actions";
 import {STATIC_TEXT} from "../../../../objects/static_text";
 import {AddCategoryModal} from "./AddCategory/AddCategoryModal";
 import {Tooltip} from "../../../elements/tooltip/Tooltip";
 import Button from "@mui/material/Button";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../../../app/store";
+import {getYearByYearNumber, PaymentsState} from "../../../../redux/payments/paymentsSlice";
 
 export const PaymentsTable: React.FC<{
-    year?: Year;
-    setYear: Dispatch<SetStateAction<Year | undefined>>;
     showAddNewCategoryModal: boolean;
     setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;
 }> = ({
-    year,
-    setYear,
     showAddNewCategoryModal,
     setShowAddNewCategoryModal
 }) => {
+
+    const dispatch = useDispatch<AppDispatch>();
+    const {year} = useSelector((state: RootState): PaymentsState => state.payments);
 
     const isYearHasAnyCategory = useMemo(() => {
         return !!year && year.categories.length;
@@ -66,10 +67,7 @@ export const PaymentsTable: React.FC<{
                                         key={`${yearCategory.id}_${index}`}
                                         yearCategory={yearCategory}
                                         year={year!.name}
-                                        onUpdate={
-                                            () => GET(setYear, GET_YEAR_BY_YEAR_NUMBER_API_PATH(year!.name))
-                                                .then()
-                                        }
+                                        onUpdate={() => dispatch(getYearByYearNumber(year!.name))}
                                         isLastRow={index === year!.categories.length - 1}
                                     />
                                 )
@@ -117,8 +115,6 @@ export const PaymentsTable: React.FC<{
                 show={showAddNewCategoryModal}
                 onConfirm={() => setShowAddNewCategoryModal(false)}
                 onClose={() => setShowAddNewCategoryModal(false)}
-                year={year}
-                setYear={setYear}
                 setShowAddNewCategoryModal={setShowAddNewCategoryModal}
             />
         </React.Fragment>
