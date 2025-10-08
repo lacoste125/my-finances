@@ -1,4 +1,4 @@
-import {STATIC_TEXT} from "../../../../../objects/static_text";
+import {STATIC_TEXT} from "@objects/static_text";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import {
@@ -7,12 +7,13 @@ import {
     CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
     GET,
     GET_ALL_CATEGORIES_API_PATH
-} from "../../../../../utils/api.actions";
-import {CategoryType, Year} from "../../../../../objects/payment.type";
+} from "@utils/api.actions";
+import {CategoryType, Year} from "@objects/payment.type";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
-import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "../../../../../objects/request.type";
+import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "@objects/request.type";
 import {Box, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
+import styles from "./AddCategoryForm.module.css";
 
 export const AddCategoryForm: React.FC<{
     year?: Year;
@@ -54,16 +55,12 @@ export const AddCategoryForm: React.FC<{
         createNewCategoryAndAddToYear().then(close);
     };
 
-    const handleCategoryNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (event) {
-            setNewCategoryName(event.target.value);
-        }
+    const handleCategoryNameChange = (value: string) => {
+        setNewCategoryName(value);
     };
 
-    const handleCategoryDeadlineChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (event) {
-            setCategoryDeadline(event.target.value);
-        }
+    const handleCategoryDeadlineChange = (value: string) => {
+        setCategoryDeadline(value);
     };
 
     const addCategoryToYear = async () => {
@@ -104,7 +101,7 @@ export const AddCategoryForm: React.FC<{
 
     return (
         <React.Fragment>
-            <Box sx={{minWidth: 200, maxWidth: 400}} display="flex" alignItems="baseline" gap={1}>
+            <Box className={styles.addCategoryBox} display="flex" alignItems="baseline" gap={1}>
                 {
                     !createCategorySectionVisible && <FormControl variant="outlined" fullWidth>
                         <InputLabel id="dropdown-category-label" color="success" sx={{marginTop: 1}}>
@@ -115,7 +112,7 @@ export const AddCategoryForm: React.FC<{
                             labelId="dropdown-category-label"
                             value={selectedCategory?.name}
                             onChange={(event) => handleCategorySelection(event.target.value)}
-                            sx={{backgroundColor: "white"}}
+                            className={styles.whiteBack}
                             disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
                             variant="standard"
                         >
@@ -144,14 +141,13 @@ export const AddCategoryForm: React.FC<{
                         text={!createCategorySectionVisible ? STATIC_TEXT.CLICK_TO_CREATE_NEW_CATEGORY : ""}
                         delay={1000}
                         place={"bottom"}
-                        element={
-                            <Checkbox
-                                id="new_category_checkbox"
-                                name={STATIC_TEXT.NEW_CATEGORY}
-                                onChange={handleCreateCategoryCheckboxClick}
-                            />
-                        }
-                    />
+                    >
+                        <Checkbox
+                            id="new_category_checkbox"
+                            name={STATIC_TEXT.NEW_CATEGORY}
+                            onChange={handleCreateCategoryCheckboxClick}
+                        />
+                    </Tooltip>
                     Nowa kategoria?
                 </div>
 
@@ -161,37 +157,35 @@ export const AddCategoryForm: React.FC<{
                     <TextField
                         label={STATIC_TEXT.NAME}
                         value={newCategoryName}
-                        onChange={event => handleCategoryNameChange(event)}
+                        onChange={event => handleCategoryNameChange(event.target.value)}
                         placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
                         fullWidth
-                        sx={{flex: 1}}
+                        className="flex-grow-1"
                     />
                     <TextField
                         label={STATIC_TEXT.DEADLINE}
                         value={categoryDeadline}
-                        onChange={event => handleCategoryDeadlineChange(event)}
+                        onChange={event => handleCategoryDeadlineChange(event.target.value)}
                         placeholder={STATIC_TEXT.WRITE_DEADLINE}
                         fullWidth
-                        sx={{flex: 1}}
+                        className="flex-grow-1"
                     />
                     <Tooltip
                         id="create-new-category-tooltip"
                         text={!isCreateNewCategoryButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
                         place="bottom"
                         offset={19}
-                        element={
-                            <Button
-                                id="create-new-category-btn"
-                                variant="outlined"
-                                color={isCreateNewCategoryButtonActive ? "primary" : "secondary"}
-                                onClick={handleClickCreateNewCategory}
-                                disabled={!isCreateNewCategoryButtonActive}
-                                sx={{flex: 1}}
-                            >
-                                {STATIC_TEXT.CREATE}
-                            </Button>
-                        }
-                    />
+                    >
+                        <Button
+                            id="create-new-category-btn"
+                            variant="outlined"
+                            color={isCreateNewCategoryButtonActive ? "primary" : "secondary"}
+                            onClick={handleClickCreateNewCategory}
+                            disabled={!isCreateNewCategoryButtonActive}
+                        >
+                            {STATIC_TEXT.CREATE}
+                        </Button>
+                    </Tooltip>
                 </Box>
             }
         </React.Fragment>

@@ -1,6 +1,6 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../app/store";
+import {AppDispatch, RootState} from "@app/store";
 import {decrement, increment, incrementByAmount} from "./counterSlice";
 import {Button} from "@mui/material";
 

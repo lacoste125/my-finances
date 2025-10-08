@@ -1,12 +1,12 @@
 import * as React from "react";
 import {useMemo, useState} from "react";
-import {MonthType, Payment, YearCategory} from "../../../../../objects/payment.type";
+import {MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {MonthDetailsTable} from "./MonthDetailsTable";
-import {ADD_PAYMENT_API_PATH, CREATE} from "../../../../../utils/api.actions";
-import {getDateFromString} from "../../../../../utils/util.action";
-import {FORMAT_TEXT, STATIC_TEXT} from "../../../../../objects/static_text";
+import {ADD_PAYMENT_API_PATH, CREATE} from "@utils/api.actions";
+import {getDateFromString} from "@utils/util.action";
+import {FORMAT_TEXT, STATIC_TEXT} from "@objects/static_text";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
-import {AddPaymentRequestBody} from "../../../../../objects/request.type";
+import {AddPaymentRequestBody} from "@objects/request.type";
 import {Modal} from "../../../../structure/modal/Modal";
 import {Box, Stack, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
@@ -127,34 +127,32 @@ export const PaymentDetailsModal: React.FC<{
                     id="add-payment-btn-tooltip"
                     text={!isAddPaymentButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
                     place="left"
-                    element={
-                        <Button
-                            id={"add-payment-btn"}
-                            onClick={handlePaymentClick}
-                            variant="contained"
-                            color="success"
-                            disabled={!isAddPaymentButtonActive}
-                        >
-                            {STATIC_TEXT.ADD_PAYMENT}
-                        </Button>
-                    }
-                />
+                >
+                    <Button
+                        id="add-payment-btn"
+                        onClick={handlePaymentClick}
+                        variant="contained"
+                        color="success"
+                        disabled={!isAddPaymentButtonActive}
+                    >
+                        {STATIC_TEXT.ADD_PAYMENT}
+                    </Button>
+                </Tooltip>
                 <Tooltip
                     id="disable-payment-tooltip"
                     text={payments.length ? STATIC_TEXT.CANNOT_DISABLE_PAYMENT : ""}
                     place="left"
-                    element={
-                        <Button
-                            disabled={!!payments.length}
-                            id="disable-payment-btn"
-                            color="error"
-                            variant="contained"
-                            onClick={onSetDisablePaymentModal}
-                        >
-                            {STATIC_TEXT.DISABLE_PAYMENT_THIS_MONTH}
-                        </Button>
-                    }
-                />
+                >
+                    <Button
+                        disabled={!!payments.length}
+                        id="disable-payment-btn"
+                        color="error"
+                        variant="contained"
+                        onClick={onSetDisablePaymentModal}
+                    >
+                        {STATIC_TEXT.DISABLE_PAYMENT_THIS_MONTH}
+                    </Button>
+                </Tooltip>
             </Box>
         </Modal>
     );

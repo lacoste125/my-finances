@@ -30,7 +30,6 @@ export class STATIC_TEXT {
     static ADD_PAYMENT = "Dodaj płatność";
     static NEXT_YEAR = "Następny rok";
     static ADD_AMOUNT = "Dodaj kwotę";
-    static ADD_ROW = "Dodaj wiersz";
     static PAYMENTS = "płatności";
     static CONFIRM = "Potwierdź";
     static COMMENT = "Komentarz";

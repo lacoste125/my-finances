@@ -1,22 +1,23 @@
 import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
 import * as React from "react";
+import styles from "./Tooltip.module.css"
 
 export const Tooltip: React.FC<{
     id: string;
     text: string;
     place: PlacesType;
-    element: JSX.Element;
     noArrow?: boolean;
     offset?: number;
     delay?: number;
+    children: React.ReactNode;
 }> = ({
     id,
     text,
     place,
-    element,
     noArrow,
     offset,
     delay,
+    children,
 }) => {
     return (
         <React.Fragment>
@@ -26,11 +27,11 @@ export const Tooltip: React.FC<{
                 data-tooltip-place={place}
                 data-tooltip-offset={offset}
             >
-                {element}
+                {children}
             </a>
             <ReactTooltip
                 id={id}
-                className={"own_tooltip"}
+                className={styles.own_tooltip}
                 noArrow={noArrow}
                 delayShow={delay}
             />

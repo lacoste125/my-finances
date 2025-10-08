@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import checker from "vite-plugin-checker";
+import path = require("path");
 
 export default defineConfig({
     plugins: [
@@ -18,6 +19,12 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": "/src",
+            "@utils": path.resolve(__dirname, "./src/utils"),
+            "@components": path.resolve(__dirname, "./src/components"),
+            "@redux": path.resolve(__dirname, "./src/redux"),
+            "@hooks": path.resolve(__dirname, "./src/hooks"),
+            "@objects": path.resolve(__dirname, "./src/objects"),
+            "@app": path.resolve(__dirname, "./src/app"),
         },
     },
 });

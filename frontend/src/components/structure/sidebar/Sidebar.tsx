@@ -2,7 +2,7 @@ import React from "react";
 import {Drawer, List, ListItem, ListItemText} from "@mui/material";
 import {Link} from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import {Page, PAGES} from "../../../objects/pages.type";
+import {Page, Pages} from "@objects/pages.type";
 
 const Sidebar: React.FC<{
     open: boolean;
@@ -16,7 +16,7 @@ const Sidebar: React.FC<{
             <div className={styles.sidebar}>
                 <List>
                     {
-                        PAGES.map(
+                        Pages.map(
                             (p: Page) => {
                                 return (
                                     <ListItem

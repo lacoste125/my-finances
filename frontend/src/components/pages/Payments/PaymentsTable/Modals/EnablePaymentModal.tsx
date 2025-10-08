@@ -1,6 +1,6 @@
 import * as React from "react";
-import {STATIC_TEXT} from "../../../../../objects/static_text";
-import {MonthType} from "../../../../../objects/payment.type";
+import {STATIC_TEXT} from "@objects/static_text";
+import {MonthType} from "@objects/payment.type";
 import {Modal} from "../../../../structure/modal/Modal";
 
 export const EnablePaymentModal: React.FC<{

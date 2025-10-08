@@ -21,7 +21,22 @@
     "jsx": "react-jsx",
     "watch": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": "src",
+    "paths": {
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@redux/*": [
+        "redux/*"
+      ],
+      "@objects/*": [
+        "objects/*"
+      ],
+      "@app/*": [
+        "app/*"
+      ]
+    }
   },
   "include": [
     "src"

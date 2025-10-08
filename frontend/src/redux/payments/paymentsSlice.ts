@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Year} from "../../objects/payment.type";
-import {GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "../../utils/api.actions";
+import {Year} from "@objects/payment.type";
+import {GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "@utils/api.actions";
 
-// ✅ API helpers
+
 const BASE_API_PATH = (path: string) => `http://localhost:8181/api/${path}`;
 
 const fetchJson = async <T>(path: string): Promise<T> => {

@@ -7,8 +7,8 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import * as React from "react";
 import {useMemo} from "react";
-import {STATIC_TEXT} from "../../../../../objects/static_text";
-import {Payment} from "../../../../../objects/payment.type";
+import {STATIC_TEXT} from "@objects/static_text";
+import {Payment} from "@objects/payment.type";
 
 export const MonthDetailsTable: React.FC<{
     payments: Payment[];

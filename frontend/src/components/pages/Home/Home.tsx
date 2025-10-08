@@ -1,5 +1,5 @@
 import React from "react";
-import Counter from "../../../redux/counter/Counter";
+import Counter from "@redux/counter/Counter";
 
 export const Home: React.FC = () => {
     return (

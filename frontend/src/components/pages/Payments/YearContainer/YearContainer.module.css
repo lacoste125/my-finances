@@ -1,0 +1,9 @@
+.year_container {
+    padding-bottom: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn_and_tooltip:disabled {
+    pointer-events: auto !important;
+}

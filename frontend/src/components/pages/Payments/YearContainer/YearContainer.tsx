@@ -1,18 +1,19 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {Tooltip} from "../../../elements/tooltip/Tooltip";
-import {STATIC_TEXT} from "../../../../objects/static_text";
+import {STATIC_TEXT} from "@objects/static_text";
 import IconButton from "@mui/material/IconButton";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import {Chip, Container} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {CREATE, CREATE_NEXT_YEAR_API_PATH} from "../../../../utils/api.actions";
+import {CREATE, CREATE_NEXT_YEAR_API_PATH} from "@utils/api.actions";
 import {AddNewYearModal} from "./AddNewYearModal";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../../../app/store";
-import {getAllYearNumbers, getYearByYearNumber, PaymentsState} from "../../../../redux/payments/paymentsSlice";
+import {AppDispatch, RootState} from "@app/store";
+import {getAllYearNumbers, getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
+import styles from "./YearContainer.module.css";
 
-export const YearContainer: React.FC= () => {
+export const YearContainer: React.FC = () => {
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -20,8 +21,8 @@ export const YearContainer: React.FC= () => {
 
     useEffect(
         () => {
-            if (!year){
-                dispatch(getYearByYearNumber(new Date().getFullYear()))
+            if (!year) {
+                dispatch(getYearByYearNumber(new Date().getFullYear()));
             }
         }, [dispatch]);
 
@@ -37,12 +38,12 @@ export const YearContainer: React.FC= () => {
 
     const handleNextYearClick = () => {
         const yearNumber = yearNumbers.at(actualIndex + 1)!;
-        dispatch(getYearByYearNumber(yearNumber))
+        dispatch(getYearByYearNumber(yearNumber));
     };
 
     const handlePreviousYearClick = () => {
         const yearNumber = yearNumbers.at(actualIndex - 1)!;
-        dispatch(getYearByYearNumber(yearNumber))
+        dispatch(getYearByYearNumber(yearNumber));
     };
 
     const handleAddNewYearClick = () => {
@@ -61,27 +62,26 @@ export const YearContainer: React.FC= () => {
 
     return (
         <React.Fragment>
-            <Container id="year">
+            <Container className={styles.year_container}>
                 <h3>
                     <Tooltip
                         id={isYearLeftArrowEnabled ? "previous-year-tooltip" : "no-more-years-tooltip"}
                         text={isYearLeftArrowEnabled ? STATIC_TEXT.PREVIOUS_YEAR : STATIC_TEXT.NO_MORE_YEARS_IN_CONFIG}
-                        place={"left"}
+                        place="left"
                         delay={1000}
-                        element={
-                            <IconButton
-                                id="previous-year-btn"
-                                key="left-arrow"
-                                size="small"
-                                color={"primary"}
-                                className="btn_and_tooltip"
-                                disabled={!isYearLeftArrowEnabled}
-                                onClick={handlePreviousYearClick}
-                            >
-                                <NavigateBeforeIcon/>
-                            </IconButton>
-                        }
-                    />
+                    >
+                        <IconButton
+                            id="previous-year-btn"
+                            key="left-arrow"
+                            size="small"
+                            color="primary"
+                            className={styles.btn_and_tooltip}
+                            disabled={!isYearLeftArrowEnabled}
+                            onClick={handlePreviousYearClick}
+                        >
+                            <NavigateBeforeIcon/>
+                        </IconButton>
+                    </Tooltip>
                     <Chip label={year?.name} color="primary"/>
                     {
                         isYearRightArrowVisible ? (
@@ -90,35 +90,33 @@ export const YearContainer: React.FC= () => {
                                 text={STATIC_TEXT.NEXT_YEAR}
                                 place="right"
                                 delay={1000}
-                                element={
-                                    <IconButton
-                                        id="nex-year-btn"
-                                        key="right"
-                                        size="small"
-                                        color={"primary"}
-                                        onClick={handleNextYearClick}
-                                    >
-                                        <NavigateNextIcon/>
-                                    </IconButton>
-                                }
-                            />
+                            >
+                                <IconButton
+                                    id="nex-year-btn"
+                                    key="right"
+                                    size="small"
+                                    color="primary"
+                                    onClick={handleNextYearClick}
+                                >
+                                    <NavigateNextIcon/>
+                                </IconButton>
+                            </Tooltip>
                         ) : (
                             <Tooltip
                                 id="add-new-year-tooltip"
                                 text={STATIC_TEXT.ADD_NEXT_YEAR}
                                 place="right"
                                 delay={1000}
-                                element={
-                                    <IconButton
-                                        id="add-new-year-btn"
-                                        key="year"
-                                        size="small"
-                                        onClick={handleAddNewYearClick}
-                                    >
-                                        <ControlPointIcon htmlColor="green"/>
-                                    </IconButton>
-                                }
-                            />
+                            >
+                                <IconButton
+                                    id="add-new-year-btn"
+                                    key="year"
+                                    size="small"
+                                    onClick={handleAddNewYearClick}
+                                >
+                                    <ControlPointIcon htmlColor="green"/>
+                                </IconButton>
+                            </Tooltip>
                         )
                     }
                 </h3>

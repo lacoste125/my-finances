@@ -4,7 +4,7 @@ import {Settings} from "../../pages/Settings/Settings";
 import About from "../../pages/About/About";
 import {Payments} from "../../pages/Payments/Payments";
 import React from "react";
-import {Path} from "../../../objects/pages.type";
+import {Path} from "@objects/pages.type";
 
 export const AppRouter: React.FC = () => {
     return (

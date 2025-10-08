@@ -3,8 +3,8 @@ import {Dispatch, SetStateAction} from "react";
 import {Modal} from "../../../../structure/modal/Modal";
 import {AddCategoryForm} from "./AddCategoryForm";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../../../../app/store";
-import {getYearByYearNumber, PaymentsState} from "../../../../../redux/payments/paymentsSlice";
+import {AppDispatch, RootState} from "@app/store";
+import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
 
 export const AddCategoryModal: React.FC<{
     show: boolean;
@@ -37,7 +37,7 @@ export const AddCategoryModal: React.FC<{
             onConfirm={handleConfirm}
             onClose={handleClose}
             skipOnCloseAfterConfirm
-            title={"Dodaj nową kategorię"}
+            title="Dodaj nową kategorię"
         >
             <AddCategoryForm year={year} close={handleClose}/>
         </Modal>

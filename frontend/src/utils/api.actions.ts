@@ -1,6 +1,5 @@
 export const GET_YEAR_BY_YEAR_NUMBER_API_PATH = (yearNumber: number) => `years/getYearByYearNumber?yearNumber=${yearNumber}`;
 export const ADD_PAYMENT_API_PATH = "payments/addPayment";
-export const YEARS = "years";
 export const GET_ALL_CATEGORIES_API_PATH = "categories/getAllCategories";
 export const ADD_CATEGORY_TO_YEAR_API_PATH = "year-categories/addCategoryToYear";
 export const CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH = "year-categories/addNewCategoryToYear";

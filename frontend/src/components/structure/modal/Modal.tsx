@@ -1,6 +1,6 @@
 import React from "react";
 import DialogTitle from "@mui/material/DialogTitle";
-import {STATIC_TEXT} from "../../../objects/static_text";
+import {STATIC_TEXT} from "@objects/static_text";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";

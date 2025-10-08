@@ -1,5 +1,5 @@
 import * as React from "react";
-import {STATIC_TEXT} from "../../../../objects/static_text";
+import {STATIC_TEXT} from "@objects/static_text";
 import {Modal} from "../../../structure/modal/Modal";
 
 export const AddNewYearModal: React.FC<{

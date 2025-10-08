@@ -1,17 +1,18 @@
 import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {useMemo} from "react";
-import {DisabledPayment, MonthType, Payment, YearCategory} from "../../../../objects/payment.type";
-import {PaymentDetailsModal} from "./PaymentDetails/PaymentDetailsModal";
-import {STATIC_TEXT} from "../../../../objects/static_text";
-import {CREATE, DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "../../../../utils/api.actions";
-import {getBorder} from "../../../../utils/util.action";
+import {DisabledPayment, MonthType, Payment, YearCategory} from "@objects/payment.type";
+import {PaymentDetailsModal} from "../PaymentDetails/PaymentDetailsModal";
+import {STATIC_TEXT} from "@objects/static_text";
+import {CREATE, DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "@utils/api.actions";
+import {getBorder} from "@utils/util.action";
 import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import PriorityHigh from "@mui/icons-material/PriorityHigh";
-import {DisablePaymentModal} from "./Modals/DisablePaymentModal";
-import {EnablePaymentModal} from "./Modals/EnablePaymentModal";
-import {Tooltip} from "../../../elements/tooltip/Tooltip";
-import {EnablePaymentRequestBody, TogglePaymentRequestBody} from "../../../../objects/request.type";
+import {DisablePaymentModal} from "../Modals/DisablePaymentModal";
+import {EnablePaymentModal} from "../Modals/EnablePaymentModal";
+import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {EnablePaymentRequestBody, TogglePaymentRequestBody} from "@objects/request.type";
+import styles from "./MyPaymentTableCell.module.css";
 
 export const MyPaymentTableCell: React.FC<{
     monthNumber: number;
@@ -147,37 +148,37 @@ export const MyPaymentTableCell: React.FC<{
         <React.Fragment>
             <TableCell
                 id={`${currentMonthPrefix}table_cell_${monthType}_${yearCategory.id}`}
-                className={`table_cell border-dark border-top ${borderClass}`}
+                className={`border-dark border-top ${styles.table_cell} ${borderClass}`}
                 align="center"
                 onClick={handleOnCellClick}
                 onMouseEnter={() => setIconColor("#cedbdb")}
                 onMouseLeave={() => setIconColor("#2b2b2b")}
             >
                 {
-                    isThisMonthDisabled ?
+                    isThisMonthDisabled ? (
                         <Tooltip
                             id={tooltipId}
                             text={disabledPaymentComment(monthType)?.comment || STATIC_TEXT.PAYMENT_DISABLED_CLICK_TO_CHANGE}
                             place="top"
                             delay={1000}
-                            element={
-                                <span>
+                        >
+                             <span>
                                 <DoNotDisturbAltIcon htmlColor={iconColor}/>
                             </span>
-                            }
-                        /> :
+                        </Tooltip>
+                    ) : (
                         <Tooltip
                             id={tooltipId}
                             text={`${monthPayments.length} ${paymentsWord}`}
                             delay={1000}
                             place="top"
-                            element={
-                                <span>
+                        >
+                            <span>
                                 {monthSum ? Math.round(monthSum * 100) / 100 : isCurrentMonth || isPreviousMonth ?
                                     <PriorityHigh htmlColor={"#bb2a2a"}/> : ""}
                             </span>
-                            }
-                        />
+                        </Tooltip>
+                    )
                 }
             </TableCell>
             <PaymentDetailsModal

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Footer.module.css";
-import {STATIC_TEXT} from "../../../objects/static_text";
+import {STATIC_TEXT} from "@objects/static_text";
 
 const Footer: React.FC = () => {
     return (

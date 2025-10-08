@@ -5,15 +5,16 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {MonthType, YearCategory} from "../../../../objects/payment.type";
-import {CategoryTableRow} from "./CategoryTableRow";
-import {STATIC_TEXT} from "../../../../objects/static_text";
+import {MonthType, YearCategory} from "@objects/payment.type";
+import {CategoryTableRow} from "./TableRow/CategoryTableRow";
+import {STATIC_TEXT} from "@objects/static_text";
 import {AddCategoryModal} from "./AddCategory/AddCategoryModal";
 import {Tooltip} from "../../../elements/tooltip/Tooltip";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../../../app/store";
-import {getYearByYearNumber, PaymentsState} from "../../../../redux/payments/paymentsSlice";
+import {AppDispatch, RootState} from "@app/store";
+import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
+import styles from "./PaymentsTable.module.css"
 
 export const PaymentsTable: React.FC<{
     showAddNewCategoryModal: boolean;
@@ -78,32 +79,31 @@ export const PaymentsTable: React.FC<{
                                     align="center"
                                     className="dark_background border-end border-top border-dark border-bottom"
                                 >
-                                    <div id="empty-year">
+                                    <div className={styles.emptyYear}>
                                         {STATIC_TEXT.NO_CATEGORIES_IN_YEAR(year?.name)}
                                     </div>
                                 </TableCell>
                             </TableRow>
                     }
                     {
-                        showAddCategoryRow && <TableRow key="tableHeader">
+                        showAddCategoryRow && <TableRow>
                             <TableCell colSpan={3}>
                                 <Tooltip
-                                    id={"add-row-tooltip"}
-                                    text={STATIC_TEXT.ADD_ROW}
+                                    id="add-row-tooltip"
+                                    text="Dodaj wiersz"
                                     place="right"
                                     delay={2000}
-                                    element={
-                                        <Button
-                                            id="add-hide-row-btn"
-                                            aria-label="expand row"
-                                            variant={"contained"}
-                                            onClick={() => setShowAddNewCategoryModal(true)}
-                                            sx={{minWidth: 75}}
-                                        >
-                                            Add new category
-                                        </Button>
-                                    }
-                                />
+                                >
+                                    <Button
+                                        id="add-hide-row-btn"
+                                        aria-label="expand row"
+                                        variant="contained"
+                                        onClick={() => setShowAddNewCategoryModal(true)}
+                                        sx={{minWidth: 75}}
+                                    >
+                                        Add new category
+                                    </Button>
+                                </Tooltip>
                             </TableCell>
                             <TableCell colSpan={13} height={60}/>
                         </TableRow>

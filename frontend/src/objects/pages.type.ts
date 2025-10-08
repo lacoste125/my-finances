@@ -10,7 +10,7 @@ export interface Page {
     path: Path,
 }
 
-export const PAGES: Page[] = [
+export const Pages: Page[] = [
     {
         name: "Strona główna",
         path: Path.ROOT,

@@ -1,0 +1,12 @@
+.own_tooltip {
+    font-size: 15px !important;
+    max-width: 220px !important;
+    text-align: center !important;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    background-color: black !important;
+    align-content: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 999999999999;
+}

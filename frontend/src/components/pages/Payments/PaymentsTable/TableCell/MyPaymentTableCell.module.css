@@ -1,0 +1,33 @@
+:root {
+    --dark_background: #343a40;
+    --light_text_color: #cedbdb;
+    --table_cell_hoover_color: #293134FF;
+    --active-month-cell-color: #00BFFFFF;
+}
+
+.table_cell:hover {
+    background: var(--table_cell_hoover_color) !important;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+:global(.MuiTableCell-root) {
+    background-color: var(--dark_background) !important;
+    color: var(--light_text_color) !important;
+}
+
+[id^='required_table_cell_'],
+[id^='required-month-header-cell'] {
+    background-color: var(--active-month-cell-color) !important;
+    color: black !important;
+
+    &[id^='required_table_cell_'] {
+        &:hover {
+            cursor: pointer;
+            border-radius: 5px;
+            color: var(--light_text_color) !important;
+            font-weight: bold;
+        }
+    }
+}

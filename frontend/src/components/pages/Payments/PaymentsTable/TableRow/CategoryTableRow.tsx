@@ -1,18 +1,17 @@
 import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {useMemo, useState} from "react";
-import {CategoryDetails, MonthType, YearCategory} from "../../../../objects/payment.type";
+import {CategoryDetails, MonthType, YearCategory} from "@objects/payment.type";
 import TableRow from "@mui/material/TableRow";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import {MyPaymentTableCell} from "./MyPaymentTableCell";
-import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "../../../../utils/api.actions";
-
-import {getBorder} from "../../../../utils/util.action";
-import {Tooltip} from "../../../elements/tooltip/Tooltip";
-import {STATIC_TEXT} from "../../../../objects/static_text";
-import {CategoryDetailsRow} from "./CategoryDetails/CategoryDetailsRow";
+import {MyPaymentTableCell} from "../TableCell/MyPaymentTableCell";
+import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
+import {getBorder} from "@utils/util.action";
+import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {STATIC_TEXT} from "@objects/static_text";
+import {CategoryDetailsRow} from "../CategoryDetails/CategoryDetailsRow";
 
 const ICON_HTML_COLOR: string = "white";
 
@@ -67,12 +66,9 @@ export const CategoryTableRow: React.FC<{
                         text={`${STATIC_TEXT.DEADLINE_WITH_COLON}${yearCategory.categoryType.deadline}`}
                         place="top"
                         delay={1000}
-                        element={
-                            <span>
-                              {categoryName}
-                            </span>
-                        }
-                    />
+                    >
+                        <span>{categoryName}</span>
+                    </Tooltip>
                 </TableCell>
                 {
                     Object.values(MonthType).map(
