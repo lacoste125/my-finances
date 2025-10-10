@@ -13,10 +13,10 @@ export const AddCategoryModal: React.FC<{
     show,
     onClose,
 }) => {
-    if (!show) return null;
-
     const dispatch = useDispatch<AppDispatch>();
     const {year} = useSelector((state: RootState): PaymentsState => state.payments);
+
+    if (!show) return null;
 
     const handleClose = () => {
         dispatch(getYearByYearNumber(year!.name));

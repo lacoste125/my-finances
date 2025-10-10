@@ -41,6 +41,10 @@ export const PaymentDetailsModal: React.FC<{
     const [amount, setAmount] = useState<string>("");
     const [comment, setComment] = useState<string>("");
 
+    const isAddPaymentButtonActive = useMemo(() => amount.length > 0 && comment.length > 0, [amount, comment]);
+
+    if (!show) return null;
+
     const handleDateChange = (newDate: PickerValue) => {
         if (newDate) {
             setDate(newDate.toDate());
@@ -81,8 +85,6 @@ export const PaymentDetailsModal: React.FC<{
         setComment("");
         setAmount("");
     };
-
-    const isAddPaymentButtonActive = useMemo(() => amount.length > 0 && comment.length > 0, [amount, comment]);
 
     return (
         <Modal

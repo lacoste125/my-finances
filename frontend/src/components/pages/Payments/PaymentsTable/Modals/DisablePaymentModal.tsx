@@ -18,11 +18,11 @@ export const DisablePaymentModal: React.FC<{
 }) => {
     const [comment, setComment] = useState<string | undefined>(undefined);
 
-    const handleCommentChange = (newComment: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (newComment) {
-            setComment(newComment.target.value);
-        }
+    const handleCommentChange = (newComment: string) => {
+        setComment(newComment);
     };
+
+    if (!show) return null;
 
     return (
         <Modal
@@ -41,8 +41,8 @@ export const DisablePaymentModal: React.FC<{
                 </div>
                 <TextField
                     label={STATIC_TEXT.COMMENT}
-                    value={comment}
-                    onChange={event => handleCommentChange(event)}
+                    value={comment ?? ""}
+                    onChange={event => handleCommentChange(event.target.value)}
                     placeholder={STATIC_TEXT.DISABLE_PAYMENT_PLACEHOLDER}
                     fullWidth
                 />

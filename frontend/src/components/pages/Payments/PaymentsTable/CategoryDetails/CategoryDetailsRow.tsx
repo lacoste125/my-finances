@@ -1,21 +1,36 @@
 import * as React from "react";
-import {useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Collapse from "@mui/material/Collapse";
 import {Container, Table, TableBody, TableHead, Typography} from "@mui/material";
-import {CategoryDetails, Payment} from "@objects/payment.type";
+import {CategoryDetails, Payment, YearCategory} from "@objects/payment.type";
 import {STATIC_TEXT} from "@objects/static_text";
+import {apiClient} from "@api/apiClient";
+import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
 
 export const CategoryDetailsRow: React.FC<{
     open: boolean;
-    categoryDetails?: CategoryDetails;
+    yearCategory: YearCategory
     year: number;
 }> = ({
     open,
-    categoryDetails,
+    yearCategory,
     year,
 }) => {
+    const [categoryDetails, setCategoryDetails] = useState<CategoryDetails | undefined>(undefined);
+
+    useEffect(() => {
+        if (open) {
+            apiClient<CategoryDetails>({
+                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
+                params: {categoryId: yearCategory.categoryType.id},
+            }).then((cd: CategoryDetails) => {
+                setCategoryDetails(cd);
+            });
+        }
+    }, [open]);
+
     const yearFilteredPayments: Payment[] | undefined = useMemo(() => {
         return categoryDetails?.payments?.filter(
             (payment: Payment): boolean => payment.year === year);
@@ -28,6 +43,8 @@ export const CategoryDetailsRow: React.FC<{
     const showTable: boolean = useMemo(() => {
         return Boolean(!!yearFilteredPayments && yearFilteredPayments.length);
     }, [yearFilteredPayments]);
+
+    if (!open) return null;
 
     return (
         <TableRow>
@@ -50,29 +67,34 @@ export const CategoryDetailsRow: React.FC<{
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
-                                        {
-                                            yearFilteredPayments!.map(
-                                                (payment: Payment, index: number) =>
-                                                    <TableRow key={`category-details-row-${payment.id}`}>
-                                                        <TableCell className="border-bottom-0">
-                                                            {++index}
-                                                        </TableCell>
-                                                        <TableCell className="border-bottom-0">
-                                                            {payment.date}
-                                                        </TableCell>
-                                                        <TableCell className="border-bottom-0" align="right">
-                                                            {STATIC_TEXT.AMOUNT_ZL(payment.amount)}
-                                                        </TableCell>
-                                                    </TableRow>
-                                            )
-                                        }
+                                        <TableBody>
+                                            {
+                                                yearFilteredPayments!.map(
+                                                    (payment: Payment, index: number) =>
+                                                        <TableRow key={`category-details-row-${payment.id}`}>
+                                                            <TableCell className="border-bottom-0">
+                                                                {++index}
+                                                            </TableCell>
+                                                            <TableCell className="border-bottom-0">
+                                                                {payment.date}
+                                                            </TableCell>
+                                                            <TableCell className="border-bottom-0" align="right">
+                                                                {STATIC_TEXT.AMOUNT_ZL(payment.amount)}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                )
+                                            }
+                                        </TableBody>
                                     </React.Fragment>
                                 ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={3} className="border-top-0 border-bottom-0" align="center">
-                                            {STATIC_TEXT.NO_PAYMENTS_IN_CATEGORY}
-                                        </TableCell>
-                                    </TableRow>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="border-top-0 border-bottom-0"
+                                                       align="center">
+                                                {STATIC_TEXT.NO_PAYMENTS_IN_CATEGORY}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
                                 )
                             }
                             <TableBody>

@@ -1,18 +1,16 @@
 import TableCell from "@mui/material/TableCell";
 import * as React from "react";
 import {useMemo, useState} from "react";
-import {CategoryDetails, MonthType, YearCategory} from "@objects/payment.type";
+import {MonthType, YearCategory} from "@objects/payment.type";
 import TableRow from "@mui/material/TableRow";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {MyPaymentTableCell} from "../TableCell/MyPaymentTableCell";
-import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
 import {getBorder} from "@utils/util.action";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {STATIC_TEXT} from "@objects/static_text";
 import {CategoryDetailsRow} from "../CategoryDetails/CategoryDetailsRow";
-import {apiClient} from "@api/apiClient";
 
 const ICON_HTML_COLOR: string = "white";
 
@@ -28,19 +26,6 @@ export const CategoryTableRow: React.FC<{
     isLastRow,
 }) => {
     const [open, setOpen] = useState<boolean>(false);
-    const [categoryDetails, setCategoryDetails] = useState<CategoryDetails | undefined>(undefined);
-
-    const handleOpen = () => {
-        if (!open) {
-            apiClient<CategoryDetails>({
-                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
-                params: {categoryId: yearCategory.categoryType.id},
-            }).then((categoryDetails: CategoryDetails) => {
-                setCategoryDetails(categoryDetails);
-            });
-        }
-        setOpen(!open);
-    };
 
     const borderClass: string = useMemo(() => {
         return getBorder(open, isLastRow);
@@ -54,7 +39,7 @@ export const CategoryTableRow: React.FC<{
         <React.Fragment>
             <TableRow key={`TableRow_${yearCategory.id}`}>
                 <TableCell className={`border-dark border-top ${borderClass}`}>
-                    <IconButton size="small" onClick={handleOpen}>
+                    <IconButton size="small" onClick={() => setOpen(!open)}>
                         {
                             open ? <KeyboardArrowUpIcon htmlColor={ICON_HTML_COLOR}/> :
                                 <KeyboardArrowDownIcon htmlColor={ICON_HTML_COLOR}/>
@@ -95,7 +80,7 @@ export const CategoryTableRow: React.FC<{
                     )
                 }
             </TableRow>
-            <CategoryDetailsRow open={open} categoryDetails={categoryDetails} year={year}/>
+            <CategoryDetailsRow open={open} year={year} yearCategory={yearCategory}/>
         </React.Fragment>
     );
 };

@@ -43,9 +43,9 @@ export const AddCategoryForm: React.FC<{
         setCategoryDeadline("");
     };
 
-    const handleCategorySelection = (key: string | null) => {
+    const handleCategorySelection = (key: number | null) => {
         const category = allCategoryTypes.find(
-            categoryType => categoryType.id === parseInt(key!));
+            (categoryType: CategoryType): boolean => categoryType.id === key);
         setSelectedCategory(category);
     };
 
@@ -120,7 +120,7 @@ export const AddCategoryForm: React.FC<{
                         <Select
                             id="dropdown-category-list"
                             labelId="dropdown-category-label"
-                            value={selectedCategory?.name}
+                            value={selectedCategory?.id ?? ""}
                             onChange={(event) => handleCategorySelection(event.target.value)}
                             className={styles.whiteBack}
                             disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
@@ -166,7 +166,7 @@ export const AddCategoryForm: React.FC<{
                 createCategorySectionVisible && <Box display="flex" alignItems="center" gap={2}>
                     <TextField
                         label={STATIC_TEXT.NAME}
-                        value={newCategoryName}
+                        value={newCategoryName ?? ""}
                         onChange={event => handleCategoryNameChange(event.target.value)}
                         placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
                         fullWidth
@@ -174,7 +174,7 @@ export const AddCategoryForm: React.FC<{
                     />
                     <TextField
                         label={STATIC_TEXT.DEADLINE}
-                        value={categoryDeadline}
+                        value={categoryDeadline ?? ""}
                         onChange={event => handleCategoryDeadlineChange(event.target.value)}
                         placeholder={STATIC_TEXT.WRITE_DEADLINE}
                         fullWidth

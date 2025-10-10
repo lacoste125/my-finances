@@ -14,6 +14,8 @@ export const EnablePaymentModal: React.FC<{
     onClose,
     onConfirmEnablePayment,
 }) => {
+    if (!show) return null;
+
     return (
         <Modal
             show={show}
