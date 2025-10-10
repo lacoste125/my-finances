@@ -1,9 +1,10 @@
-export const GET_YEAR_BY_YEAR_NUMBER_API_PATH = (yearNumber: number) => `years/getYearByYearNumber?yearNumber=${yearNumber}`;
+export const GET_YEAR_BY_YEAR_NUMBER_API_PATH = "years/getYearByYearNumber";
 export const ADD_PAYMENT_API_PATH = "payments/addPayment";
 export const GET_ALL_CATEGORIES_API_PATH = "categories/getAllCategories";
 export const ADD_CATEGORY_TO_YEAR_API_PATH = "year-categories/addCategoryToYear";
 export const CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH = "year-categories/addNewCategoryToYear";
 export const CREATE_NEXT_YEAR_API_PATH = "years/createNextYear";
-export const GET_CATEGORY_PAYMENTS_BY_ID_API_PATH = (categoryId: number) => `payments/getCategoryPayments?categoryId=${categoryId}`;
+export const GET_CATEGORY_PAYMENTS_BY_ID_API_PATH = "payments/getCategoryPayments";
 export const DISABLE_PAYMENT_API_PATH = "payments/disablePayment";
 export const ENABLE_PAYMENT_API_PATH = "payments/enablePayment";
+export const YEARS_API_PATH = "years";

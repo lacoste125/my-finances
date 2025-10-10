@@ -1,17 +1,18 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Year} from "@objects/payment.type";
-import {GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "@utils/api.actions";
+import {GET_YEAR_BY_YEAR_NUMBER_API_PATH, YEARS_API_PATH} from "@utils/api.actions";
 import {apiClient} from "@api/apiClient";
 
 export const getAllYearNumbers = createAsyncThunk<number[]>(
     "payments/getAllYearNumbers",
-    async () => apiClient<number[]>({endpoint: "years"})
+    async () => apiClient<number[]>({endpoint: YEARS_API_PATH})
 );
 
 export const getYearByYearNumber = createAsyncThunk<Year, number>(
     "payments/getYearByYearNumber",
     async (yearNumber) => apiClient<Year>({
-        endpoint: GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber)
+        endpoint: GET_YEAR_BY_YEAR_NUMBER_API_PATH,
+        params: {yearNumber: yearNumber}
     })
 );
 

@@ -33,7 +33,8 @@ export const CategoryTableRow: React.FC<{
     const handleOpen = () => {
         if (!open) {
             apiClient<CategoryDetails>({
-                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH(yearCategory.categoryType.id),
+                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
+                params: {categoryId: yearCategory.categoryType.id},
             }).then((categoryDetails: CategoryDetails) => {
                 setCategoryDetails(categoryDetails);
             });
