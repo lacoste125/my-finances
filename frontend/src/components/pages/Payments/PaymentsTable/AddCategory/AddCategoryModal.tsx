@@ -1,5 +1,4 @@
 import * as React from "react";
-import {Dispatch, SetStateAction} from "react";
 import {Modal} from "../../../../structure/modal/Modal";
 import {AddCategoryForm} from "./AddCategoryForm";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,12 +8,10 @@ import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice"
 export const AddCategoryModal: React.FC<{
     show: boolean;
     onClose: () => void;
-    onConfirm: () => void;
-    setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;
+    setShowAddNewCategoryModal: (value: boolean) => void;
 }> = ({
     show,
     onClose,
-    onConfirm,
 }) => {
     if (!show) return null;
 
@@ -26,17 +23,12 @@ export const AddCategoryModal: React.FC<{
         onClose();
     };
 
-    const handleConfirm = () => {
-        onConfirm();
-        onClose();
-    };
-
     return (
         <Modal
             show={show}
-            onConfirm={handleConfirm}
             onClose={handleClose}
             skipOnCloseAfterConfirm
+            confirmButtonVisible={false}
             title="Dodaj nową kategorię"
         >
             <AddCategoryForm year={year} close={handleClose}/>

@@ -6,12 +6,13 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import {Chip, Container} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {CREATE, CREATE_NEXT_YEAR_API_PATH} from "@utils/api.actions";
+import {CREATE_NEXT_YEAR_API_PATH} from "@utils/api.actions";
 import {AddNewYearModal} from "./AddNewYearModal";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@app/store";
 import {getAllYearNumbers, getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
 import styles from "./YearContainer.module.css";
+import {apiClient} from "@api/apiClient";
 
 export const YearContainer: React.FC = () => {
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
@@ -51,13 +52,13 @@ export const YearContainer: React.FC = () => {
     };
 
     const handleConfirmAddNextYear = () => {
-        createNextYear()
+        apiClient({
+            method: "POST",
+            endpoint: CREATE_NEXT_YEAR_API_PATH,
+            body: {},
+        })
             .then(() => dispatch(getAllYearNumbers()))
             .then(() => dispatch(getYearByYearNumber(year!.name + 1)));
-    };
-
-    const createNextYear = async () => {
-        await CREATE(CREATE_NEXT_YEAR_API_PATH, {});
     };
 
     return (

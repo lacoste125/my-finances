@@ -3,9 +3,7 @@ import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import {
     ADD_CATEGORY_TO_YEAR_API_PATH,
-    CREATE,
     CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
-    GET,
     GET_ALL_CATEGORIES_API_PATH
 } from "@utils/api.actions";
 import {CategoryType, Year} from "@objects/payment.type";
@@ -14,6 +12,7 @@ import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} fro
 import {Box, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import styles from "./AddCategoryForm.module.css";
+import {apiClient} from "@api/apiClient";
 
 export const AddCategoryForm: React.FC<{
     year?: Year;
@@ -30,7 +29,10 @@ export const AddCategoryForm: React.FC<{
 
     useEffect(() => {
         if (!allCategoryTypes.length) {
-            GET(setAllCategoryTypes, GET_ALL_CATEGORIES_API_PATH).then();
+            apiClient<CategoryType[]>({endpoint: GET_ALL_CATEGORIES_API_PATH})
+                .then((categoryTypes: CategoryType[]) => {
+                    setAllCategoryTypes(categoryTypes);
+                });
         }
     });
 
@@ -69,7 +71,11 @@ export const AddCategoryForm: React.FC<{
             categoryId: selectedCategory?.id
         };
 
-        await CREATE(ADD_CATEGORY_TO_YEAR_API_PATH, body);
+        return apiClient({
+            endpoint: ADD_CATEGORY_TO_YEAR_API_PATH,
+            method: "POST",
+            body: body,
+        });
     };
 
     const createNewCategoryAndAddToYear = async () => {
@@ -79,7 +85,11 @@ export const AddCategoryForm: React.FC<{
             yearNumber: year!.name
         };
 
-        await CREATE(CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH, body, "PUT");
+        return apiClient({
+            endpoint: CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
+            method: "PUT",
+            body: body,
+        });
     };
 
     const yearCategories = useMemo(() => year?.categories?.map(cat => cat.categoryType), [year]);

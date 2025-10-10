@@ -1,29 +1,18 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Year} from "@objects/payment.type";
 import {GET_YEAR_BY_YEAR_NUMBER_API_PATH} from "@utils/api.actions";
-
-
-const BASE_API_PATH = (path: string) => `http://localhost:8181/api/${path}`;
-
-const fetchJson = async <T>(path: string): Promise<T> => {
-    const response = await fetch(BASE_API_PATH(path));
-    if (!response.ok) {
-        throw new Error(`API error: ${response.statusText}`);
-    }
-
-    return response.json();
-};
-
+import {apiClient} from "@api/apiClient";
 
 export const getAllYearNumbers = createAsyncThunk<number[]>(
     "payments/getAllYearNumbers",
-    async () => fetchJson<number[]>("years")
+    async () => apiClient<number[]>({endpoint: "years"})
 );
 
 export const getYearByYearNumber = createAsyncThunk<Year, number>(
     "payments/getYearByYearNumber",
-    async (yearNumber) =>
-        fetchJson<Year>(GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber))
+    async (yearNumber) => apiClient<Year>({
+        endpoint: GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber)
+    })
 );
 
 export interface PaymentsState {
@@ -45,7 +34,6 @@ const paymentsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // helper for DRY loading state
         const startLoading = (state: PaymentsState) => {
             state.loading = true;
             state.error = null;

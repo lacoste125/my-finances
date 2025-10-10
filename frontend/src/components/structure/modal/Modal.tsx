@@ -10,11 +10,12 @@ import Dialog from "@mui/material/Dialog";
 export const Modal: React.FC<{
     show: boolean;
     children?: React.ReactNode;
-    onConfirm: () => void;
+    onConfirm?: () => void;
     onClose: () => void;
     title?: string;
     description?: string;
     cancelButtonText?: string;
+    confirmButtonVisible?: boolean,
     confirmButtonText?: string;
     skipOnCloseAfterConfirm?: boolean;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
@@ -27,13 +28,17 @@ export const Modal: React.FC<{
     description,
     cancelButtonText,
     confirmButtonText,
+    confirmButtonVisible = true,
     skipOnCloseAfterConfirm,
     size = "sm",
 }) => {
     if (!show) return null;
 
     const handleConfirm = () => {
-        onConfirm();
+        if (onConfirm) {
+            onConfirm();
+        }
+
         if (!skipOnCloseAfterConfirm) {
             onClose();
         }
@@ -64,9 +69,11 @@ export const Modal: React.FC<{
                 <Button onClick={onClose} variant="outlined" color="error">
                     {cancelButtonText || STATIC_TEXT.CLOSE}
                 </Button>
-                <Button onClick={handleConfirm} variant="contained" color="success">
-                    {confirmButtonText || STATIC_TEXT.OK}
-                </Button>
+                {confirmButtonVisible && (
+                    <Button onClick={handleConfirm} variant="contained" color="success">
+                        {confirmButtonText || STATIC_TEXT.OK}
+                    </Button>
+                )}
             </DialogActions>
         </Dialog>
     );

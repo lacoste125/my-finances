@@ -2,7 +2,7 @@ import * as React from "react";
 import {useMemo, useState} from "react";
 import {MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {MonthDetailsTable} from "./MonthDetailsTable";
-import {ADD_PAYMENT_API_PATH, CREATE} from "@utils/api.actions";
+import {ADD_PAYMENT_API_PATH} from "@utils/api.actions";
 import {getDateFromString} from "@utils/util.action";
 import {FORMAT_TEXT, STATIC_TEXT} from "@objects/static_text";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
@@ -15,6 +15,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {PickerValue} from "@mui/x-date-pickers/internals";
+import {apiClient} from "@api/apiClient";
 
 export const PaymentDetailsModal: React.FC<{
     show: boolean;
@@ -67,7 +68,11 @@ export const PaymentDetailsModal: React.FC<{
             yearCategoryId: yearCategory.id
         };
 
-        await CREATE(ADD_PAYMENT_API_PATH, body);
+        return apiClient({
+            method: "POST",
+            endpoint: ADD_PAYMENT_API_PATH,
+            body: body,
+        });
     };
 
     const handlePaymentClick = () => {

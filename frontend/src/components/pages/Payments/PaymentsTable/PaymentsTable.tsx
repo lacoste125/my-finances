@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Dispatch, SetStateAction, useMemo} from "react";
+import {useMemo, useState} from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,17 +14,14 @@ import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@app/store";
 import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
-import styles from "./PaymentsTable.module.css"
+import styles from "./PaymentsTable.module.css";
 
-export const PaymentsTable: React.FC<{
-    showAddNewCategoryModal: boolean;
-    setShowAddNewCategoryModal: Dispatch<SetStateAction<boolean>>;
-}> = ({
-    showAddNewCategoryModal,
-    setShowAddNewCategoryModal
-}) => {
+export const PaymentsTable: React.FC = () => {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const [showAddNewCategoryModal, setShowAddNewCategoryModal] = useState<boolean>(false);
+
     const {year} = useSelector((state: RootState): PaymentsState => state.payments);
 
     const isYearHasAnyCategory = useMemo(() => {
@@ -113,9 +110,8 @@ export const PaymentsTable: React.FC<{
             </Table>
             <AddCategoryModal
                 show={showAddNewCategoryModal}
-                onConfirm={() => setShowAddNewCategoryModal(false)}
                 onClose={() => setShowAddNewCategoryModal(false)}
-                setShowAddNewCategoryModal={setShowAddNewCategoryModal}
+                setShowAddNewCategoryModal={(value: boolean) => setShowAddNewCategoryModal(value)}
             />
         </React.Fragment>
     );

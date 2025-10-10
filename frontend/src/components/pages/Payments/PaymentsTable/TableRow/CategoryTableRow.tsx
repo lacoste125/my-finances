@@ -7,11 +7,12 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {MyPaymentTableCell} from "../TableCell/MyPaymentTableCell";
-import {GET, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
+import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
 import {getBorder} from "@utils/util.action";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {STATIC_TEXT} from "@objects/static_text";
 import {CategoryDetailsRow} from "../CategoryDetails/CategoryDetailsRow";
+import {apiClient} from "@api/apiClient";
 
 const ICON_HTML_COLOR: string = "white";
 
@@ -31,7 +32,11 @@ export const CategoryTableRow: React.FC<{
 
     const handleOpen = () => {
         if (!open) {
-            GET(setCategoryDetails, GET_CATEGORY_PAYMENTS_BY_ID_API_PATH(yearCategory.categoryType.id)).then();
+            apiClient<CategoryDetails>({
+                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH(yearCategory.categoryType.id),
+            }).then((categoryDetails: CategoryDetails) => {
+                setCategoryDetails(categoryDetails);
+            });
         }
         setOpen(!open);
     };

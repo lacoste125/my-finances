@@ -4,7 +4,7 @@ import {useMemo} from "react";
 import {DisabledPayment, MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {PaymentDetailsModal} from "../PaymentDetails/PaymentDetailsModal";
 import {STATIC_TEXT} from "@objects/static_text";
-import {CREATE, DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "@utils/api.actions";
+import {DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "@utils/api.actions";
 import {getBorder} from "@utils/util.action";
 import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import PriorityHigh from "@mui/icons-material/PriorityHigh";
@@ -13,6 +13,7 @@ import {EnablePaymentModal} from "../Modals/EnablePaymentModal";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {EnablePaymentRequestBody, TogglePaymentRequestBody} from "@objects/request.type";
 import styles from "./MyPaymentTableCell.module.css";
+import {apiClient} from "@api/apiClient";
 
 export const MyPaymentTableCell: React.FC<{
     monthNumber: number;
@@ -112,7 +113,11 @@ export const MyPaymentTableCell: React.FC<{
             comment: comment
         };
 
-        await CREATE(DISABLE_PAYMENT_API_PATH, body);
+        return apiClient({
+            endpoint: DISABLE_PAYMENT_API_PATH,
+            method: "POST",
+            body: body,
+        });
     };
 
     const enablePayment = async () => {
@@ -121,7 +126,11 @@ export const MyPaymentTableCell: React.FC<{
             yearCategoryId: yearCategory.id
         };
 
-        await CREATE(ENABLE_PAYMENT_API_PATH, body);
+        return apiClient({
+            endpoint: ENABLE_PAYMENT_API_PATH,
+            method: "POST",
+            body: body,
+        });
     };
 
     const borderClass: string = useMemo(() => {
