@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, Method} from "axios";
 
-const API_BASE_URL = "http://localhost:8181/api/";
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 export type ApiRequestConfig<Req = any> = {
     endpoint: string;
@@ -14,7 +14,7 @@ export const apiClient = async <Res = any>({
     endpoint, method = "GET", body, headers, params
 }: ApiRequestConfig): Promise<Res> => {
     const axiosConfig: AxiosRequestConfig = {
-        url: `${API_BASE_URL}${endpoint}`,
+        url: `${API_URL}${endpoint}`,
         method,
         headers,
         params,
