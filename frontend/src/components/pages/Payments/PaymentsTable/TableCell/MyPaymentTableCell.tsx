@@ -4,48 +4,44 @@ import {useMemo} from "react";
 import {DisabledPayment, MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {PaymentDetailsModal} from "../PaymentDetails/PaymentDetailsModal";
 import {STATIC_TEXT} from "@objects/static_text";
-import {DISABLE_PAYMENT_API_PATH, ENABLE_PAYMENT_API_PATH} from "@utils/api.actions";
 import {getBorder} from "@utils/util.action";
 import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import PriorityHigh from "@mui/icons-material/PriorityHigh";
 import {DisablePaymentModal} from "../Modals/DisablePaymentModal";
 import {EnablePaymentModal} from "../Modals/EnablePaymentModal";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
-import {EnablePaymentRequestBody, TogglePaymentRequestBody} from "@objects/request.type";
+import {TogglePaymentRequestBody} from "@objects/request.type";
 import styles from "./MyPaymentTableCell.module.css";
-import {apiClient} from "@api/apiClient";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {disablePayment, enablePayment} from "@redux/payments/payment.thunk";
 
 export const MyPaymentTableCell: React.FC<{
     monthNumber: number;
-    payments: Payment[];
-    disabledPayments: DisabledPayment[];
     monthType: MonthType;
     yearCategory: YearCategory;
-    year: number;
-    onUpdate: () => void;
     open: boolean;
     isLastRow: boolean;
 }> = ({
     monthNumber,
-    payments,
-    disabledPayments,
     monthType,
     yearCategory,
-    year,
-    onUpdate,
     open,
     isLastRow,
 }) => {
+
+    const dispatch = useAppDispatch();
+    const year = useAppSelector(state => state.payments.year);
+
     const [paymentDetailModalVisible, setPaymentDetailModalVisible] = React.useState<boolean>(false);
     const [disablePaymentModalVisible, setDisablePaymentModalVisible] = React.useState<boolean>(false);
     const [enablePaymentModalVisible, setEnableModalVisible] = React.useState<boolean>(false);
     const [iconColor, setIconColor] = React.useState<string>("#2b2b2b");
 
     const monthPayments: Payment[] = useMemo(() => {
-        return payments.filter(
+        return yearCategory.payments.filter(
             (payment: Payment): boolean => payment.month === monthType
         );
-    }, [payments]);
+    }, [yearCategory.payments]);
 
     const monthSum = useMemo(() => {
         return monthPayments?.reduce((acc, payment) => acc + payment.amount, 0) ?? 0;
@@ -56,15 +52,16 @@ export const MyPaymentTableCell: React.FC<{
     }, [monthPayments]);
 
     const isThisMonthDisabled: boolean = useMemo(() => {
-        return disabledPayments
+        return yearCategory.disabledPayments
+            .filter(dp => dp.valid)
             .map(
                 (disabledPayment: DisabledPayment): MonthType => disabledPayment.month.name
             )
             .includes(monthType);
-    }, [disabledPayments]);
+    }, [yearCategory.disabledPayments, monthType]);
 
     const disabledPaymentComment = (month: MonthType) => {
-        return disabledPayments.find(
+        return yearCategory.disabledPayments.find(
             (dp: DisabledPayment): boolean => dp.month.name === month
         );
     };
@@ -92,7 +89,13 @@ export const MyPaymentTableCell: React.FC<{
     };
 
     const handleConfirmDisablePayment = (comment?: string) => {
-        disablePayment(comment).then(() => onUpdate());
+        const body: TogglePaymentRequestBody = {
+            monthName: monthType,
+            yearCategoryId: yearCategory.id,
+            comment: comment
+        };
+        dispatch(disablePayment(body));
+
         setPaymentDetailModalVisible(false);
         setDisablePaymentModalVisible(false);
     };
@@ -102,35 +105,12 @@ export const MyPaymentTableCell: React.FC<{
     };
 
     const handleConfirmEnablePayment = () => {
-        enablePayment().then(() => onUpdate());
-        setEnableModalVisible(false);
-    };
-
-    const disablePayment = async (comment?: string) => {
         const body: TogglePaymentRequestBody = {
-            monthName: monthType,
-            yearCategoryId: yearCategory.id,
-            comment: comment
-        };
-
-        return apiClient({
-            endpoint: DISABLE_PAYMENT_API_PATH,
-            method: "POST",
-            body: body,
-        });
-    };
-
-    const enablePayment = async () => {
-        const body: EnablePaymentRequestBody = {
             monthName: monthType,
             yearCategoryId: yearCategory.id
         };
-
-        return apiClient({
-            endpoint: ENABLE_PAYMENT_API_PATH,
-            method: "POST",
-            body: body,
-        });
+        dispatch(enablePayment(body));
+        setEnableModalVisible(false);
     };
 
     const borderClass: string = useMemo(() => {
@@ -138,13 +118,13 @@ export const MyPaymentTableCell: React.FC<{
     }, [open, isLastRow]);
 
     const isCurrentMonth: boolean = useMemo(() => {
-        return monthNumber === new Date().getMonth() && new Date().getFullYear() === year;
+        return monthNumber === new Date().getMonth() && new Date().getFullYear() === year?.name;
     }, [monthNumber, year]);
 
     const isPreviousMonth: boolean = useMemo(() => {
-        return new Date().getFullYear() > year ||
+        return new Date().getFullYear() > (year?.name ?? 0) ||
             (
-                new Date().getFullYear() === year &&
+                new Date().getFullYear() === (year?.name ?? 0) &&
                 monthNumber < new Date().getMonth()
             );
     }, [year, monthNumber]);
@@ -196,9 +176,6 @@ export const MyPaymentTableCell: React.FC<{
                 payments={monthPayments}
                 monthType={monthType}
                 yearCategory={yearCategory}
-                year={year}
-                text=""
-                onUpdate={onUpdate}
                 onSetDisablePaymentModal={handleDisablePaymentClick}
             />
             <DisablePaymentModal

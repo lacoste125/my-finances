@@ -19,11 +19,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "watch": true,
+    "watch": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "baseUrl": "src",
     "paths": {
+      "@store/*": [
+        "app/"
+      ],
       "@utils/*": [
         "utils/*"
       ],

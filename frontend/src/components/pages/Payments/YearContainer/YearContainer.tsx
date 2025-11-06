@@ -10,9 +10,10 @@ import {CREATE_NEXT_YEAR_API_PATH} from "@utils/api.actions";
 import {AddNewYearModal} from "./AddNewYearModal";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@app/store";
-import {getAllYearNumbers, getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
+import {PaymentsState} from "@redux/payments/paymentsSlice";
 import styles from "./YearContainer.module.css";
 import {apiClient} from "@api/apiClient";
+import {getAllYearNumbers, getYearByYearNumber} from "@redux/payments/payment.thunk";
 
 export const YearContainer: React.FC = () => {
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);

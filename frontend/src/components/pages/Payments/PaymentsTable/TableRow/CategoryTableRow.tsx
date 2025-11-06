@@ -16,15 +16,12 @@ const ICON_HTML_COLOR: string = "white";
 
 export const CategoryTableRow: React.FC<{
     yearCategory: YearCategory;
-    year: number;
-    onUpdate: () => void;
     isLastRow: boolean;
 }> = ({
     yearCategory,
-    year,
-    onUpdate,
     isLastRow,
 }) => {
+
     const [open, setOpen] = useState<boolean>(false);
 
     const borderClass: string = useMemo(() => {
@@ -68,11 +65,7 @@ export const CategoryTableRow: React.FC<{
                                 monthNumber={index}
                                 key={`PayCell_${month}_${yearCategory.id}`}
                                 monthType={month}
-                                payments={yearCategory.payments}
-                                disabledPayments={yearCategory.disabledPayments}
                                 yearCategory={yearCategory}
-                                year={year}
-                                onUpdate={onUpdate}
                                 open={open}
                                 isLastRow={isLastRow}
                             />
@@ -80,7 +73,7 @@ export const CategoryTableRow: React.FC<{
                     )
                 }
             </TableRow>
-            <CategoryDetailsRow open={open} year={year} yearCategory={yearCategory}/>
+            <CategoryDetailsRow open={open} yearCategory={yearCategory}/>
         </React.Fragment>
     );
 };

@@ -39,7 +39,7 @@ public class PaymentController {
         return new Response<PaymentDto>().created(paymentDtoWrapper.mapToDto(payment));
     }
 
-    @GetMapping("getCategoryPayments")
+    @GetMapping("/getCategoryPayments")
     public @ResponseBody ResponseEntity<CategoryDetailsDto> getCategoryPayments(@RequestParam Long categoryId) throws NotFoundException {
         List<Payment> categoryPayments = paymentService.getCategoryPayments(categoryId);
 

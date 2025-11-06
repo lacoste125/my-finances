@@ -2,7 +2,6 @@ import * as React from "react";
 import {useMemo, useState} from "react";
 import {MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {MonthDetailsTable} from "./MonthDetailsTable";
-import {ADD_PAYMENT_API_PATH} from "@utils/api.actions";
 import {getDateFromString} from "@utils/util.action";
 import {FORMAT_TEXT, STATIC_TEXT} from "@objects/static_text";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
@@ -15,7 +14,9 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {PickerValue} from "@mui/x-date-pickers/internals";
-import {apiClient} from "@api/apiClient";
+import {addPayment} from "@redux/payments/payment.thunk";
+import {useAppDispatch} from "@app/hooks";
+import {useYear} from "@app/useYear";
 
 export const PaymentDetailsModal: React.FC<{
     show: boolean;
@@ -23,9 +24,6 @@ export const PaymentDetailsModal: React.FC<{
     payments: Payment[];
     monthType: MonthType;
     yearCategory: YearCategory;
-    year: number;
-    text: string;
-    onUpdate: () => void;
     onSetDisablePaymentModal: () => void;
 }> = ({
     show,
@@ -33,23 +31,25 @@ export const PaymentDetailsModal: React.FC<{
     payments,
     monthType,
     yearCategory,
-    year,
-    onUpdate,
     onSetDisablePaymentModal,
 }) => {
+
+    const dispatch = useAppDispatch();
+    const year = useYear();
+
     const [date, setDate] = useState<Date>(new Date());
     const [amount, setAmount] = useState<string>("");
     const [comment, setComment] = useState<string>("");
 
-    const isAddPaymentButtonActive = useMemo(() => amount.length > 0 && comment.length > 0, [amount, comment]);
-
-    if (!show) return null;
+    const isAddPaymentButtonActive: boolean = useMemo(() => amount.length > 0 && comment.length > 0, [amount, comment]);
 
     const handleDateChange = (newDate: PickerValue) => {
         if (newDate) {
             setDate(newDate.toDate());
         }
     };
+
+    if (!show) return null;
 
     const handleAmountChange = (newAmount: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (newAmount) {
@@ -63,7 +63,7 @@ export const PaymentDetailsModal: React.FC<{
         }
     };
 
-    const addPayment = async () => {
+    const handlePaymentClick = () => {
         const body: AddPaymentRequestBody = {
             amount: parseFloat(amount),
             comment: comment,
@@ -72,26 +72,21 @@ export const PaymentDetailsModal: React.FC<{
             yearCategoryId: yearCategory.id
         };
 
-        return apiClient({
-            method: "POST",
-            endpoint: ADD_PAYMENT_API_PATH,
-            body: body,
-        });
-    };
+        dispatch(addPayment(body));
 
-    const handlePaymentClick = () => {
-        addPayment().then(() => onUpdate());
         setDate(new Date());
         setComment("");
         setAmount("");
     };
+
+    if (!year) return null;
 
     return (
         <Modal
             show={show}
             onConfirm={onClose}
             onClose={onClose}
-            title={STATIC_TEXT.PAYMENT_MODAL_TITLE(year, monthType, yearCategory.categoryType.name.toUpperCase())}
+            title={STATIC_TEXT.PAYMENT_MODAL_TITLE(year.name, monthType, yearCategory.categoryType.name.toUpperCase())}
             cancelButtonText={STATIC_TEXT.ABORT}
             size="md"
         >

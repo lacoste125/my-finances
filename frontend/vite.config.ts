@@ -1,7 +1,7 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import checker from "vite-plugin-checker";
-import path = require("path");
+import * as path from "path";
 
 export default defineConfig({
     plugins: [
@@ -13,7 +13,21 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        outDir: "build",
+        sourcemap: false,
+        minify: "esbuild",
+        rollupOptions: {
+            input: "./index.html",
+            output: {
+                manualChunks: undefined,
+            },
+        },
+    },
     server: {
+        port: 3000,
+    },
+    preview: {
         port: 3000,
     },
     resolve: {

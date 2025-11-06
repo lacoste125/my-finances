@@ -11,18 +11,14 @@ import {STATIC_TEXT} from "@objects/static_text";
 import {AddCategoryModal} from "./AddCategory/AddCategoryModal";
 import {Tooltip} from "../../../elements/tooltip/Tooltip";
 import Button from "@mui/material/Button";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@app/store";
-import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
 import styles from "./PaymentsTable.module.css";
+import {useYear} from "@app/useYear";
 
 export const PaymentsTable: React.FC = () => {
 
-    const dispatch = useDispatch<AppDispatch>();
+    const year = useYear();
 
     const [showAddNewCategoryModal, setShowAddNewCategoryModal] = useState<boolean>(false);
-
-    const {year} = useSelector((state: RootState): PaymentsState => state.payments);
 
     const isYearHasAnyCategory = useMemo(() => {
         return !!year && year.categories.length;
@@ -31,6 +27,8 @@ export const PaymentsTable: React.FC = () => {
     const showAddCategoryRow: boolean = useMemo(() => {
         return !!year && year.name === new Date().getFullYear().valueOf();
     }, [year]);
+
+    if (!year) return null;
 
     return (
         <React.Fragment>
@@ -44,14 +42,16 @@ export const PaymentsTable: React.FC = () => {
                                 .map(
                                     (monthType: MonthType, index: number) => {
                                         const required: string = index === new Date().getMonth() && new Date().getFullYear() === year?.name ? "required-" : "";
-                                        return <TableCell
-                                            id={`${required}month-header-cell-${index}-${monthType}`}
-                                            key={monthType}
-                                            align="center"
-                                            className="dark_background"
-                                        >
-                                            {monthType}
-                                        </TableCell>;
+                                        return (
+                                            <TableCell
+                                                id={`${required}month-header-cell-${index}-${monthType}`}
+                                                key={monthType}
+                                                align="center"
+                                                className="dark_background"
+                                            >
+                                                {monthType}
+                                            </TableCell>
+                                        );
                                     }
                                 )
                         }
@@ -64,8 +64,6 @@ export const PaymentsTable: React.FC = () => {
                                     <CategoryTableRow
                                         key={`${yearCategory.id}_${index}`}
                                         yearCategory={yearCategory}
-                                        year={year!.name}
-                                        onUpdate={() => dispatch(getYearByYearNumber(year!.name))}
                                         isLastRow={index === year!.categories.length - 1}
                                     />
                                 )
@@ -111,7 +109,6 @@ export const PaymentsTable: React.FC = () => {
             <AddCategoryModal
                 show={showAddNewCategoryModal}
                 onClose={() => setShowAddNewCategoryModal(false)}
-                setShowAddNewCategoryModal={(value: boolean) => setShowAddNewCategoryModal(value)}
             />
         </React.Fragment>
     );

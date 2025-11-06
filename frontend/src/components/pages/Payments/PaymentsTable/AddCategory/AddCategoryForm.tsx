@@ -6,21 +6,23 @@ import {
     CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
     GET_ALL_CATEGORIES_API_PATH
 } from "@utils/api.actions";
-import {CategoryType, Year} from "@objects/payment.type";
+import {CategoryType} from "@objects/payment.type";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "@objects/request.type";
 import {Box, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import styles from "./AddCategoryForm.module.css";
 import {apiClient} from "@api/apiClient";
+import {useYear} from "@app/useYear";
 
 export const AddCategoryForm: React.FC<{
-    year?: Year;
     close: () => void;
 }> = ({
-    year,
     close,
 }) => {
+
+    const year = useYear();
+
     const [allCategoryTypes, setAllCategoryTypes] = useState<CategoryType[]>([]);
     const [createCategorySectionVisible, setCreateCategorySectionVisible] = useState<boolean>(false);
     const [selectedCategory, setSelectedCategory] = useState<CategoryType | undefined>(undefined);
@@ -108,6 +110,8 @@ export const AddCategoryForm: React.FC<{
     const isCreateNewCategoryButtonActive = useMemo(() => {
         return categoryDeadline.length && newCategoryName.length;
     }, [categoryDeadline, newCategoryName]);
+
+    if (!year) return null;
 
     return (
         <React.Fragment>

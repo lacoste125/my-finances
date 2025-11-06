@@ -1,19 +1,20 @@
 import MainLayout from "./components/structure/layout/MainLayout";
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@app/store";
-import {getAllYearNumbers, PaymentsState} from "@redux/payments/paymentsSlice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@app/store";
 import {AppRouter} from "./components/structure/Router/AppRouter";
+import {getAllYearNumbers} from "@redux/payments/payment.thunk";
+import {useAppSelector} from "@app/hooks";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>();
-    const {yearNumbers} = useSelector((state: RootState): PaymentsState => state.payments);
+    const yearNumbers = useAppSelector(state => state.payments.yearNumbers);
 
     useEffect(() => {
         if (!yearNumbers.length) {
             dispatch(getAllYearNumbers());
         }
-    }, [dispatch]);
+    }, []);
 
     return (
         <MainLayout>

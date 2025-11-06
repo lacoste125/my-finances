@@ -8,16 +8,18 @@ import {CategoryDetails, Payment, YearCategory} from "@objects/payment.type";
 import {STATIC_TEXT} from "@objects/static_text";
 import {apiClient} from "@api/apiClient";
 import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
+import {useYear} from "@app/useYear";
 
 export const CategoryDetailsRow: React.FC<{
     open: boolean;
-    yearCategory: YearCategory
-    year: number;
+    yearCategory: YearCategory;
 }> = ({
     open,
     yearCategory,
-    year,
 }) => {
+
+    const year = useYear();
+
     const [categoryDetails, setCategoryDetails] = useState<CategoryDetails | undefined>(undefined);
 
     useEffect(() => {
@@ -33,7 +35,7 @@ export const CategoryDetailsRow: React.FC<{
 
     const yearFilteredPayments: Payment[] | undefined = useMemo(() => {
         return categoryDetails?.payments?.filter(
-            (payment: Payment): boolean => payment.year === year);
+            (payment: Payment): boolean => payment.year === year?.name);
     }, [categoryDetails]);
 
     const sum: number = useMemo(() => {
@@ -45,13 +47,14 @@ export const CategoryDetailsRow: React.FC<{
     }, [yearFilteredPayments]);
 
     if (!open) return null;
+    if (!year) return null;
 
     return (
         <TableRow>
             <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={14} className="border-0">
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Typography variant="h6" gutterBottom component="div" align="center" className="mt-3">
-                        {STATIC_TEXT.PAYMENTS_FROM_YEAR}<strong>{year}</strong>
+                        {STATIC_TEXT.PAYMENTS_FROM_YEAR}<strong>{year.name}</strong>
                     </Typography>
                     <Container maxWidth="sm" sx={{mt: 1, mb: 4}}>
                         <Table className="dark_background" size="small">
@@ -89,8 +92,11 @@ export const CategoryDetailsRow: React.FC<{
                                 ) : (
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell colSpan={3} className="border-top-0 border-bottom-0"
-                                                       align="center">
+                                            <TableCell
+                                                colSpan={3}
+                                                className="border-top-0 border-bottom-0"
+                                                align="center"
+                                            >
                                                 {STATIC_TEXT.NO_PAYMENTS_IN_CATEGORY}
                                             </TableCell>
                                         </TableRow>

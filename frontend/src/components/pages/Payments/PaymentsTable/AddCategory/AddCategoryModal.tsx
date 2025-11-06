@@ -1,27 +1,28 @@
 import * as React from "react";
+import {useCallback} from "react";
 import {Modal} from "../../../../structure/modal/Modal";
 import {AddCategoryForm} from "./AddCategoryForm";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@app/store";
-import {getYearByYearNumber, PaymentsState} from "@redux/payments/paymentsSlice";
+import {getYearByYearNumber} from "@redux/payments/payment.thunk";
+import {useAppDispatch} from "@app/hooks";
+import {useYear} from "@app/useYear";
 
 export const AddCategoryModal: React.FC<{
     show: boolean;
     onClose: () => void;
-    setShowAddNewCategoryModal: (value: boolean) => void;
 }> = ({
     show,
     onClose,
 }) => {
-    const dispatch = useDispatch<AppDispatch>();
-    const {year} = useSelector((state: RootState): PaymentsState => state.payments);
+    const dispatch = useAppDispatch();
+    const year = useYear();
 
-    if (!show) return null;
-
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         dispatch(getYearByYearNumber(year!.name));
         onClose();
-    };
+    }, [year?.name]);
+
+    if (!show) return null;
+    if (!year) return null;
 
     return (
         <Modal
@@ -31,7 +32,7 @@ export const AddCategoryModal: React.FC<{
             confirmButtonVisible={false}
             title="Dodaj nową kategorię"
         >
-            <AddCategoryForm year={year} close={handleClose}/>
+            <AddCategoryForm close={handleClose}/>
         </Modal>
     );
 };
