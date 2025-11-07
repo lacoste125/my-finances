@@ -2,7 +2,7 @@ import * as React from "react";
 import {useCallback} from "react";
 import {Modal} from "../../../../structure/modal/Modal";
 import {AddCategoryForm} from "./AddCategoryForm";
-import {getYearByYearNumber} from "@redux/payments/payment.thunk";
+import {getYearByYearNumber} from "@redux/year/year.thunk";
 import {useAppDispatch} from "@app/hooks";
 import {useYear} from "@app/useYear";
 

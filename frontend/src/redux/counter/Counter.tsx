@@ -1,12 +1,11 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@app/store";
 import {decrement, increment, incrementByAmount} from "./counterSlice";
 import {Button} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
 
 const Counter: React.FC = () => {
-    const count = useSelector((state: RootState) => state.counter.value);
-    const dispatch = useDispatch<AppDispatch>();
+    const count = useAppSelector(state => state.counterReducer.value);
+    const dispatch = useAppDispatch();
 
     return (
         <div>

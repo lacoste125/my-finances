@@ -1,13 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
 import counterReducer from "../redux/counter/counterSlice";
-import paymentsReducer from "../redux/payments/paymentsSlice";
+import yearReducer from "@redux/year/yearSlice";
 import commonReducer from "../redux/common/commonSlice";
 
 export const store = configureStore({
     reducer: {
-        common: commonReducer,
-        counter: counterReducer,
-        payments: paymentsReducer,
+        commonReducer: commonReducer,
+        counterReducer: counterReducer,
+        yearReducer: yearReducer,
     },
 });
 

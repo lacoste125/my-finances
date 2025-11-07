@@ -13,7 +13,7 @@ import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {TogglePaymentRequestBody} from "@objects/request.type";
 import styles from "./MyPaymentTableCell.module.css";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {disablePayment, enablePayment} from "@redux/payments/payment.thunk";
+import {disablePayment, enablePayment} from "@redux/year/year.thunk";
 
 export const MyPaymentTableCell: React.FC<{
     monthNumber: number;
@@ -30,7 +30,7 @@ export const MyPaymentTableCell: React.FC<{
 }) => {
 
     const dispatch = useAppDispatch();
-    const year = useAppSelector(state => state.payments.year);
+    const year = useAppSelector(state => state.yearReducer.year);
 
     const [paymentDetailModalVisible, setPaymentDetailModalVisible] = React.useState<boolean>(false);
     const [disablePaymentModalVisible, setDisablePaymentModalVisible] = React.useState<boolean>(false);

@@ -5,7 +5,6 @@ import com.finances.dto.YearDto;
 import com.finances.entity.Year;
 import com.finances.exception.notfound.NotFoundException;
 import com.finances.exception.notfound.YearNotFoundException;
-import com.finances.request.NewYearRequest;
 import com.finances.service.YearService;
 import com.finances.wrapper.YearDtoWrapper;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +38,6 @@ public class YearController {
         Year year = yearService.findYearById(id);
 
         return new Response<YearDto>().ok(yearDtoWrapper.mapToDto(year));
-    }
-
-    @PutMapping("/addNewYear")
-    public @ResponseBody ResponseEntity<YearDto> addNewYear(@RequestBody NewYearRequest request) {
-        Year year = yearService.findOrCreateYear(request);
-
-        return new Response<YearDto>().created(yearDtoWrapper.mapToDto(year));
     }
 
     @PostMapping("/createNextYear")

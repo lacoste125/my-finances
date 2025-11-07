@@ -3,7 +3,6 @@ package com.finances.service;
 import com.finances.entity.Year;
 import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearRepository;
-import com.finances.request.NewYearRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,17 +36,6 @@ public class YearService {
     public Year findYearById(Long id) throws YearNotFoundException {
         return yearRepository.findById(id)
                 .orElseThrow(() -> new YearNotFoundException(id));
-    }
-
-    public Year findOrCreateYear(NewYearRequest request) {
-        return yearRepository.selectYearByYearNumber(request.year())
-                .orElseGet(
-                        () -> yearRepository.save(
-                                Year.builder()
-                                        .yearNumber(request.year())
-                                        .build()
-                        )
-                );
     }
 
     public Year createNextYear() {

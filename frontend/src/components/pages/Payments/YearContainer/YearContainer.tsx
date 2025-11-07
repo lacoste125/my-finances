@@ -6,27 +6,22 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import {Chip, Container} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {CREATE_NEXT_YEAR_API_PATH} from "@utils/api.actions";
 import {AddNewYearModal} from "./AddNewYearModal";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@app/store";
-import {PaymentsState} from "@redux/payments/paymentsSlice";
 import styles from "./YearContainer.module.css";
-import {apiClient} from "@api/apiClient";
-import {getAllYearNumbers, getYearByYearNumber} from "@redux/payments/payment.thunk";
+import {getYearByYearNumber} from "@redux/year/year.thunk";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
 
 export const YearContainer: React.FC = () => {
     const [showAddNextYearModal, setShowAddNextYearModal] = useState<boolean>(false);
 
-    const dispatch = useDispatch<AppDispatch>();
-    const {yearNumbers, year} = useSelector((state: RootState): PaymentsState => state.payments);
+    const dispatch = useAppDispatch();
+    const {yearNumbers, year} = useAppSelector(state => state.yearReducer);
 
-    useEffect(
-        () => {
-            if (!year) {
-                dispatch(getYearByYearNumber(new Date().getFullYear()));
-            }
-        }, [dispatch]);
+    useEffect(() => {
+        if (!year) {
+            dispatch(getYearByYearNumber(new Date().getFullYear()));
+        }
+    }, []);
 
     const actualIndex: number = useMemo(() => {
         return yearNumbers.indexOf(year ? year.name : -1);
@@ -50,16 +45,6 @@ export const YearContainer: React.FC = () => {
 
     const handleAddNewYearClick = () => {
         setShowAddNextYearModal(true);
-    };
-
-    const handleConfirmAddNextYear = () => {
-        apiClient({
-            method: "POST",
-            endpoint: CREATE_NEXT_YEAR_API_PATH,
-            body: {},
-        })
-            .then(() => dispatch(getAllYearNumbers()))
-            .then(() => dispatch(getYearByYearNumber(year!.name + 1)));
     };
 
     return (
@@ -125,7 +110,6 @@ export const YearContainer: React.FC = () => {
             </Container>
             <AddNewYearModal
                 show={showAddNextYearModal}
-                addNewYear={handleConfirmAddNextYear}
                 onClose={() => setShowAddNextYearModal(false)}
             />
         </React.Fragment>

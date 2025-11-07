@@ -14,7 +14,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {PickerValue} from "@mui/x-date-pickers/internals";
-import {addPayment} from "@redux/payments/payment.thunk";
+import {addPayment} from "@redux/year/year.thunk";
 import {useAppDispatch} from "@app/hooks";
 import {useYear} from "@app/useYear";
 

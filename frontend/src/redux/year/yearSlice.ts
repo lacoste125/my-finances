@@ -1,25 +1,26 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {DisabledPayment, Payment, Year} from "@objects/payment.type";
 import {
+    addNewYear,
     addPayment,
     disablePayment,
     enablePayment,
     getAllYearNumbers,
     getYearByYearNumber
-} from "@redux/payments/payment.thunk";
+} from "@redux/year/year.thunk";
 
-export interface PaymentsState {
+interface YearState {
     yearNumbers: number[];
     year: Year | null;
 }
 
-const initialState: PaymentsState = {
+const initialState: YearState = {
     yearNumbers: [],
     year: null,
 };
 
-const paymentsSlice = createSlice({
-    name: "payments",
+const yearSlice = createSlice({
+    name: "year",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -28,7 +29,11 @@ const paymentsSlice = createSlice({
                 state.yearNumbers = action.payload;
             })
             .addCase(getYearByYearNumber.fulfilled, (state, action) => {
-                state.year = JSON.parse(JSON.stringify(action.payload));
+                state.year = action.payload;
+            })
+            .addCase(addNewYear.fulfilled, (state, action) => {
+                state.yearNumbers.push(action.payload.name);
+                state.year = action.payload;
             })
             .addCase(addPayment.fulfilled, (state, action) => {
                 if (!state.year) return;
@@ -86,4 +91,4 @@ const paymentsSlice = createSlice({
     },
 });
 
-export default paymentsSlice.reducer;
+export default yearSlice.reducer;
