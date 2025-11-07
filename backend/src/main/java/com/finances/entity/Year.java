@@ -29,6 +29,6 @@ public class Year implements Comparable<Year> {
 
     @Override
     public int compareTo(Year o) {
-        return getYearNumber() - o.getYearNumber();
+        return this.yearNumber - o.getYearNumber();
     }
 }

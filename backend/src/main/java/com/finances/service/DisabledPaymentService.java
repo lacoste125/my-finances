@@ -20,12 +20,12 @@ public class DisabledPaymentService {
     private final YearCategoryService yearCategoryService;
 
     public DisabledPayment togglePayment(TogglePaymentRequest request, boolean expectedValue) throws NotFoundException {
-        Month month = monthService.findByName(request.getMonthName());
-        YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.getYearCategoryId());
+        Month month = monthService.findByName(request.monthName());
+        YearCategory yearCategory = yearCategoryService.findByYearCategoryId(request.yearCategoryId());
 
-        DisabledPayment payment = disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.getYearCategoryId())
+        DisabledPayment payment = disabledPaymentRepository.selectByMonthIdAndYearCategoryId(month.getId(), request.yearCategoryId())
                 .map(p -> {
-                    p.setComment(request.getComment());
+                    p.setComment(request.comment());
                     p.setValid(expectedValue);
 
                     return p;
@@ -34,7 +34,7 @@ public class DisabledPaymentService {
                         () -> DisabledPayment.builder()
                                 .month(month)
                                 .yearCategory(yearCategory)
-                                .comment(request.getComment())
+                                .comment(request.comment())
                                 .valid(expectedValue)
                                 .build()
                 );

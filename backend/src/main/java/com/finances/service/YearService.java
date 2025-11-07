@@ -6,7 +6,6 @@ import com.finances.repository.YearRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.StreamSupport;
@@ -41,7 +40,7 @@ public class YearService {
     public Year createNextYear() {
         Integer maxYear = findAllYears()
                 .stream()
-                .max(Comparator.comparing(Year::getYearNumber))
+                .max(Year::compareTo)
                 .orElseThrow(NoSuchElementException::new)
                 .getYearNumber();
 

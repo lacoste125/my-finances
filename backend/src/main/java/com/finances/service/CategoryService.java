@@ -21,10 +21,6 @@ public class CategoryService {
         return categoryRepository.findAllByValidTrue();
     }
 
-    public Category findCategoryDtoById(Long categoryId) throws CategoryNotFoundException {
-        return findCategoryById(categoryId);
-    }
-
     public Category findCategoryById(Long categoryId) throws CategoryNotFoundException {
         return categoryRepository.findByIdAndValidTrue(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +25,14 @@ public class YearCategoryService {
     private final YearService yearService;
 
     public List<YearCategory> findAllYearCategories() {
-        return StreamSupport.stream(yearCategoryRepository.findAll().spliterator(), false).toList();
+        return yearCategoryRepository.findAll();
     }
 
     public Optional<YearCategory> findOptionalYearCategoryByCategoryAndYear(Category category, Year year) {
         return yearCategoryRepository.findByCategoryAndYear(category, year);
     }
 
-    public YearCategory addCategoryToYear(AddCategoryToYearRequest request)
-            throws YearNotFoundException, CategoryNotFoundException {
+    public YearCategory addCategoryToYear(AddCategoryToYearRequest request) throws YearNotFoundException, CategoryNotFoundException {
         return saveNewYearCategoryIfNotExist(request.yearId(), request.categoryId());
     }
 
@@ -42,15 +40,14 @@ public class YearCategoryService {
         Year year = yearService.findYearById(yearId);
         Category category = categoryService.findCategoryById(categoryId);
 
-        Optional<YearCategory> checked = findOptionalYearCategoryByCategoryAndYear(category, year);
-        if (checked.isEmpty()) {
-            return yearCategoryRepository.save(
-                    YearCategory.builder()
-                            .year(year)
-                            .category(category)
-                            .build()
-            );
-        } else return null;
+        return findOptionalYearCategoryByCategoryAndYear(category, year)
+                .orElseGet(
+                        () -> yearCategoryRepository.save(
+                                YearCategory.builder()
+                                        .year(year)
+                                        .category(category)
+                                        .build()
+                        ));
     }
 
     public List<YearCategory> findByYearId(Long yearId) throws NotFoundException {
@@ -65,11 +62,10 @@ public class YearCategoryService {
     }
 
     public YearCategory createCategoryAndAddToYear(AddNewCategoryToYearRequest request) throws NotFoundException {
-        Optional<Category> optionalCategory = categoryService.getOptionalCategoryTypeByName(request.name());
-
-        Category category = optionalCategory.orElseGet(
-                () -> categoryService.saveNewCategory(request.name(), request.deadline())
-        );
+        Category category = categoryService.getOptionalCategoryTypeByName(request.name())
+                .orElseGet(
+                        () -> categoryService.saveNewCategory(request.name(), request.deadline())
+                );
 
         Year year = yearService.findYearByYearNumber(request.yearNumber());
 

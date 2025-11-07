@@ -23,28 +23,28 @@ public class YearCategoryController {
     private final YearCategoryDtoWrapper yearCategoryDtoWrapper;
 
     @GetMapping("/getAllYearCategories")
-    public @ResponseBody ResponseEntity<List<YearCategoryDto>> getAllYearCategories() {
+    public ResponseEntity<List<YearCategoryDto>> getAllYearCategories() {
         List<YearCategory> monthCategories = yearCategoryService.findAllYearCategories();
 
         return new Response<List<YearCategoryDto>>().ok(yearCategoryDtoWrapper.mapToDtos(monthCategories));
     }
 
     @GetMapping("getYearCategoriesByYearId")
-    public @ResponseBody ResponseEntity<List<YearCategoryDto>> getYearCategoriesByYearId(@RequestParam Long yearId) throws NotFoundException {
+    public ResponseEntity<List<YearCategoryDto>> getYearCategoriesByYearId(@RequestParam Long yearId) throws NotFoundException {
         List<YearCategory> yearCategory = yearCategoryService.findByYearId(yearId);
 
         return new Response<List<YearCategoryDto>>().ok(yearCategoryDtoWrapper.mapToDtos(yearCategory));
     }
 
     @PostMapping("/addCategoryToYear")
-    public @ResponseBody ResponseEntity<Void> addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException {
+    public ResponseEntity<Void> addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException {
         YearCategory result = yearCategoryService.addCategoryToYear(request);
 
         if (result == null) {
             return new Response<Void>().ok();
-        } else {
-            return new Response<Void>().created();
         }
+
+        return new Response<Void>().created();
     }
 
     @PutMapping("/addNewCategoryToYear")
@@ -53,8 +53,8 @@ public class YearCategoryController {
 
         if (result == null) {
             return new Response<Void>().ok();
-        } else {
-            return new Response<Void>().created();
         }
+
+        return new Response<Void>().created();
     }
 }

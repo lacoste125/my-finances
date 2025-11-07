@@ -22,26 +22,26 @@ public class YearController {
     private final YearDtoWrapper yearDtoWrapper;
 
     @GetMapping
-    public @ResponseBody List<Integer> getYears() {
+    public  List<Integer> getYears() {
         return yearService.getYearNumbers();
     }
 
     @GetMapping("/getYearByYearNumber")
-    public @ResponseBody ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws NotFoundException {
+    public  ResponseEntity<YearDto> getYearByYearNumber(@RequestParam Integer yearNumber) throws NotFoundException {
         Year year = yearService.findYearByYearNumber(yearNumber);
 
         return new Response<YearDto>().ok(yearDtoWrapper.mapToDto(year));
     }
 
     @GetMapping("/getYearById")
-    public @ResponseBody ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
+    public  ResponseEntity<YearDto> getYearById(@RequestParam Long id) throws YearNotFoundException {
         Year year = yearService.findYearById(id);
 
         return new Response<YearDto>().ok(yearDtoWrapper.mapToDto(year));
     }
 
     @PostMapping("/createNextYear")
-    public @ResponseBody ResponseEntity<YearDto> createNextYear() {
+    public  ResponseEntity<YearDto> createNextYear() {
         Year year = yearService.createNextYear();
 
         return new Response<YearDto>().created(yearDtoWrapper.mapToDto(year));

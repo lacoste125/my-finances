@@ -1,11 +1,7 @@
 import {STATIC_TEXT} from "@objects/static_text";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
-import {
-    ADD_CATEGORY_TO_YEAR_API_PATH,
-    CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
-    GET_ALL_CATEGORIES_API_PATH
-} from "@utils/api.actions";
+import {ADD_CATEGORY_TO_YEAR_API_PATH, CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH} from "@utils/api.actions";
 import {CategoryType} from "@objects/payment.type";
 import {Tooltip} from "../../../../elements/tooltip/Tooltip";
 import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "@objects/request.type";
@@ -14,6 +10,8 @@ import Button from "@mui/material/Button";
 import styles from "./AddCategoryForm.module.css";
 import {apiClient} from "@api/apiClient";
 import {useYear} from "@app/useYear";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {getAllCategories} from "@redux/category/category.thunk";
 
 export const AddCategoryForm: React.FC<{
     close: () => void;
@@ -21,9 +19,11 @@ export const AddCategoryForm: React.FC<{
     close,
 }) => {
 
-    const year = useYear();
+    const dispatch = useAppDispatch();
 
-    const [allCategoryTypes, setAllCategoryTypes] = useState<CategoryType[]>([]);
+    const year = useYear();
+    const allCategoryTypes: CategoryType[] = useAppSelector(state => state.categoryReducer.categories);
+
     const [createCategorySectionVisible, setCreateCategorySectionVisible] = useState<boolean>(false);
     const [selectedCategory, setSelectedCategory] = useState<CategoryType | undefined>(undefined);
     const [newCategoryName, setNewCategoryName] = useState<string>("");
@@ -31,12 +31,9 @@ export const AddCategoryForm: React.FC<{
 
     useEffect(() => {
         if (!allCategoryTypes.length) {
-            apiClient<CategoryType[]>({endpoint: GET_ALL_CATEGORIES_API_PATH})
-                .then((categoryTypes: CategoryType[]) => {
-                    setAllCategoryTypes(categoryTypes);
-                });
+            dispatch(getAllCategories());
         }
-    });
+    }, []);
 
     const handleCreateCategoryCheckboxClick = () => {
         setCreateCategorySectionVisible(!createCategorySectionVisible);
