@@ -3,6 +3,7 @@ package com.finances.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.finances.util.TableNaming.*;
@@ -29,9 +30,11 @@ public class YearCategory {
     @JoinColumn(name = YEAR_ID, nullable = false)
     private Year year;
 
+    @Builder.Default
     @OneToMany(mappedBy = "yearCategory")
-    private List<Payment> payments;
+    private List<Payment> payments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "yearCategory")
-    private List<DisabledPayment> disabledPayments;
+    private List<DisabledPayment> disabledPayments = new ArrayList<>();
 }

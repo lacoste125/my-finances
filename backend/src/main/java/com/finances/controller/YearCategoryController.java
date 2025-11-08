@@ -3,6 +3,7 @@ package com.finances.controller;
 import com.finances.advisor.Response;
 import com.finances.dto.YearCategoryDto;
 import com.finances.entity.YearCategory;
+import com.finances.exception.exist.AlreadyExistException;
 import com.finances.exception.notfound.NotFoundException;
 import com.finances.request.AddCategoryToYearRequest;
 import com.finances.request.AddNewCategoryToYearRequest;
@@ -29,7 +30,7 @@ public class YearCategoryController {
         return new Response<List<YearCategoryDto>>().ok(yearCategoryDtoWrapper.mapToDtos(monthCategories));
     }
 
-    @GetMapping("getYearCategoriesByYearId")
+    @GetMapping("/getYearCategoriesByYearId")
     public ResponseEntity<List<YearCategoryDto>> getYearCategoriesByYearId(@RequestParam Long yearId) throws NotFoundException {
         List<YearCategory> yearCategory = yearCategoryService.findByYearId(yearId);
 
@@ -37,24 +38,20 @@ public class YearCategoryController {
     }
 
     @PostMapping("/addCategoryToYear")
-    public ResponseEntity<Void> addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException {
+    public ResponseEntity<YearCategoryDto> addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         YearCategory result = yearCategoryService.addCategoryToYear(request);
 
-        if (result == null) {
-            return new Response<Void>().ok();
-        }
-
-        return new Response<Void>().created();
+        return new Response<YearCategoryDto>().created(
+                yearCategoryDtoWrapper.mapToDto(result)
+        );
     }
 
     @PutMapping("/addNewCategoryToYear")
-    public ResponseEntity<Void> addNewCategoryToYear(@RequestBody AddNewCategoryToYearRequest request) throws NotFoundException {
+    public ResponseEntity<YearCategoryDto> addNewCategoryToYear(@RequestBody AddNewCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         YearCategory result = yearCategoryService.createCategoryAndAddToYear(request);
 
-        if (result == null) {
-            return new Response<Void>().ok();
-        }
-
-        return new Response<Void>().created();
+        return new Response<YearCategoryDto>().created(
+                yearCategoryDtoWrapper.mapToDto(result)
+        );
     }
 }

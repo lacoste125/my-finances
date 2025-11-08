@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {CategoryType} from "@objects/payment.type";
 import {getAllCategories} from "@redux/category/category.thunk";
 
@@ -13,7 +13,11 @@ const initialState: CategoryState = {
 const categorySlice = createSlice({
     name: "category",
     initialState,
-    reducers: {},
+    reducers: {
+        addCategory: (state, action: PayloadAction<CategoryType>) => {
+            state.categories.push(action.payload);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllCategories.fulfilled, (state, action) => {
@@ -22,4 +26,5 @@ const categorySlice = createSlice({
     },
 });
 
+export const {addCategory} = categorySlice.actions;
 export default categorySlice.reducer;

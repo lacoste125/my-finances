@@ -3,6 +3,7 @@ import {DisabledPayment, Payment, Year} from "@objects/payment.type";
 import {
     addNewYear,
     addPayment,
+    createNewCategoryAndAddToYear,
     disablePayment,
     enablePayment,
     getAllYearNumbers,
@@ -34,6 +35,11 @@ const yearSlice = createSlice({
             .addCase(addNewYear.fulfilled, (state, action) => {
                 state.yearNumbers.push(action.payload.name);
                 state.year = action.payload;
+            })
+            .addCase(createNewCategoryAndAddToYear.fulfilled, (state, action) => {
+                if (!state.year) return;
+
+                state.year.categories.push(action.payload);
             })
             .addCase(addPayment.fulfilled, (state, action) => {
                 if (!state.year) return;

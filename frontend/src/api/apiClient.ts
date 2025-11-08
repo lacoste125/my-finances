@@ -13,6 +13,19 @@ export type ApiRequestConfig<Req = any> = {
 export const apiClient = async <Res = any>({
     endpoint, method = "GET", body, headers, params
 }: ApiRequestConfig): Promise<Res> => {
+    const response = await apiClientWithResponse({endpoint, method, body, headers, params});
+
+    if (response.status < 200) {
+        // TODO - add global logging here
+        throw new Error(`API error: ${response.statusText}`);
+    }
+
+    return response.data as Res;
+};
+
+export const apiClientWithResponse = async ({
+    endpoint, method = "GET", body, headers, params
+}: ApiRequestConfig) => {
     const axiosConfig: AxiosRequestConfig = {
         url: `${API_URL}${endpoint}`,
         method,
@@ -21,11 +34,5 @@ export const apiClient = async <Res = any>({
         data: body,
     };
 
-    const response = await axios(axiosConfig);
-    if (response.status < 200) {
-        // TODO - add global logging here
-        throw new Error(`API error: ${response.statusText}`);
-    }
-
-    return response.data as Res;
+    return axios(axiosConfig);
 };

@@ -1,17 +1,23 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {AppDispatch} from "@app/store";
-import {apiClient} from "@api/apiClient";
+import {apiClient, apiClientWithResponse} from "@api/apiClient";
 import {
     ADD_PAYMENT_API_PATH,
+    CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
     CREATE_NEXT_YEAR_API_PATH,
     DISABLE_PAYMENT_API_PATH,
     ENABLE_PAYMENT_API_PATH,
     GET_YEAR_BY_YEAR_NUMBER_API_PATH,
     YEARS_API_PATH
 } from "@utils/api.actions";
-import {DisabledPayment, Payment, Year} from "@objects/payment.type";
+import {DisabledPayment, Payment, Year, YearCategory} from "@objects/payment.type";
 import {handleApiCallWithLoading} from "@app/dispatch.helper";
-import {AddPaymentRequestBody, TogglePaymentRequestBody} from "@objects/request.type";
+import {
+    AddPaymentRequestBody,
+    CreateCategoryAndAddToYearRequestBody,
+    TogglePaymentRequestBody
+} from "@objects/request.type";
+import {addCategory} from "@redux/category/categorySlice";
 
 export const getAllYearNumbers = createAsyncThunk<number[]>(
     "year/getAllYearNumbers",
@@ -89,6 +95,28 @@ export const addNewYear = createAsyncThunk<Year>(
                 body: {},
             })
         );
+    }
+);
+
+export const createNewCategoryAndAddToYear = createAsyncThunk<YearCategory, CreateCategoryAndAddToYearRequestBody>(
+    "year/createNewCategoryAndAddToYear",
+    async (body: CreateCategoryAndAddToYearRequestBody, {dispatch}) => {
+        const response = await handleApiCallWithLoading(
+            dispatch as AppDispatch,
+            () => apiClientWithResponse({
+                endpoint: CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
+                method: "PUT",
+                body: body,
+            })
+        );
+
+        const data = response.data as YearCategory;
+
+        if (response.status === 201) {
+            dispatch(addCategory(data.categoryType));
+        }
+
+        return data;
     }
 );
 

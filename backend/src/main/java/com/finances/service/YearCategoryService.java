@@ -3,10 +3,10 @@ package com.finances.service;
 import com.finances.entity.Category;
 import com.finances.entity.Year;
 import com.finances.entity.YearCategory;
-import com.finances.exception.notfound.CategoryNotFoundException;
+import com.finances.exception.exist.AlreadyExistException;
+import com.finances.exception.exist.YearCategoryAlreadyExistException;
 import com.finances.exception.notfound.NotFoundException;
 import com.finances.exception.notfound.YearCategoryNotFoundException;
-import com.finances.exception.notfound.YearNotFoundException;
 import com.finances.repository.YearCategoryRepository;
 import com.finances.request.AddCategoryToYearRequest;
 import com.finances.request.AddNewCategoryToYearRequest;
@@ -32,22 +32,26 @@ public class YearCategoryService {
         return yearCategoryRepository.findByCategoryAndYear(category, year);
     }
 
-    public YearCategory addCategoryToYear(AddCategoryToYearRequest request) throws YearNotFoundException, CategoryNotFoundException {
+    public YearCategory addCategoryToYear(AddCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         return saveNewYearCategoryIfNotExist(request.yearId(), request.categoryId());
     }
 
-    private YearCategory saveNewYearCategoryIfNotExist(Long yearId, Long categoryId) throws YearNotFoundException, CategoryNotFoundException {
+    private YearCategory saveNewYearCategoryIfNotExist(Long yearId, Long categoryId)
+            throws NotFoundException, AlreadyExistException {
         Year year = yearService.findYearById(yearId);
         Category category = categoryService.findCategoryById(categoryId);
 
-        return findOptionalYearCategoryByCategoryAndYear(category, year)
-                .orElseGet(
-                        () -> yearCategoryRepository.save(
-                                YearCategory.builder()
-                                        .year(year)
-                                        .category(category)
-                                        .build()
-                        ));
+        Optional<YearCategory> yearCategory = findOptionalYearCategoryByCategoryAndYear(category, year);
+        if (yearCategory.isEmpty()) {
+            return yearCategoryRepository.save(
+                    YearCategory.builder()
+                            .year(year)
+                            .category(category)
+                            .build()
+            );
+        }
+
+        throw new YearCategoryAlreadyExistException(category.getName(), year.getYearNumber());
     }
 
     public List<YearCategory> findByYearId(Long yearId) throws NotFoundException {
@@ -61,7 +65,7 @@ public class YearCategoryService {
                 .orElseThrow(() -> new YearCategoryNotFoundException(yearCategoryId));
     }
 
-    public YearCategory createCategoryAndAddToYear(AddNewCategoryToYearRequest request) throws NotFoundException {
+    public YearCategory createCategoryAndAddToYear(AddNewCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         Category category = categoryService.getOptionalCategoryTypeByName(request.name())
                 .orElseGet(
                         () -> categoryService.saveNewCategory(request.name(), request.deadline())
