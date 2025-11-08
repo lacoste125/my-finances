@@ -11,6 +11,8 @@ const Sidebar: React.FC<{
     open,
     onClose,
 }) => {
+    if (!open) return null;
+
     return (
         <Drawer open={open} onClose={onClose}>
             <div className={styles.sidebar}>

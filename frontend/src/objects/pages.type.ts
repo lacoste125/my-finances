@@ -17,7 +17,7 @@ export const Pages: Page[] = [
     },
     {
         name: "Payments",
-        path: Path.PAYMENTS
+        path: Path.PAYMENTS,
     },
     {
         name: "Ustawienia",

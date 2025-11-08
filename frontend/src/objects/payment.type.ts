@@ -1,39 +1,39 @@
 export interface Payment {
-    id: number
-    yearCategoryId: number
-    year: number
-    month: MonthType
-    amount: number
-    date: string
-    comment: string
-    valid: boolean
+    id: number,
+    yearCategoryId: number,
+    year: number,
+    month: MonthType,
+    amount: number,
+    date: string,
+    comment: string,
+    valid: boolean,
 }
 
 export interface CategoryType {
-    id: number
-    name: string
-    deadline: string
+    id: number,
+    name: string,
+    deadline: string,
 }
 
 export interface YearCategory {
-    id: number
-    yearId: number
-    categoryType: CategoryType
-    payments: Payment[]
-    disabledPayments: DisabledPayment[]
+    id: number,
+    yearId: number,
+    categoryType: CategoryType,
+    payments: Payment[],
+    disabledPayments: DisabledPayment[],
 }
 
 export interface Year {
-    id: number
-    name: number
-    categories: YearCategory[]
+    id: number,
+    name: number,
+    categories: YearCategory[],
 }
 
 export interface CategoryDetails {
-    category: CategoryType
-    payments: Payment[]
+    category: CategoryType,
+    payments: Payment[],
     //to add when with img/pdf implementation
-    image: object
+    image: object,
 }
 
 export interface DisabledPayment {
@@ -41,13 +41,13 @@ export interface DisabledPayment {
     month: Month,
     yearCategoryId: number,
     comment?: string,
-    valid: boolean
+    valid: boolean,
 }
 
 export interface Month {
     id: number,
     name: MonthType,
-    order: number
+    order: number,
 }
 
 export enum MonthType {
@@ -62,5 +62,5 @@ export enum MonthType {
     WRZESIEN = "WRZESIEN",
     PAZDZIERNIK = "PAZDZIERNIK",
     LISTOPAD = "LISTOPAD",
-    GRUDZIEN = "GRUDZIEN"
+    GRUDZIEN = "GRUDZIEN",
 }

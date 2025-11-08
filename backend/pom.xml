@@ -14,8 +14,8 @@
 
     <groupId>com.finances</groupId>
     <artifactId>my-finances</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>my-finances-application</name>
+    <version>0.0.2</version>
+    <name>my-finances-be</name>
 
     <properties>
         <java.version>17</java.version>
@@ -110,6 +110,16 @@
                 <version>3.0.0-M6</version>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.yml</include>
+                    <include>banner.txt</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

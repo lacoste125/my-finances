@@ -47,6 +47,8 @@ export const YearContainer: React.FC = () => {
         setShowAddNextYearModal(true);
     };
 
+    if (!year) return null;
+
     return (
         <React.Fragment>
             <Container className={styles.year_container}>

@@ -2,6 +2,7 @@ import React from "react";
 import {AppBar, Avatar, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "./Header.module.css";
+import {LoadingProvider} from "../loading/LoadingProvider";
 
 const Header: React.FC<{
     onMenuClick: () => void;
@@ -23,6 +24,7 @@ const Header: React.FC<{
                     <Avatar alt="User Avatar" src="/user.png"/>
                 </div>
             </Toolbar>
+            <LoadingProvider/>
         </AppBar>
     );
 };

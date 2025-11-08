@@ -5,27 +5,22 @@ export interface AddPaymentRequestBody {
     comment: string,
     date: string,
     monthName: MonthType,
-    yearCategoryId: number
+    yearCategoryId: number,
 }
 
 export interface AddCategoryToYearRequestBody {
     categoryId?: number,
-    yearId?: number
+    yearId?: number,
 }
 
 export interface CreateCategoryAndAddToYearRequestBody {
     name: string,
     deadline: string,
-    yearNumber: number
+    yearNumber: number,
 }
 
 export interface TogglePaymentRequestBody {
     monthName: MonthType,
     yearCategoryId: number,
-    comment?: string
-}
-
-export interface EnablePaymentRequestBody {
-    monthName: string,
-    yearCategoryId: number
+    comment?: string,
 }

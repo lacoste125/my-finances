@@ -11,7 +11,7 @@ import {
     YEARS_API_PATH
 } from "@utils/api.actions";
 import {DisabledPayment, Payment, Year, YearCategory} from "@objects/payment.type";
-import {handleApiCallWithLoading} from "@app/dispatch.helper";
+import {handleApiCallWithLoading, handleApiCallWithLoadingAndSuccess} from "@app/dispatch.helper";
 import {
     AddPaymentRequestBody,
     CreateCategoryAndAddToYearRequestBody,
@@ -51,7 +51,8 @@ export const addPayment = createAsyncThunk<Payment, AddPaymentRequestBody>(
                 method: "POST",
                 endpoint: ADD_PAYMENT_API_PATH,
                 body: body,
-            })
+            }),
+            "Błąd podczas dodawania płatności.",
         );
     }
 );
@@ -59,13 +60,15 @@ export const addPayment = createAsyncThunk<Payment, AddPaymentRequestBody>(
 export const enablePayment = createAsyncThunk<DisabledPayment, TogglePaymentRequestBody>(
     "year/enablePayment",
     async (body: TogglePaymentRequestBody, {dispatch}) => {
-        return await handleApiCallWithLoading<DisabledPayment>(
+        return await handleApiCallWithLoadingAndSuccess<DisabledPayment>(
             dispatch as AppDispatch,
             () => apiClient({
                 endpoint: ENABLE_PAYMENT_API_PATH,
                 method: "POST",
                 body: body,
-            })
+            }),
+            "Włączenie płatności powiodło się",
+            "Błąd podczas włączania płatności",
         );
     }
 );
@@ -73,13 +76,15 @@ export const enablePayment = createAsyncThunk<DisabledPayment, TogglePaymentRequ
 export const disablePayment = createAsyncThunk<DisabledPayment, TogglePaymentRequestBody>(
     "year/disablePayment",
     async (body: TogglePaymentRequestBody, {dispatch}) => {
-        return await handleApiCallWithLoading<DisabledPayment>(
+        return await handleApiCallWithLoadingAndSuccess<DisabledPayment>(
             dispatch as AppDispatch,
             () => apiClient({
                 endpoint: DISABLE_PAYMENT_API_PATH,
                 method: "POST",
                 body: body,
-            })
+            }),
+            "Wyłączenie płatności powiodło się.",
+            "Błąd podczas wyłączania płatności."
         );
     }
 );
@@ -87,7 +92,7 @@ export const disablePayment = createAsyncThunk<DisabledPayment, TogglePaymentReq
 export const addNewYear = createAsyncThunk<Year>(
     "year/addNewYear",
     async (_, {dispatch}) => {
-        return await handleApiCallWithLoading<Year>(
+        return await handleApiCallWithLoadingAndSuccess<Year>(
             dispatch as AppDispatch,
             () => apiClient({
                 method: "POST",
@@ -101,7 +106,7 @@ export const addNewYear = createAsyncThunk<Year>(
 export const createNewCategoryAndAddToYear = createAsyncThunk<YearCategory, CreateCategoryAndAddToYearRequestBody>(
     "year/createNewCategoryAndAddToYear",
     async (body: CreateCategoryAndAddToYearRequestBody, {dispatch}) => {
-        const response = await handleApiCallWithLoading(
+        const response = await handleApiCallWithLoadingAndSuccess(
             dispatch as AppDispatch,
             () => apiClientWithResponse({
                 endpoint: CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,

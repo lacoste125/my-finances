@@ -9,6 +9,8 @@ import {STATIC_TEXT} from "@objects/static_text";
 import {apiClient} from "@api/apiClient";
 import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
 import {useYear} from "@app/useYear";
+import {handleApiCallWithLoading} from "@app/dispatch.helper";
+import {useAppDispatch} from "@app/hooks";
 
 export const CategoryDetailsRow: React.FC<{
     open: boolean;
@@ -19,15 +21,19 @@ export const CategoryDetailsRow: React.FC<{
 }) => {
 
     const year = useYear();
+    const dispatch = useAppDispatch();
 
     const [categoryDetails, setCategoryDetails] = useState<CategoryDetails | undefined>(undefined);
 
     useEffect(() => {
         if (open) {
-            apiClient<CategoryDetails>({
-                endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
-                params: {categoryId: yearCategory.categoryType.id},
-            }).then((cd: CategoryDetails) => {
+            handleApiCallWithLoading<CategoryDetails>(
+                dispatch,
+                () => apiClient<CategoryDetails>({
+                    endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
+                    params: {categoryId: yearCategory.categoryType.id},
+                })
+            ).then((cd: CategoryDetails) => {
                 setCategoryDetails(cd);
             });
         }

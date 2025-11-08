@@ -3,6 +3,8 @@ import {useEffect} from "react";
 import {AppRouter} from "./components/structure/Router/AppRouter";
 import {getAllYearNumbers} from "@redux/year/year.thunk";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {UiBlocker} from "./components/structure/loading/UiBlocker";
+import {SnackProvider} from "./components/structure/snackbar/SnackProvider";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -15,9 +17,13 @@ function App() {
     }, []);
 
     return (
-        <MainLayout>
-            <AppRouter/>
-        </MainLayout>
+        <>
+            <UiBlocker/>
+            <SnackProvider/>
+            <MainLayout>
+                <AppRouter/>
+            </MainLayout>
+        </>
     );
 }
 
