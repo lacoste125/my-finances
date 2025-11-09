@@ -1,6 +1,6 @@
 import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
 import * as React from "react";
-import styles from "./Tooltip.module.css"
+import styles from "./TooltipProvider.module.css"
 
 export const TooltipProvider: React.FC<{
     id: string;

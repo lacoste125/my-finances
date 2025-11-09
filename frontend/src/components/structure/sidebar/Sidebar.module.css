@@ -13,3 +13,8 @@
 .listItem:hover {
     background-color: #0c0b0b !important;
 }
+
+.divider {
+    border-color: gold !important;
+    margin-top: 0.5rem !important;
+}

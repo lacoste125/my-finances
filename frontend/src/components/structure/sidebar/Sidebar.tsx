@@ -1,8 +1,9 @@
 import React from "react";
-import {Drawer, List, ListItem, ListItemText} from "@mui/material";
+import {Divider, Drawer, List, ListItem, ListItemText} from "@mui/material";
 import {Link} from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import {Page, Pages} from "@objects/pages.type";
+import {Logo} from "../logo/Logo";
 
 const Sidebar: React.FC<{
     open: boolean;
@@ -16,6 +17,8 @@ const Sidebar: React.FC<{
     return (
         <Drawer open={open} onClose={onClose}>
             <div className={styles.sidebar}>
+                <Logo/>
+                <Divider className={styles.divider}/>
                 <List>
                     {
                         Pages.map(

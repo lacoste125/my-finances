@@ -12,12 +12,6 @@
     align-items: center;
 }
 
-.logo {
-    margin-left: 1rem;
-    font-weight: bold;
-    color: #ffffff;
-}
-
 .rightSection {
     display: flex;
     align-items: center;

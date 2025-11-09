@@ -40,6 +40,7 @@ export default defineConfig({
             "@objects": path.resolve(__dirname, "./src/objects"),
             "@app": path.resolve(__dirname, "./src/app"),
             "@api": path.resolve(__dirname, "./src/api"),
+            "@img": path.resolve(__dirname, "./src/img"),
         },
     },
 });

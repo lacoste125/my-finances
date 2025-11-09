@@ -1,8 +1,9 @@
 import React from "react";
-import {AppBar, Avatar, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Avatar, IconButton, Toolbar} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "./Header.module.css";
 import {LoadingProvider} from "../loading/LoadingProvider";
+import {Logo} from "../logo/Logo";
 
 const Header: React.FC<{
     onMenuClick: () => void;
@@ -16,9 +17,7 @@ const Header: React.FC<{
                     <IconButton edge="start" color="inherit" onClick={onMenuClick}>
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" className={styles.logo}>
-                        LOGO
-                    </Typography>
+                    <Logo/>
                 </div>
                 <div className={styles.rightSection}>
                     <Avatar alt="User Avatar" src="/user.png"/>
