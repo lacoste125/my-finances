@@ -1,15 +1,26 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {v4 as uuid} from "uuid";
+
+export enum MessageType {
+    INFO,
+    ERROR,
+    SUCCESS,
+}
+
+export interface Message {
+    _id: string,
+    message: string,
+    type: MessageType,
+}
 
 interface CommonState {
     loading: boolean;
-    success: string | null;
-    error: string | null;
+    messages: Message[];
 }
 
 const initialState: CommonState = {
     loading: false,
-    success: null,
-    error: null,
+    messages: [],
 };
 
 const commonSlice = createSlice({
@@ -23,16 +34,27 @@ const commonSlice = createSlice({
             state.loading = false;
         },
         addSuccess: (state, action: PayloadAction<string>) => {
-            state.success = action.payload;
-        },
-        closeSuccess: (state) => {
-            state.success = null;
+            state.messages = [
+                ...state.messages,
+                {
+                    _id: uuid(),
+                    message: action.payload,
+                    type: MessageType.SUCCESS,
+                }
+            ];
         },
         addError: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
+            state.messages = [
+                ...state.messages,
+                {
+                    _id: uuid(),
+                    message: action.payload,
+                    type: MessageType.ERROR,
+                }
+            ];
         },
-        closeError: (state) => {
-            state.error = null;
+        closeMessage: (state, action: PayloadAction<string>) => {
+            state.messages = state.messages.filter(m => m._id !== action.payload);
         },
     },
 });
@@ -41,9 +63,8 @@ export const {
     startLoading,
     finishLoading,
     addSuccess,
-    closeSuccess,
     addError,
-    closeError,
+    closeMessage,
 } = commonSlice.actions;
 
 export default commonSlice.reducer;

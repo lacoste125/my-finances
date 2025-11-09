@@ -1,54 +1,55 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Alert, Slide, Snackbar} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {closeError} from "@redux/common/commonSlice";
-
-type SnackState = {
-    message: string;
-    visible: boolean;
-};
+import {closeMessage, Message, MessageType} from "@redux/common/commonSlice";
 
 export const SnackProvider: React.FC = () => {
 
     const dispatch = useAppDispatch();
-    const error = useAppSelector(state => state.commonReducer.error);
+    const messages: Message[] = useAppSelector(state => state.commonReducer.messages);
 
-    const [message, setMessage] = useState<SnackState>({
-        message: "", visible: true
-    });
+    const handleClose = (_id: string) => {
+        dispatch(closeMessage(_id));
+    };
 
-    useEffect(() => {
-        if (error) {
-            setMessage({
-                message: error, visible: true
-            });
+    const calculateSeverity = (type: MessageType) => {
+        switch (type) {
+            case MessageType.INFO:
+                return "info";
+            case MessageType.SUCCESS:
+                return "success";
+            case MessageType.ERROR:
+                return "success";
+            default:
+                return "warning";
         }
-    }, [error]);
-
-    const handleClose = () => {
-        dispatch(closeError());
-        setMessage({
-            ...message, visible: false
-        });
     };
 
     return (
-        <Snackbar
-            anchorOrigin={{vertical: "bottom", horizontal: "right"}}
-            open={message.visible && !!message.message.length}
-            autoHideDuration={5000}
-            onClose={handleClose}
-            slots={{transition: Slide}}
-            slotProps={{transition: {direction: "up"}}}
-        >
-            <Alert
-                onClose={handleClose}
-                severity="error"
-                variant="filled"
-                sx={{width: "100%"}}
-            >
-                {message.message}
-            </Alert>
-        </Snackbar>
+        <React.Fragment>
+            {messages.map((msg: Message, index) => (
+                <Snackbar
+                    key={`message-${msg._id}`}
+                    anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                    open
+                    autoHideDuration={5000}
+                    onClose={() => handleClose(msg._id)}
+                    slots={{transition: Slide}}
+                    slotProps={{transition: {direction: "up"}}}
+                >
+                    <Alert
+                        severity={calculateSeverity(msg.type)}
+                        variant="standard"
+                        sx={{
+                            position: "fixed",
+                            bottom: 10 + (60 * index),
+                            zIndex: 1400,
+                        }}
+                    >
+                        {msg.message}
+                    </Alert>
+                </Snackbar>
+            ))}
+        </React.Fragment>
     );
 };
