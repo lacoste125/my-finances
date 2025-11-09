@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {Tooltip} from "../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../elements/tooltip/TooltipProvider";
 import {STATIC_TEXT} from "@objects/static_text";
 import IconButton from "@mui/material/IconButton";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -53,11 +53,10 @@ export const YearContainer: React.FC = () => {
         <React.Fragment>
             <Container className={styles.year_container}>
                 <h3>
-                    <Tooltip
+                    <TooltipProvider
                         id={isYearLeftArrowEnabled ? "previous-year-tooltip" : "no-more-years-tooltip"}
                         text={isYearLeftArrowEnabled ? STATIC_TEXT.PREVIOUS_YEAR : STATIC_TEXT.NO_MORE_YEARS_IN_CONFIG}
                         place="left"
-                        delay={1000}
                     >
                         <IconButton
                             id="previous-year-btn"
@@ -70,15 +69,14 @@ export const YearContainer: React.FC = () => {
                         >
                             <NavigateBeforeIcon/>
                         </IconButton>
-                    </Tooltip>
+                    </TooltipProvider>
                     <Chip label={year?.name} color="primary"/>
                     {
                         isYearRightArrowVisible ? (
-                            <Tooltip
+                            <TooltipProvider
                                 id="next-year-tooltip"
                                 text={STATIC_TEXT.NEXT_YEAR}
                                 place="right"
-                                delay={1000}
                             >
                                 <IconButton
                                     id="nex-year-btn"
@@ -89,13 +87,12 @@ export const YearContainer: React.FC = () => {
                                 >
                                     <NavigateNextIcon/>
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipProvider>
                         ) : (
-                            <Tooltip
+                            <TooltipProvider
                                 id="add-new-year-tooltip"
                                 text={STATIC_TEXT.ADD_NEXT_YEAR}
                                 place="right"
-                                delay={1000}
                             >
                                 <IconButton
                                     id="add-new-year-btn"
@@ -105,7 +102,7 @@ export const YearContainer: React.FC = () => {
                                 >
                                     <ControlPointIcon htmlColor="green"/>
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipProvider>
                         )
                     }
                 </h3>

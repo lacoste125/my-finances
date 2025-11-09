@@ -2,7 +2,7 @@ import {PlacesType, Tooltip as ReactTooltip} from "react-tooltip";
 import * as React from "react";
 import styles from "./Tooltip.module.css"
 
-export const Tooltip: React.FC<{
+export const TooltipProvider: React.FC<{
     id: string;
     text: string;
     place: PlacesType;
@@ -16,7 +16,7 @@ export const Tooltip: React.FC<{
     place,
     noArrow,
     offset,
-    delay,
+    delay = 1000,
     children,
 }) => {
     return (

@@ -39,7 +39,7 @@ export const SnackProvider: React.FC = () => {
                 >
                     <Alert
                         severity={calculateSeverity(msg.type)}
-                        variant="standard"
+                        variant="filled"
                         sx={{
                             position: "fixed",
                             bottom: 10 + (60 * index),

@@ -1,25 +1,65 @@
 import {AppDispatch} from "@app/store";
 import {addError, addSuccess, finishLoading, startLoading} from "@redux/common/commonSlice";
 
+interface LoadingState {
+    loadingTimeout: NodeJS.Timeout | null;
+    loadingStarted: boolean;
+}
+
+async function callApi(
+    state: LoadingState,
+    dispatch: AppDispatch,
+    apiFunction: () => Promise<unknown>,
+): Promise<unknown> {
+    const delayedLoading = new Promise<void>((resolve) => {
+        state.loadingTimeout = setTimeout(() => {
+            dispatch(startLoading());
+            state.loadingStarted = true;
+            resolve();
+        }, 200);
+    });
+
+    return await Promise.race([
+        apiFunction(),
+        delayedLoading.then(() => new Promise(() => {
+        })),
+    ]);
+}
+
+function close(
+    state: LoadingState,
+    dispatch: AppDispatch,
+) {
+    if (state.loadingTimeout) {
+        clearTimeout(state.loadingTimeout);
+    }
+
+    if (state.loadingStarted) {
+        dispatch(finishLoading());
+    }
+}
+
 export async function handleApiCallWithLoadingAndSuccess<T>(
     dispatch: AppDispatch,
     apiFunction: () => Promise<T>,
     successMessage: string = "Operation completed successfully",
     errorMessage: string = "Something went wrong",
 ): Promise<T> {
+    const loadingState: LoadingState = {
+        loadingTimeout: null,
+        loadingStarted: false,
+    };
+
     try {
-        dispatch(startLoading());
-
-        const result = await apiFunction();
-
+        const result = callApi(loadingState, dispatch, apiFunction);
         dispatch(addSuccess(successMessage));
 
-        return result;
+        return result as T;
     } catch (error: any) {
         dispatch(addError(errorMessage));
         throw error;
     } finally {
-        dispatch(finishLoading());
+        close(loadingState, dispatch);
     }
 }
 
@@ -28,36 +68,20 @@ export async function handleApiCallWithLoading<T>(
     apiFunction: () => Promise<T>,
     errorMessage: string = "Something went wrong"
 ): Promise<T> {
-    let loadingTimeout: NodeJS.Timeout | null = null;
-    let loadingStarted: boolean = false;
+    const loadingState: LoadingState = {
+        loadingTimeout: null,
+        loadingStarted: false,
+    };
 
     try {
-        const delayedLoading = new Promise<void>((resolve) => {
-            loadingTimeout = setTimeout(() => {
-                dispatch(startLoading());
-                loadingStarted = true;
-                resolve();
-            }, 200);
-        });
-
-        const result = await Promise.race([
-            apiFunction(),
-            delayedLoading.then(() => new Promise(() => {
-            })),
-        ]);
+        const result = callApi(loadingState, dispatch, apiFunction);
 
         return result as T;
     } catch (error: any) {
         dispatch(addError(errorMessage));
         throw error;
     } finally {
-        if (loadingTimeout) {
-            clearTimeout(loadingTimeout);
-        }
-
-        if (loadingStarted) {
-            dispatch(finishLoading());
-        }
+        close(loadingState, dispatch);
     }
 }
 

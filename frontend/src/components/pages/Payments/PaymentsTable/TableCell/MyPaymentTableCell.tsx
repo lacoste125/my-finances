@@ -9,11 +9,11 @@ import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import PriorityHigh from "@mui/icons-material/PriorityHigh";
 import {DisablePaymentModal} from "../Modals/DisablePaymentModal";
 import {EnablePaymentModal} from "../Modals/EnablePaymentModal";
-import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {TogglePaymentRequestBody} from "@objects/request.type";
 import styles from "./MyPaymentTableCell.module.css";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {disablePayment, enablePayment} from "@redux/year/year.thunk";
+import {disablePayment} from "@redux/year/year.thunk";
 
 export const MyPaymentTableCell: React.FC<{
     monthNumber: number;
@@ -104,15 +104,6 @@ export const MyPaymentTableCell: React.FC<{
         setEnableModalVisible(false);
     };
 
-    const handleConfirmEnablePayment = () => {
-        const body: TogglePaymentRequestBody = {
-            monthName: monthType,
-            yearCategoryId: yearCategory.id
-        };
-        dispatch(enablePayment(body));
-        setEnableModalVisible(false);
-    };
-
     const borderClass: string = useMemo(() => {
         return getBorder(open, isLastRow);
     }, [open, isLastRow]);
@@ -145,28 +136,26 @@ export const MyPaymentTableCell: React.FC<{
             >
                 {
                     isThisMonthDisabled ? (
-                        <Tooltip
+                        <TooltipProvider
                             id={tooltipId}
                             text={disabledPaymentComment(monthType)?.comment || STATIC_TEXT.PAYMENT_DISABLED_CLICK_TO_CHANGE}
                             place="top"
-                            delay={1000}
                         >
                              <span>
                                 <DoNotDisturbAltIcon htmlColor={iconColor}/>
                             </span>
-                        </Tooltip>
+                        </TooltipProvider>
                     ) : (
-                        <Tooltip
+                        <TooltipProvider
                             id={tooltipId}
                             text={`${monthPayments.length} ${paymentsWord}`}
-                            delay={1000}
                             place="top"
                         >
                             <span>
                                 {monthSum ? Math.round(monthSum * 100) / 100 : isCurrentMonth || isPreviousMonth ?
                                     <PriorityHigh htmlColor={"#bb2a2a"}/> : ""}
                             </span>
-                        </Tooltip>
+                        </TooltipProvider>
                     )
                 }
             </TableCell>
@@ -186,8 +175,8 @@ export const MyPaymentTableCell: React.FC<{
             />
             <EnablePaymentModal
                 show={enablePaymentModalVisible}
+                yearCategory={yearCategory}
                 month={monthType}
-                onConfirmEnablePayment={handleConfirmEnablePayment}
                 onClose={handleAbortEnablePayment}
             />
         </React.Fragment>

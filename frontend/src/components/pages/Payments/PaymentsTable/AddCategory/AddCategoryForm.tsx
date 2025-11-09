@@ -3,7 +3,7 @@ import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import {ADD_CATEGORY_TO_YEAR_API_PATH} from "@utils/api.actions";
 import {CategoryType} from "@objects/payment.type";
-import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "@objects/request.type";
 import {Box, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
@@ -84,9 +84,9 @@ export const AddCategoryForm: React.FC<{
         });
     };
 
-    const yearCategories = useMemo(() => year?.categories?.map(cat => cat.categoryType), [year]);
+    const yearCategories: CategoryType[] | undefined = useMemo(() => year?.categories?.map(cat => cat.categoryType), [year]);
 
-    const categoriesDisplayedInDropdown = useMemo(() => {
+    const categoriesDisplayedInDropdown: CategoryType[] = useMemo(() => {
         return allCategoryTypes?.filter(
             (category: CategoryType) =>
                 !yearCategories?.some(
@@ -107,90 +107,94 @@ export const AddCategoryForm: React.FC<{
         <React.Fragment>
             <Box className={styles.addCategoryBox} display="flex" alignItems="baseline" gap={1}>
                 {
-                    !createCategorySectionVisible && <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="dropdown-category-label" color="success" sx={{marginTop: 1}}>
-                            Wybierz kategorię
-                        </InputLabel>
-                        <Select
-                            id="dropdown-category-list"
-                            labelId="dropdown-category-label"
-                            value={selectedCategory?.id ?? ""}
-                            onChange={(event) => handleCategorySelection(event.target.value)}
-                            className={styles.whiteBack}
-                            disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
-                            variant="standard"
-                        >
-                            {categoriesDisplayedInDropdown.map((categoryType: CategoryType) => (
-                                <MenuItem key={categoryType.id} value={categoryType.id}>
-                                    {categoryType.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    !createCategorySectionVisible && (
+                        <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="dropdown-category-label" color="success" sx={{marginTop: 1}}>
+                                Wybierz kategorię
+                            </InputLabel>
+                            <Select
+                                id="dropdown-category-list"
+                                labelId="dropdown-category-label"
+                                value={selectedCategory?.id ?? ""}
+                                onChange={(event) => handleCategorySelection(event.target.value)}
+                                className={styles.whiteBack}
+                                disabled={createCategorySectionVisible || !categoriesDisplayedInDropdown?.length}
+                                variant="standard"
+                            >
+                                {categoriesDisplayedInDropdown.map((categoryType: CategoryType) => (
+                                    <MenuItem key={categoryType.id} value={categoryType.id}>
+                                        {categoryType.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    )
                 }
                 {
-                    !!selectedCategory && <Button
-                        variant="outlined"
-                        id="add_existing_category"
-                        onClick={handleClickAddCategoryToMontButton}
-                    >
-                        {STATIC_TEXT.ADD}
-                    </Button>
+                    !!selectedCategory && (
+                        <Button
+                            variant="outlined"
+                            id="add_existing_category"
+                            onClick={handleClickAddCategoryToMontButton}
+                        >
+                            {STATIC_TEXT.ADD}
+                        </Button>
+                    )
                 }
             </Box>
             <FormControl fullWidth>
                 <div className={!createCategorySectionVisible ? "mt-2" : ""}>
-                    <Tooltip
+                    <TooltipProvider
                         id="new_category_tooltip"
                         text={!createCategorySectionVisible ? STATIC_TEXT.CLICK_TO_CREATE_NEW_CATEGORY : ""}
-                        delay={1000}
-                        place={"bottom"}
+                        place="bottom"
                     >
                         <Checkbox
                             id="new_category_checkbox"
                             name={STATIC_TEXT.NEW_CATEGORY}
                             onChange={handleCreateCategoryCheckboxClick}
                         />
-                    </Tooltip>
+                    </TooltipProvider>
                     Nowa kategoria?
                 </div>
-
             </FormControl>
             {
-                createCategorySectionVisible && <Box display="flex" alignItems="center" gap={2}>
-                    <TextField
-                        label={STATIC_TEXT.NAME}
-                        value={newCategoryName ?? ""}
-                        onChange={event => handleCategoryNameChange(event.target.value)}
-                        placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
-                        fullWidth
-                        className="flex-grow-1"
-                    />
-                    <TextField
-                        label={STATIC_TEXT.DEADLINE}
-                        value={categoryDeadline ?? ""}
-                        onChange={event => handleCategoryDeadlineChange(event.target.value)}
-                        placeholder={STATIC_TEXT.WRITE_DEADLINE}
-                        fullWidth
-                        className="flex-grow-1"
-                    />
-                    <Tooltip
-                        id="create-new-category-tooltip"
-                        text={!isCreateNewCategoryButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
-                        place="bottom"
-                        offset={19}
-                    >
-                        <Button
-                            id="create-new-category-btn"
-                            variant="outlined"
-                            color={isCreateNewCategoryButtonActive ? "primary" : "secondary"}
-                            onClick={handleClickCreateNewCategory}
-                            disabled={!isCreateNewCategoryButtonActive}
+                createCategorySectionVisible && (
+                    <Box display="flex" alignItems="center" gap={2}>
+                        <TextField
+                            label={STATIC_TEXT.NAME}
+                            value={newCategoryName ?? ""}
+                            onChange={event => handleCategoryNameChange(event.target.value)}
+                            placeholder={STATIC_TEXT.WRITE_CATEGORY_NUMBER}
+                            fullWidth
+                            className="flex-grow-1"
+                        />
+                        <TextField
+                            label={STATIC_TEXT.DEADLINE}
+                            value={categoryDeadline ?? ""}
+                            onChange={event => handleCategoryDeadlineChange(event.target.value)}
+                            placeholder={STATIC_TEXT.WRITE_DEADLINE}
+                            fullWidth
+                            className="flex-grow-1"
+                        />
+                        <TooltipProvider
+                            id="create-new-category-tooltip"
+                            text={!isCreateNewCategoryButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
+                            place="bottom"
+                            offset={19}
                         >
-                            {STATIC_TEXT.CREATE}
-                        </Button>
-                    </Tooltip>
-                </Box>
+                            <Button
+                                id="create-new-category-btn"
+                                variant="outlined"
+                                color={isCreateNewCategoryButtonActive ? "primary" : "secondary"}
+                                onClick={handleClickCreateNewCategory}
+                                disabled={!isCreateNewCategoryButtonActive}
+                            >
+                                {STATIC_TEXT.CREATE}
+                            </Button>
+                        </TooltipProvider>
+                    </Box>
+                )
             }
         </React.Fragment>
     );

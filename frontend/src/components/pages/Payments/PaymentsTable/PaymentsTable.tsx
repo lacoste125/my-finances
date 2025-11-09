@@ -9,7 +9,7 @@ import {MonthType, YearCategory} from "@objects/payment.type";
 import {CategoryTableRow} from "./TableRow/CategoryTableRow";
 import {STATIC_TEXT} from "@objects/static_text";
 import {AddCategoryModal} from "./AddCategory/AddCategoryModal";
-import {Tooltip} from "../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../elements/tooltip/TooltipProvider";
 import Button from "@mui/material/Button";
 import styles from "./PaymentsTable.module.css";
 import {useYear} from "@app/useYear";
@@ -83,7 +83,7 @@ export const PaymentsTable: React.FC = () => {
                     {
                         showAddCategoryRow && <TableRow>
                             <TableCell colSpan={3}>
-                                <Tooltip
+                                <TooltipProvider
                                     id="add-row-tooltip"
                                     text="Dodaj wiersz"
                                     place="right"
@@ -98,7 +98,7 @@ export const PaymentsTable: React.FC = () => {
                                     >
                                         Add new category
                                     </Button>
-                                </Tooltip>
+                                </TooltipProvider>
                             </TableCell>
                             <TableCell colSpan={13} height={60}/>
                         </TableRow>

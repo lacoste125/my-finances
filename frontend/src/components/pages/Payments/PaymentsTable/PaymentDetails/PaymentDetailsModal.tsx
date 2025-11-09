@@ -4,7 +4,7 @@ import {MonthType, Payment, YearCategory} from "@objects/payment.type";
 import {MonthDetailsTable} from "./MonthDetailsTable";
 import {getDateFromString} from "@utils/util.action";
 import {FORMAT_TEXT, STATIC_TEXT} from "@objects/static_text";
-import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {AddPaymentRequestBody} from "@objects/request.type";
 import {Modal} from "../../../../structure/modal/Modal";
 import {Box, Stack, TextField} from "@mui/material";
@@ -125,7 +125,7 @@ export const PaymentDetailsModal: React.FC<{
                 />
             </Stack>
             <Box display="flex" alignItems="center" justifyContent="flex-end" gap={2} sx={{marginTop: 2}}>
-                <Tooltip
+                <TooltipProvider
                     id="add-payment-btn-tooltip"
                     text={!isAddPaymentButtonActive ? STATIC_TEXT.FILL_ALL_FIELDS_TO_ADD_PAYMENT : ""}
                     place="left"
@@ -139,8 +139,8 @@ export const PaymentDetailsModal: React.FC<{
                     >
                         {STATIC_TEXT.ADD_PAYMENT}
                     </Button>
-                </Tooltip>
-                <Tooltip
+                </TooltipProvider>
+                <TooltipProvider
                     id="disable-payment-tooltip"
                     text={payments.length ? STATIC_TEXT.CANNOT_DISABLE_PAYMENT : ""}
                     place="left"
@@ -154,7 +154,7 @@ export const PaymentDetailsModal: React.FC<{
                     >
                         {STATIC_TEXT.DISABLE_PAYMENT_THIS_MONTH}
                     </Button>
-                </Tooltip>
+                </TooltipProvider>
             </Box>
         </Modal>
     );

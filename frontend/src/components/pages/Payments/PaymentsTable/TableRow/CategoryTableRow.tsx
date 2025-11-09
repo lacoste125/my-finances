@@ -8,7 +8,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {MyPaymentTableCell} from "../TableCell/MyPaymentTableCell";
 import {getBorder} from "@utils/util.action";
-import {Tooltip} from "../../../../elements/tooltip/Tooltip";
+import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {STATIC_TEXT} from "@objects/static_text";
 import {CategoryDetailsRow} from "../CategoryDetails/CategoryDetailsRow";
 
@@ -49,14 +49,13 @@ export const CategoryTableRow: React.FC<{
                     scope="row"
                     className={`dark_background border-end border-top border-dark ${borderClass}`}
                 >
-                    <Tooltip
+                    <TooltipProvider
                         id={`tooltip-deadline-${categoryName}`}
                         text={`${STATIC_TEXT.DEADLINE_WITH_COLON}${yearCategory.categoryType.deadline}`}
                         place="top"
-                        delay={1000}
                     >
                         <span>{categoryName}</span>
-                    </Tooltip>
+                    </TooltipProvider>
                 </TableCell>
                 {
                     Object.values(MonthType).map(
