@@ -2,12 +2,11 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {AppDispatch} from "@app/store";
 import {apiClient, apiClientWithResponse} from "@api/apiClient";
 import {
-    ADD_PAYMENT_API_PATH,
     CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
-    CREATE_NEXT_YEAR_API_PATH,
     DISABLE_PAYMENT_API_PATH,
     ENABLE_PAYMENT_API_PATH,
     GET_YEAR_BY_YEAR_NUMBER_API_PATH,
+    PAYMENTS_API_PATH,
     YEARS_API_PATH
 } from "@utils/api.actions";
 import {DisabledPayment, Payment, Year, YearCategory} from "@objects/payment.type";
@@ -35,8 +34,7 @@ export const getYearByYearNumber = createAsyncThunk<Year, number>(
         return await handleApiCallWithLoading<Year>(
             dispatch as AppDispatch,
             () => apiClient<Year>({
-                endpoint: GET_YEAR_BY_YEAR_NUMBER_API_PATH,
-                params: {yearNumber},
+                endpoint: GET_YEAR_BY_YEAR_NUMBER_API_PATH(yearNumber)
             })
         );
     }
@@ -49,7 +47,7 @@ export const addPayment = createAsyncThunk<Payment, AddPaymentRequestBody>(
             dispatch as AppDispatch,
             () => apiClient({
                 method: "POST",
-                endpoint: ADD_PAYMENT_API_PATH,
+                endpoint: PAYMENTS_API_PATH,
                 body: body,
             }),
             "Błąd podczas dodawania płatności.",
@@ -96,7 +94,7 @@ export const addNewYear = createAsyncThunk<Year>(
             dispatch as AppDispatch,
             () => apiClient({
                 method: "POST",
-                endpoint: CREATE_NEXT_YEAR_API_PATH,
+                endpoint: YEARS_API_PATH,
                 body: {},
             })
         );

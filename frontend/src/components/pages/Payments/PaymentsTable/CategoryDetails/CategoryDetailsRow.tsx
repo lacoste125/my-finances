@@ -7,7 +7,7 @@ import {Container, Table, TableBody, TableHead, Typography} from "@mui/material"
 import {CategoryDetails, Payment, YearCategory} from "@objects/payment.type";
 import {STATIC_TEXT} from "@objects/static_text";
 import {apiClient} from "@api/apiClient";
-import {GET_CATEGORY_PAYMENTS_BY_ID_API_PATH} from "@utils/api.actions";
+import {GET_PAYMENTS_BY_YEAR_CATEGORY_ID_API_PATH} from "@utils/api.actions";
 import {useYear} from "@app/useYear";
 import {handleApiCallWithLoading} from "@app/dispatch.helper";
 import {useAppDispatch} from "@app/hooks";
@@ -30,8 +30,7 @@ export const CategoryDetailsRow: React.FC<{
             handleApiCallWithLoading<CategoryDetails>(
                 dispatch,
                 () => apiClient<CategoryDetails>({
-                    endpoint: GET_CATEGORY_PAYMENTS_BY_ID_API_PATH,
-                    params: {categoryId: yearCategory.categoryType.id},
+                    endpoint: GET_PAYMENTS_BY_YEAR_CATEGORY_ID_API_PATH(yearCategory.categoryType.id)
                 })
             ).then((cd: CategoryDetails) => {
                 setCategoryDetails(cd);

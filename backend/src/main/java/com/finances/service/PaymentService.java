@@ -43,7 +43,7 @@ public class PaymentService {
         );
     }
 
-    public List<Payment> getCategoryPayments(Long categoryId) throws CategoryNotFoundException {
+    public List<Payment> getPaymentsByYearCategoryId(Long categoryId) throws CategoryNotFoundException {
         Category category = categoryService.findCategoryById(categoryId);
 
         return paymentRepository.getCategoryPayments(category);

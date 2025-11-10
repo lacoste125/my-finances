@@ -9,8 +9,6 @@ import com.finances.request.TogglePaymentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class DisabledPaymentService {
@@ -40,9 +38,5 @@ public class DisabledPaymentService {
                 );
 
         return disabledPaymentRepository.save(payment);
-    }
-
-    public List<DisabledPayment> getDisabledPaymentsByYear(Integer year) {
-        return disabledPaymentRepository.selectByYear(year);
     }
 }
