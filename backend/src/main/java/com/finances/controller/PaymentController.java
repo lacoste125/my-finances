@@ -1,6 +1,5 @@
 package com.finances.controller;
 
-import com.finances.advisor.Response;
 import com.finances.dto.CategoryDetailsDto;
 import com.finances.dto.DisabledPaymentDto;
 import com.finances.dto.PaymentDto;
@@ -16,7 +15,7 @@ import com.finances.wrapper.CategoryDetailsDtoWrapper;
 import com.finances.wrapper.DisabledPaymentDtoWrapper;
 import com.finances.wrapper.PaymentDtoWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,30 +32,33 @@ public class PaymentController {
     private final CategoryDetailsDtoWrapper categoryDetailsDtoWrapper;
 
     @PostMapping
-    public ResponseEntity<PaymentDto> addPayment(@RequestBody AddPaymentRequest requestBody) throws NotFoundException, AmountIsEmptyException {
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public PaymentDto addPayment(@RequestBody AddPaymentRequest requestBody) throws NotFoundException, AmountIsEmptyException {
         Payment payment = paymentService.addPayment(requestBody);
 
-        return new Response<PaymentDto>().created(paymentDtoWrapper.mapToDto(payment));
+        return paymentDtoWrapper.mapToDto(payment);
     }
 
     @PostMapping("/enable")
-    public ResponseEntity<DisabledPaymentDto> enablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public DisabledPaymentDto enablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
         DisabledPayment enabled = disabledPaymentService.togglePayment(request, false);
 
-        return new Response<DisabledPaymentDto>().created(disabledPaymentDtoWrapper.mapToDto(enabled));
+        return disabledPaymentDtoWrapper.mapToDto(enabled);
     }
 
     @PostMapping("/disable")
-    public ResponseEntity<DisabledPaymentDto> disablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public DisabledPaymentDto disablePayment(@RequestBody TogglePaymentRequest request) throws NotFoundException {
         DisabledPayment disabledPaymentDto = disabledPaymentService.togglePayment(request, true);
 
-        return new Response<DisabledPaymentDto>().created(disabledPaymentDtoWrapper.mapToDto(disabledPaymentDto));
+        return disabledPaymentDtoWrapper.mapToDto(disabledPaymentDto);
     }
 
     @GetMapping("/by-year-category-id/{yearCategoryId}")
-    public ResponseEntity<CategoryDetailsDto> getPaymentsForYearCategory(@PathVariable Long yearCategoryId) throws NotFoundException {
+    public CategoryDetailsDto getPaymentsForYearCategory(@PathVariable Long yearCategoryId) throws NotFoundException {
         List<Payment> categoryPayments = paymentService.getPaymentsByYearCategoryId(yearCategoryId);
 
-        return new Response<CategoryDetailsDto>().ok(categoryDetailsDtoWrapper.mapToDto(categoryPayments));
+        return categoryDetailsDtoWrapper.mapToDto(categoryPayments);
     }
 }

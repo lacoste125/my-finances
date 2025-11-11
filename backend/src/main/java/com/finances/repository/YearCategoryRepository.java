@@ -15,8 +15,6 @@ public interface YearCategoryRepository extends CrudRepository<YearCategory, Lon
 
     Optional<YearCategory> findByCategoryAndYear(Category category, Year year);
 
-    List<YearCategory> findByYear(Year year);
-
     @Override
     @NonNull
     List<YearCategory> findAll();

@@ -1,6 +1,5 @@
 package com.finances.controller;
 
-import com.finances.advisor.Response;
 import com.finances.dto.YearCategoryDto;
 import com.finances.entity.YearCategory;
 import com.finances.exception.exist.AlreadyExistException;
@@ -10,7 +9,7 @@ import com.finances.request.AddNewCategoryToYearRequest;
 import com.finances.service.YearCategoryService;
 import com.finances.wrapper.YearCategoryDtoWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,35 +22,26 @@ public class YearCategoryController {
     private final YearCategoryService yearCategoryService;
     private final YearCategoryDtoWrapper yearCategoryDtoWrapper;
 
-    @GetMapping("/getAllYearCategories")
-    public ResponseEntity<List<YearCategoryDto>> getAllYearCategories() {
+    @GetMapping
+    public List<YearCategoryDto> getAllYearCategories() {
         List<YearCategory> monthCategories = yearCategoryService.findAllYearCategories();
 
-        return new Response<List<YearCategoryDto>>().ok(yearCategoryDtoWrapper.mapToDtos(monthCategories));
+        return yearCategoryDtoWrapper.mapToDtos(monthCategories);
     }
 
-    @GetMapping("/getYearCategoriesByYearId")
-    public ResponseEntity<List<YearCategoryDto>> getYearCategoriesByYearId(@RequestParam Long yearId) throws NotFoundException {
-        List<YearCategory> yearCategory = yearCategoryService.findByYearId(yearId);
-
-        return new Response<List<YearCategoryDto>>().ok(yearCategoryDtoWrapper.mapToDtos(yearCategory));
-    }
-
-    @PostMapping("/addCategoryToYear")
-    public ResponseEntity<YearCategoryDto> addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public YearCategoryDto addCategoryToYear(@RequestBody AddCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         YearCategory result = yearCategoryService.addCategoryToYear(request);
 
-        return new Response<YearCategoryDto>().created(
-                yearCategoryDtoWrapper.mapToDto(result)
-        );
+        return yearCategoryDtoWrapper.mapToDto(result);
     }
 
-    @PutMapping("/addNewCategoryToYear")
-    public ResponseEntity<YearCategoryDto> addNewCategoryToYear(@RequestBody AddNewCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
+    @PutMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public YearCategoryDto addNewCategoryToYear(@RequestBody AddNewCategoryToYearRequest request) throws NotFoundException, AlreadyExistException {
         YearCategory result = yearCategoryService.createCategoryAndAddToYear(request);
 
-        return new Response<YearCategoryDto>().created(
-                yearCategoryDtoWrapper.mapToDto(result)
-        );
+        return yearCategoryDtoWrapper.mapToDto(result);
     }
 }

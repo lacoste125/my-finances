@@ -1,15 +1,11 @@
 package com.finances.controller;
 
-import com.finances.advisor.Response;
 import com.finances.request.CreateBackupRequest;
 import com.finances.service.BackupService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -20,11 +16,9 @@ public class BackupController {
 
     private final BackupService backupService;
 
-    @PostMapping("/createDatabaseBackup")
-    public ResponseEntity<String> createDatabaseBackup(@RequestBody CreateBackupRequest request)
-            throws IOException, MessagingException {
-        String filePath = backupService.createBackupAndSendEmail(request);
-
-        return new Response<String>().created(filePath);
+    @PostMapping("/create")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public String createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
+        return backupService.createBackupAndSendEmail(request);
     }
 }

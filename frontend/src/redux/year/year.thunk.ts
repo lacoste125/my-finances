@@ -2,11 +2,11 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {AppDispatch} from "@app/store";
 import {apiClient, apiClientWithResponse} from "@api/apiClient";
 import {
-    CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
     DISABLE_PAYMENT_API_PATH,
     ENABLE_PAYMENT_API_PATH,
     GET_YEAR_BY_YEAR_NUMBER_API_PATH,
     PAYMENTS_API_PATH,
+    YEAR_CATEGORIES_API_PATH,
     YEARS_API_PATH
 } from "@utils/api.actions";
 import {DisabledPayment, Payment, Year, YearCategory} from "@objects/payment.type";
@@ -107,7 +107,7 @@ export const createNewCategoryAndAddToYear = createAsyncThunk<YearCategory, Crea
         const response = await handleApiCallWithLoadingAndSuccess(
             dispatch as AppDispatch,
             () => apiClientWithResponse({
-                endpoint: CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH,
+                endpoint: YEAR_CATEGORIES_API_PATH,
                 method: "PUT",
                 body: body,
             })

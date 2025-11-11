@@ -1,7 +1,6 @@
 import {STATIC_TEXT} from "@objects/static_text";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
-import {ADD_CATEGORY_TO_YEAR_API_PATH} from "@utils/api.actions";
 import {CategoryType} from "@objects/payment.type";
 import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {AddCategoryToYearRequestBody, CreateCategoryAndAddToYearRequestBody} from "@objects/request.type";
@@ -13,6 +12,7 @@ import {useYear} from "@app/useYear";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
 import {getAllCategories} from "@redux/category/category.thunk";
 import {createNewCategoryAndAddToYear} from "@redux/year/year.thunk";
+import {YEAR_CATEGORIES_API_PATH} from "@utils/api.actions";
 
 export const AddCategoryForm: React.FC<{
     close: () => void;
@@ -78,7 +78,7 @@ export const AddCategoryForm: React.FC<{
         };
 
         return apiClient({
-            endpoint: ADD_CATEGORY_TO_YEAR_API_PATH,
+            endpoint: YEAR_CATEGORIES_API_PATH,
             method: "POST",
             body: body,
         });

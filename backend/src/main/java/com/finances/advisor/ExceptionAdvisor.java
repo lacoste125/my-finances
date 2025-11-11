@@ -7,42 +7,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.LocalDateTime;
-
 @ControllerAdvice
-//TODO - to do refactoru bo się dużo kodu powtarza
 public class ExceptionAdvisor {
 
-    @ExceptionHandler({NotFoundException.class})
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ExceptionResponse> notFoundExceptionHandler(NotFoundException exception) {
-        return new Response<ExceptionResponse>()
-                .notFound(
-                        ExceptionResponse.builder()
-                                .timestamp(LocalDateTime.now())
-                                .message(exception.getMessage())
-                                .build()
-                );
+        return Response.notFound(
+                ExceptionResponse.of(exception.getMessage())
+        );
     }
 
-    @ExceptionHandler({AlreadyExistException.class})
+    @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<ExceptionResponse> alreadyExistExceptionHandler(AlreadyExistException exception) {
-        return new Response<ExceptionResponse>()
-                .exist(
-                        ExceptionResponse.builder()
-                                .timestamp(LocalDateTime.now())
-                                .message(exception.getMessage())
-                                .build()
-                );
+        return Response.conflict(
+                ExceptionResponse.of(exception.getMessage())
+        );
     }
 
-    @ExceptionHandler({BadRequestException.class})
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ExceptionResponse> badRequestExceptionHandler(BadRequestException exception) {
-        return new Response<ExceptionResponse>()
-                .badRequest(
-                        ExceptionResponse.builder()
-                                .timestamp(LocalDateTime.now())
-                                .message(exception.getMessage())
-                                .build()
-                );
+        return Response.badRequest(
+                ExceptionResponse.of(exception.getMessage())
+        );
     }
 }

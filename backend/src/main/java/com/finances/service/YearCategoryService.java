@@ -54,12 +54,6 @@ public class YearCategoryService {
         throw new YearCategoryAlreadyExistException(category.getName(), year.getYearNumber());
     }
 
-    public List<YearCategory> findByYearId(Long yearId) throws NotFoundException {
-        Year year = yearService.findYearById(yearId);
-
-        return yearCategoryRepository.findByYear(year);
-    }
-
     public YearCategory findByYearCategoryId(Long yearCategoryId) throws NotFoundException {
         return yearCategoryRepository.findById(yearCategoryId)
                 .orElseThrow(() -> new YearCategoryNotFoundException(yearCategoryId));

@@ -9,8 +9,7 @@ export const DISABLE_PAYMENT_API_PATH = `${PAYMENTS_API_PATH}/disable`;
 export const GET_PAYMENTS_BY_YEAR_CATEGORY_ID_API_PATH = (yearCategoryId: number) => `${PAYMENTS_API_PATH}/by-year-category-id/${yearCategoryId}`;
 
 // categories
-export const GET_ALL_CATEGORIES_API_PATH = "categories/getAllCategories";
+export const CATEGORIES_API_PATH = "categories";
 
 // year-categories
-export const ADD_CATEGORY_TO_YEAR_API_PATH = "year-categories/addCategoryToYear";
-export const CREATE_CATEGORY_AND_ADD_TO_YEAR_API_PATH = "year-categories/addNewCategoryToYear";
+export const YEAR_CATEGORIES_API_PATH = "year-categories";

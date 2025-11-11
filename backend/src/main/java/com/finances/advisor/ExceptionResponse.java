@@ -9,4 +9,11 @@ public record ExceptionResponse(
         LocalDateTime timestamp,
         String message
 ) {
+
+    public static ExceptionResponse of(String message) {
+        return ExceptionResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .message(message)
+                .build();
+    }
 }
