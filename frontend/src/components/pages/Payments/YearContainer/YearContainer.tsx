@@ -70,7 +70,7 @@ export const YearContainer: React.FC = () => {
                             <NavigateBeforeIcon/>
                         </IconButton>
                     </TooltipProvider>
-                    <Chip label={year?.name} color="primary"/>
+                    <Chip label={year?.name} color="primary" className={styles.notClickable}/>
                     {
                         isYearRightArrowVisible ? (
                             <TooltipProvider

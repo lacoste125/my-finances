@@ -1,0 +1,10 @@
+.clickablePointer {
+    cursor: pointer !important;
+}
+
+.blackHover {
+    &:hover {
+        background-color: black !important;
+        border-radius: 20px;
+    }
+}

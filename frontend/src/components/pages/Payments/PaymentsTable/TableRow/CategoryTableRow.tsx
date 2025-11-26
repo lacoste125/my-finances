@@ -11,6 +11,8 @@ import {getBorder} from "@utils/util.action";
 import {TooltipProvider} from "../../../../elements/tooltip/TooltipProvider";
 import {STATIC_TEXT} from "@objects/static_text";
 import {CategoryDetailsRow} from "../CategoryDetails/CategoryDetailsRow";
+import classNames from "classnames";
+import styles from "./CategoryTableRow.module.css";
 
 const ICON_HTML_COLOR: string = "white";
 
@@ -37,24 +39,32 @@ export const CategoryTableRow: React.FC<{
             <TableRow key={`TableRow_${yearCategory.id}`}>
                 <TableCell className={`border-dark border-top ${borderClass}`}>
                     <IconButton size="small" onClick={() => setOpen(!open)}>
-                        {
-                            open ? <KeyboardArrowUpIcon htmlColor={ICON_HTML_COLOR}/> :
-                                <KeyboardArrowDownIcon htmlColor={ICON_HTML_COLOR}/>
-                        }
+                        {open ? (
+                            <KeyboardArrowUpIcon htmlColor={ICON_HTML_COLOR}/>
+                        ) : (
+                            <KeyboardArrowDownIcon htmlColor={ICON_HTML_COLOR}/>
+                        )}
                     </IconButton>
                 </TableCell>
                 <TableCell
                     key={`TableCell_Name_${categoryName}`}
                     component="th"
                     scope="row"
-                    className={`dark_background border-end border-top border-dark ${borderClass}`}
+                    className={classNames(
+                        "dark_background border-end border-top border-dark",
+                        borderClass,
+                        styles.clickablePointer,
+                        styles.blackHover
+                    )}
                 >
                     <TooltipProvider
                         id={`tooltip-deadline-${categoryName}`}
                         text={`${STATIC_TEXT.DEADLINE_WITH_COLON}${yearCategory.categoryType.deadline}`}
                         place="top"
                     >
-                        <span>{categoryName}</span>
+                        <span>
+                            {categoryName}
+                        </span>
                     </TooltipProvider>
                 </TableCell>
                 {
