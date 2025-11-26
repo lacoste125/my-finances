@@ -18,7 +18,9 @@ public class BackupController {
 
     @PostMapping("/create")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public String createDatabaseBackup(@RequestBody CreateBackupRequest request) throws IOException, MessagingException {
+    public String createDatabaseBackup(@RequestBody CreateBackupRequest request)
+            throws IOException, MessagingException, InterruptedException
+    {
         return backupService.createBackupAndSendEmail(request);
     }
 }

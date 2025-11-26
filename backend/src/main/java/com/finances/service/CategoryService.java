@@ -43,7 +43,6 @@ public class CategoryService {
                 Category.builder()
                         .name(name)
                         .deadline(deadline)
-                        .valid(true)
                         .build()
         );
     }

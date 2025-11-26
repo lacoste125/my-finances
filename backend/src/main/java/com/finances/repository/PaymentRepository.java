@@ -12,10 +12,12 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends CrudRepository<Payment, Long> {
 
-    @Query("SELECT p " +
-            "FROM Payment p " +
-            "WHERE p.yearCategory.category = :category " +
-            "AND p.yearCategory.category.valid = true " +
-            "AND p.valid = true")
+    @Query("""
+            SELECT p
+            FROM Payment p
+            WHERE p.yearCategory.category = :category
+            AND p.yearCategory.category.valid = true
+            AND p.valid = true
+            """)
     List<Payment> getCategoryPayments(@Param("category") Category category);
 }

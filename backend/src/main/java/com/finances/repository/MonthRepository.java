@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MonthRepository extends CrudRepository<Month, Long> {
+
     Optional<Month> findByName(MonthType name);
 
     @Override

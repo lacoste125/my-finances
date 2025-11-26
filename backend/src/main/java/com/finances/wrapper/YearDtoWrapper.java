@@ -5,8 +5,6 @@ import com.finances.entity.Year;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class YearDtoWrapper implements DtoWrapper<Year, YearDto> {
@@ -19,11 +17,11 @@ public class YearDtoWrapper implements DtoWrapper<Year, YearDto> {
                 .id(dao.getId())
                 .name(dao.getYearNumber())
                 .categories(
-                        dao.getCategories() != null ? dao.getCategories()
+                        dao.getYearCategories()
                                 .stream()
                                 .filter(yearCategory -> yearCategory.getCategory().isValid())
                                 .map(yearCategoryDtoWrapper::mapToDto)
-                                .toList() : List.of()
+                                .toList()
                 )
                 .build();
     }

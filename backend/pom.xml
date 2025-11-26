@@ -14,7 +14,7 @@
 
     <groupId>com.finances</groupId>
     <artifactId>my-finances</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <name>my-finances-be</name>
 
     <properties>

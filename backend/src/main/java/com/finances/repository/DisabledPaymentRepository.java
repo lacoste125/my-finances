@@ -11,9 +11,14 @@ import java.util.Optional;
 @Repository
 public interface DisabledPaymentRepository extends CrudRepository<DisabledPayment, Long> {
 
-    @Query("SELECT dp " +
-           "FROM DisabledPayment dp " +
-           "WHERE dp.month.id = :monthId " +
-           "AND dp.yearCategory.id = :yearCategoryId")
-    Optional<DisabledPayment> selectByMonthIdAndYearCategoryId(@Param("monthId") Long monthId, @Param("yearCategoryId") Long yearCategoryId);
+    @Query("""
+            SELECT dp
+            FROM DisabledPayment dp
+            WHERE dp.month.id = :monthId
+            AND dp.yearCategory.id = :yearCategoryId
+            """)
+    Optional<DisabledPayment> selectByMonthIdAndYearCategoryId(
+            @Param("monthId") Long monthId,
+            @Param("yearCategoryId") Long yearCategoryId
+    );
 }

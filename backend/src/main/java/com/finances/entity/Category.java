@@ -25,6 +25,7 @@ public class Category {
     @Column(name = PAYMENT_DEADLINE)
     private String deadline;
 
+    @Builder.Default
     @Column(name = VALID)
-    private boolean valid;
+    private boolean valid = true;
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +22,11 @@ public class YearService {
     }
 
     public List<Year> findAllYears() {
-        return StreamSupport.stream(yearRepository.findAll().spliterator(), false)
-                .toList();
+        return yearRepository.findAll();
     }
 
     public Year findYearByYearNumber(Integer yearNumber) throws YearNotFoundException {
-        return yearRepository.selectYearByYearNumber(yearNumber)
+        return yearRepository.findYearByYearNumber(yearNumber)
                 .orElseThrow(() -> new YearNotFoundException(yearNumber));
     }
 

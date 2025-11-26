@@ -24,11 +24,14 @@ public class DisabledPayment {
     @Column(nullable = false, name = ID)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = MONTH_ID, nullable = false)
     private Month month;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false
+    )
     @JoinColumn(name = YEAR_CATEGORY_ID, nullable = false)
     private YearCategory yearCategory;
 

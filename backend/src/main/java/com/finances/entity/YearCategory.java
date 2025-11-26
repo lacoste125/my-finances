@@ -3,8 +3,8 @@ package com.finances.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.finances.util.TableNaming.*;
 
@@ -22,19 +22,19 @@ public class YearCategory {
     @Column(nullable = false, name = ID)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = CATEGORY_ID)
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = YEAR_ID, nullable = false)
     private Year year;
 
     @Builder.Default
     @OneToMany(mappedBy = "yearCategory")
-    private List<Payment> payments = new ArrayList<>();
+    private Set<Payment> payments = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "yearCategory")
-    private List<DisabledPayment> disabledPayments = new ArrayList<>();
+    private Set<DisabledPayment> disabledPayments = new HashSet<>();
 }

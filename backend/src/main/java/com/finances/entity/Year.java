@@ -3,7 +3,8 @@ package com.finances.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.finances.util.TableNaming.*;
 
@@ -24,8 +25,9 @@ public class Year implements Comparable<Year> {
     @Column(name = YEAR_NUMBER)
     private Integer yearNumber;
 
-    @OneToMany(mappedBy = "year")
-    private List<YearCategory> categories;
+    @Builder.Default
+    @OneToMany(mappedBy = "year", cascade = CascadeType.ALL)
+    private Set<YearCategory> yearCategories = new HashSet<>();
 
     @Override
     public int compareTo(Year o) {
