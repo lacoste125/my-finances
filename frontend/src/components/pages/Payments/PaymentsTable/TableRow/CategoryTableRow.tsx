@@ -34,9 +34,26 @@ export const CategoryTableRow: React.FC<{
         return yearCategory.categoryType.name;
     }, [yearCategory]);
 
+    const [dragClass, setDragClass] = useState<string | undefined>(undefined);
+
+    const hadleDragEnter = () => {
+        console.log("Entered: " + yearCategory.id);
+        setDragClass(styles.roman);
+    }
+
+    const hadleDragLeave = () => {
+        console.log("Leave: " + yearCategory.id)
+        setDragClass(undefined);
+    }
+
     return (
         <React.Fragment>
-            <TableRow key={`TableRow_${yearCategory.id}`}>
+            <TableRow
+                key={`TableRow_${yearCategory.id}`}
+                draggable
+                onDragEnter={hadleDragEnter}
+                onDragLeave={hadleDragLeave}
+            >
                 <TableCell className={`border-dark border-top ${borderClass}`}>
                     <IconButton size="small" onClick={() => setOpen(!open)}>
                         {open ? (
@@ -54,7 +71,8 @@ export const CategoryTableRow: React.FC<{
                         "dark_background border-end border-top border-dark",
                         borderClass,
                         styles.clickablePointer,
-                        styles.blackHover
+                        styles.blackHover,
+                        dragClass
                     )}
                 >
                     <TooltipProvider
