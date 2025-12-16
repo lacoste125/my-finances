@@ -3,6 +3,7 @@ export enum Path {
     PAYMENTS = "/payments",
     SETTINGS = "/settings",
     ABOUT = "/about",
+    ADMIN_TOOLS = "/admin-tools",
 }
 
 export interface Page {
@@ -22,6 +23,10 @@ export const Pages: Page[] = [
     {
         name: "Ustawienia",
         path: Path.SETTINGS,
+    },
+    {
+        name: "Admin tools",
+        path: Path.ADMIN_TOOLS,
     },
     {
         name: "O aplikacji",

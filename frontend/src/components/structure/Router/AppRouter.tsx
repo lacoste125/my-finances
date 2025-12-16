@@ -5,6 +5,7 @@ import About from "../../pages/About/About";
 import {Payments} from "../../pages/Payments/Payments";
 import React from "react";
 import {Path} from "@objects/pages.type";
+import {AdminTools} from "../../pages/Admin/AdminTools";
 
 export const AppRouter: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ export const AppRouter: React.FC = () => {
             <Route path={Path.SETTINGS} element={<Settings/>}/>
             <Route path={Path.ABOUT} element={<About/>}/>
             <Route path={Path.PAYMENTS} element={<Payments/>}/>
+            <Route path={Path.ADMIN_TOOLS} element={<AdminTools/>}/>
         </Routes>
     );
 };

@@ -6,7 +6,7 @@ export const Home: React.FC = () => {
     return (
         <div>
             <h1>Strona główna</h1>
-            <img src={app_logo} alt="App logo" height="150px" />
+            <img src={app_logo} alt="App logo" height="150px"/>
         </div>
     );
 };
